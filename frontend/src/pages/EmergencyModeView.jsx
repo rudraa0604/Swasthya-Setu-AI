@@ -36,11 +36,11 @@ export default function EmergencyModeView({ onClose, lang }) {
   return (
     <div className="emergency-takeover">
       {/* Top Banner */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#dc2626', padding: '1rem 1.5rem', borderRadius: '10px', marginBottom: '1.5rem', boxShadow: '0 4px 15px rgba(220, 38, 38, 0.4)' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#dc2626', padding: '1rem', borderRadius: '10px', marginBottom: '1.5rem', boxShadow: '0 4px 15px rgba(220, 38, 38, 0.4)', flexWrap: 'wrap', gap: '0.75rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <AlertOctagon size={32} color="#ffffff" />
+          <AlertOctagon size={32} color="#ffffff" style={{ flexShrink: 0 }} />
           <div>
-            <h2 style={{ fontSize: '1.4rem', fontWeight: 900, color: '#ffffff', letterSpacing: '0.03em' }}>
+            <h2 style={{ fontSize: 'clamp(1.1rem, 3vw, 1.4rem)', fontWeight: 900, color: '#ffffff', letterSpacing: '0.02em' }}>
               NATIONAL HEALTH EMERGENCY OVERRIDE ACTIVE
             </h2>
             <div style={{ fontSize: '0.85rem', color: '#fef2f2' }}>
@@ -51,7 +51,7 @@ export default function EmergencyModeView({ onClose, lang }) {
 
         <button 
           className="btn-action" 
-          style={{ background: '#ffffff', color: '#dc2626', fontWeight: 800 }}
+          style={{ background: '#ffffff', color: '#dc2626', fontWeight: 800, minHeight: '36px' }}
           onClick={onClose}
         >
           Exit Emergency Mode
@@ -133,20 +133,20 @@ export default function EmergencyModeView({ onClose, lang }) {
                     </div>
                   </td>
                   <td>
-                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
                       <button 
                         className="btn-action btn-approve"
-                        style={{ padding: '0.6rem 1.2rem', fontSize: '0.9rem', fontWeight: 800 }}
+                        style={{ padding: '0.5rem 0.9rem', fontSize: '0.85rem', fontWeight: 800, minHeight: '36px' }}
                         onClick={() => handleAuthorize(rec.id, 'approved')}
                       >
-                        <Check size={16} /> AUTHORIZE DISPATCH
+                        <Check size={15} /> AUTHORIZE DISPATCH
                       </button>
                       <button 
                         className="btn-action btn-reject"
-                        style={{ padding: '0.6rem 0.9rem' }}
+                        style={{ padding: '0.5rem 0.75rem', minHeight: '36px' }}
                         onClick={() => handleAuthorize(rec.id, 'rejected')}
                       >
-                        <X size={16} /> Reject
+                        <X size={15} /> Reject
                       </button>
                     </div>
                   </td>

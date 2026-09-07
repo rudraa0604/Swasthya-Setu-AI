@@ -32,13 +32,13 @@ export default function DistrictDashboard({ districtName = 'Nashik', onSelectPHC
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.75rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
           <button className="btn-action btn-reject" onClick={onBackToState}>
             <ArrowLeft size={14} /> Back to State View
           </button>
           <div>
-            <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a' }}>
+            <h2 style={{ fontSize: 'clamp(1.2rem, 3vw, 1.5rem)', fontWeight: 800, color: '#0f172a' }}>
               {districtName} District Health Officer Dashboard
             </h2>
             <div style={{ fontSize: '0.85rem', color: '#64748b' }}>
@@ -48,8 +48,8 @@ export default function DistrictDashboard({ districtName = 'Nashik', onSelectPHC
         </div>
 
         {districtName === 'Nashik' && (
-          <span className="badge badge-red" style={{ fontSize: '0.85rem', padding: '0.4rem 0.8rem' }}>
-            <ShieldAlert size={14} /> OUTBREAK ACTIVE: High Paracetamol & IV Saline Demand Surge
+          <span className="badge badge-red" style={{ fontSize: '0.82rem', padding: '0.4rem 0.8rem', whiteSpace: 'normal', textAlign: 'left' }}>
+            <ShieldAlert size={14} style={{ flexShrink: 0 }} /> OUTBREAK ACTIVE: High Paracetamol & IV Saline Demand Surge
           </span>
         )}
       </div>

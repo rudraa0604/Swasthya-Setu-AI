@@ -93,16 +93,18 @@ export default function App() {
             onClick={() => setShowLoginModal(false)}
             style={{
               position: 'fixed',
-              top: '20px',
-              right: '25px',
+              top: '12px',
+              right: '12px',
               zIndex: 1000,
               background: '#ffffff',
               border: 'none',
               borderRadius: '999px',
-              padding: '0.4rem 0.9rem',
+              padding: '0.35rem 0.75rem',
+              fontSize: '0.8rem',
               fontWeight: 700,
               cursor: 'pointer',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
+              boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+              minHeight: '36px'
             }}
           >
             ✕ Back to Landing Page

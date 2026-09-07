@@ -16,7 +16,7 @@
   --brand-primary-light: #e0f2fe;
   --brand-dark: #0369a1;
 
-  /* Semantic Status Colors (Strictly adhered to per design.md) */
+  /* Semantic Status Colors (Strictly adhered to per design) */
   --status-green: #10b981;
   --status-green-bg: #ecfdf5;
   --status-green-border: #a7f3d0;
@@ -41,27 +41,48 @@
   --radius-lg: 14px;
 }
 
-* {
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-body {
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  position: relative;
   font-family: var(--font-sans);
   background-color: var(--bg-main);
   color: var(--text-primary);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
 }
 
+#root {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  position: relative;
+}
+
+img, svg, video, canvas {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Base App Container */
 .app-container {
   min-height: 100vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
 }
 
-/* Header */
+/* Header & Navigation */
 .navbar {
   background: #ffffff;
   border-bottom: 1px solid var(--border-color);
@@ -73,18 +94,21 @@ body {
   top: 0;
   z-index: 100;
   box-shadow: var(--shadow-sm);
+  width: 100%;
+  gap: 1rem;
 }
 
 .nav-left {
   display: flex;
   align-items: center;
   gap: 1rem;
+  flex-shrink: 0;
 }
 
 .logo-badge {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.65rem;
 }
 
 .logo-badge h1 {
@@ -95,32 +119,35 @@ body {
 }
 
 .logo-badge .sub-tag {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 600;
   padding: 0.15rem 0.5rem;
   background: var(--brand-primary-light);
   color: var(--brand-primary);
   border-radius: 9999px;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .sim-banner {
   background: #fef3c7;
   border: 1px solid #fde68a;
   color: #92400e;
-  font-size: 0.75rem;
-  padding: 0.2rem 0.6rem;
+  font-size: 0.72rem;
+  padding: 0.15rem 0.5rem;
   border-radius: var(--radius-sm);
   font-weight: 600;
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
+  white-space: nowrap;
 }
 
 .nav-right {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  flex-wrap: nowrap;
 }
 
 .nav-tabs {
@@ -129,13 +156,19 @@ body {
   padding: 0.25rem;
   border-radius: var(--radius-md);
   gap: 0.25rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.nav-tabs::-webkit-scrollbar {
+  display: none;
 }
 
 .nav-tab-btn {
   border: none;
   background: transparent;
   padding: 0.4rem 0.85rem;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 500;
   color: var(--text-secondary);
   border-radius: var(--radius-sm);
@@ -144,6 +177,9 @@ body {
   display: flex;
   align-items: center;
   gap: 0.4rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-height: 36px;
 }
 
 .nav-tab-btn.active {
@@ -158,7 +194,7 @@ body {
   border: 1px solid #fca5a5;
   color: #dc2626;
   padding: 0.4rem 0.85rem;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 700;
   border-radius: var(--radius-md);
   cursor: pointer;
@@ -166,6 +202,9 @@ body {
   align-items: center;
   gap: 0.4rem;
   transition: all 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-height: 36px;
 }
 
 .btn-emergency-toggle:hover {
@@ -194,6 +233,10 @@ body {
   border-radius: var(--radius-sm);
   cursor: pointer;
   color: var(--text-secondary);
+  white-space: nowrap;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
 }
 
 /* Main Content Area */
@@ -203,14 +246,16 @@ body {
   max-width: 1440px;
   margin: 0 auto;
   width: 100%;
+  box-sizing: border-box;
 }
 
 /* Cards & Grid */
 .grid-kpi {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
   gap: 1rem;
   margin-bottom: 1.5rem;
+  width: 100%;
 }
 
 .kpi-card {
@@ -223,6 +268,8 @@ body {
   flex-direction: column;
   justify-content: space-between;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
+  min-width: 0;
+  word-break: break-word;
 }
 
 .kpi-card:hover {
@@ -238,13 +285,14 @@ body {
   font-size: 0.82rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
+  gap: 0.5rem;
 }
 
 .kpi-value {
-  font-size: 1.85rem;
+  font-size: clamp(1.4rem, 4vw, 1.85rem);
   font-weight: 700;
   color: var(--text-primary);
-  line-height: 1.1;
+  line-height: 1.15;
 }
 
 .kpi-subtext {
@@ -254,6 +302,7 @@ body {
   display: flex;
   align-items: center;
   gap: 0.35rem;
+  flex-wrap: wrap;
 }
 
 /* Status Badges */
@@ -265,6 +314,7 @@ body {
   border-radius: 9999px;
   font-size: 0.72rem;
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .badge-green {
@@ -299,6 +349,8 @@ body {
   box-shadow: var(--shadow-sm);
   padding: 1.25rem;
   margin-bottom: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .panel-header {
@@ -308,6 +360,8 @@ body {
   margin-bottom: 1rem;
   padding-bottom: 0.75rem;
   border-bottom: 1px solid var(--border-color);
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
 
 .panel-title {
@@ -317,16 +371,32 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
-/* Tables */
+/* Tables & Responsive Scroll Wrapper */
 .table-container {
   width: 100%;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 0.5rem;
+  border-radius: var(--radius-sm);
+}
+
+.table-container::-webkit-scrollbar {
+  height: 6px;
+}
+.table-container::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+.table-container::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
 }
 
 .custom-table {
   width: 100%;
+  min-width: 600px;
   border-collapse: collapse;
   text-align: left;
   font-size: 0.85rem;
@@ -336,13 +406,13 @@ body {
   background: #f8fafc;
   color: var(--text-secondary);
   font-weight: 600;
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 0.85rem;
   border-bottom: 1px solid var(--border-color);
   white-space: nowrap;
 }
 
 .custom-table td {
-  padding: 0.85rem 1rem;
+  padding: 0.75rem 0.85rem;
   border-bottom: 1px solid #f1f5f9;
   color: var(--text-primary);
 }
@@ -354,19 +424,26 @@ body {
 /* Action Buttons */
 .btn-action {
   border: none;
-  padding: 0.35rem 0.75rem;
+  padding: 0.45rem 0.85rem;
   border-radius: var(--radius-sm);
   font-size: 0.8rem;
   font-weight: 600;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
-  transition: opacity 0.15s ease;
+  justify-content: center;
+  gap: 0.35rem;
+  transition: opacity 0.15s ease, transform 0.1s ease;
+  white-space: nowrap;
+  min-height: 36px;
+  touch-action: manipulation;
 }
 
 .btn-action:hover {
   opacity: 0.88;
+}
+.btn-action:active {
+  transform: scale(0.98);
 }
 
 .btn-approve {
@@ -394,6 +471,7 @@ body {
   color: var(--text-secondary);
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   margin-top: 0.35rem;
+  word-break: break-word;
 }
 
 .reason-box.urgent {
@@ -408,6 +486,7 @@ body {
   color: #f8fafc;
   min-height: 100vh;
   padding: 1.5rem;
+  width: 100%;
 }
 
 .emergency-takeover .panel {
@@ -437,16 +516,144 @@ body {
   border-color: #334155;
 }
 
-/* Responsive adjustments */
+/* Responsive Login Container */
+.login-card-container {
+  max-width: 1000px;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+}
+
+/* Landing Navigation Utility Classes */
+.landing-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* =================================================== */
+/* RESPONSIVE MEDIA QUERIES BREAKPOINTS                */
+/* =================================================== */
+
+/* 1. Laptop / Medium Screens (<= 1024px) */
+@media (max-width: 1024px) {
+  .navbar {
+    padding: 0.75rem 1rem;
+  }
+  .main-content {
+    padding: 1.25rem 1rem;
+  }
+  .login-card-container {
+    grid-template-columns: 1fr;
+    max-width: 580px;
+  }
+  .login-card-container > div:first-child {
+    border-right: none !important;
+    border-bottom: 1px solid #e2e8f0;
+  }
+}
+
+/* 2. Tablet & Large Mobile Screens (<= 768px) */
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
+    align-items: stretch;
     gap: 0.75rem;
-    align-items: flex-start;
+    padding: 0.75rem;
+  }
+  .nav-left {
+    justify-content: space-between;
+    width: 100%;
   }
   .nav-right {
     width: 100%;
-    overflow-x: auto;
-    padding-bottom: 0.25rem;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+  .nav-tabs {
+    width: 100%;
+    padding: 0.25rem;
+  }
+  .landing-nav-links {
+    display: none;
+  }
+  .main-content {
+    padding: 1rem 0.75rem;
+  }
+  .panel {
+    padding: 1rem 0.75rem;
+  }
+  .panel-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .grid-kpi {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+    gap: 0.75rem;
+  }
+  .kpi-card {
+    padding: 0.85rem;
+  }
+  .emergency-takeover {
+    padding: 0.75rem;
+  }
+}
+
+/* 3. Small Mobile Devices (<= 480px) */
+@media (max-width: 480px) {
+  .logo-badge h1 {
+    font-size: 1.1rem;
+  }
+  .logo-badge .sub-tag,
+  .sim-banner {
+    font-size: 0.65rem;
+    padding: 0.1rem 0.35rem;
+  }
+  .main-content {
+    padding: 0.75rem 0.5rem;
+  }
+  .panel {
+    padding: 0.85rem 0.5rem;
+    border-radius: var(--radius-sm);
+  }
+  .grid-kpi {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+  .btn-action {
+    padding: 0.5rem 0.75rem;
+    min-height: 40px;
+    font-size: 0.78rem;
+  }
+  .custom-table {
+    font-size: 0.78rem;
+  }
+  .custom-table th, 
+  .custom-table td {
+    padding: 0.55rem 0.65rem;
+  }
+  .login-card-container > div {
+    padding: 1.25rem !important;
+  }
+}
+
+/* 4. Extra-Small Mobile Devices (<= 360px) */
+@media (max-width: 360px) {
+  .logo-badge h1 {
+    font-size: 0.95rem;
+  }
+  .kpi-value {
+    font-size: 1.35rem;
+  }
+  .main-content {
+    padding: 0.5rem 0.25rem;
+  }
+  .panel {
+    padding: 0.65rem 0.4rem;
   }
 }

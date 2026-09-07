@@ -75,7 +75,7 @@ export default function PHCEdgeApp({ phcId = 'PHC-MH-NAS-01', lang }) {
     <div style={{ maxWidth: '800px', margin: '0 auto' }}>
       {/* Connectivity & Sync Status Bar */}
       <div className="panel" style={{ background: isOnline ? '#f0fdf4' : '#fffbeb', border: `2px solid ${isOnline ? '#86efac' : '#fde68a'}` }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             {isOnline ? <Wifi size={24} color="#16a34a" /> : <WifiOff size={24} color="#d97706" />}
             <div>
@@ -88,7 +88,7 @@ export default function PHCEdgeApp({ phcId = 'PHC-MH-NAS-01', lang }) {
             </div>
           </div>
 
-          <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
             <button 
               className={`btn-action ${isOnline ? 'btn-reject' : 'btn-primary'}`}
               onClick={() => setIsOnline(!isOnline)}
@@ -105,7 +105,7 @@ export default function PHCEdgeApp({ phcId = 'PHC-MH-NAS-01', lang }) {
         </div>
 
         {syncStatus && (
-          <div style={{ marginTop: '0.75rem', fontSize: '0.8rem', color: '#0f172a', fontWeight: 500, background: 'rgba(255,255,255,0.8)', padding: '0.4rem 0.6rem', borderRadius: '4px' }}>
+          <div style={{ marginTop: '0.75rem', fontSize: '0.8rem', color: '#0f172a', fontWeight: 500, background: 'rgba(255,255,255,0.8)', padding: '0.4rem 0.6rem', borderRadius: '4px', wordBreak: 'break-word' }}>
             {syncStatus}
           </div>
         )}
@@ -120,7 +120,7 @@ export default function PHCEdgeApp({ phcId = 'PHC-MH-NAS-01', lang }) {
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))', gap: '1rem' }}>
           <div>
             <label style={{ fontSize: '0.85rem', fontWeight: 600, display: 'block', marginBottom: '0.35rem' }}>
               Select Medicine
@@ -170,7 +170,7 @@ export default function PHCEdgeApp({ phcId = 'PHC-MH-NAS-01', lang }) {
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))', gap: '1rem' }}>
           <div>
             <label style={{ fontSize: '0.85rem', fontWeight: 600, display: 'block', marginBottom: '0.35rem' }}>
               Total Patient Footfall Count

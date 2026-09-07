@@ -116,12 +116,12 @@ export default function StockDepletionChart({ forecast }) {
         </div>
 
         {/* Graph Type Switcher Buttons */}
-        <div style={{ display: 'flex', background: '#f1f5f9', padding: '0.25rem', borderRadius: '8px', gap: '0.25rem' }}>
+        <div style={{ display: 'flex', background: '#f1f5f9', padding: '0.25rem', borderRadius: '8px', gap: '0.25rem', overflowX: 'auto', maxWidth: '100%', WebkitOverflowScrolling: 'touch' }}>
           <button
             className={`nav-tab-btn ${chartType === 'line' ? 'active' : ''}`}
             onClick={() => setChartType('line')}
             title="Line Graph: Depletion Trajectory"
-            style={{ fontSize: '0.75rem', padding: '0.35rem 0.65rem' }}
+            style={{ fontSize: '0.75rem', padding: '0.35rem 0.65rem', minHeight: '32px' }}
           >
             <LineIcon size={14} /> Line Graph
           </button>
@@ -130,7 +130,7 @@ export default function StockDepletionChart({ forecast }) {
             className={`nav-tab-btn ${chartType === 'bar' ? 'active' : ''}`}
             onClick={() => setChartType('bar')}
             title="Bar Graph: Daily Projected Remaining Stock"
-            style={{ fontSize: '0.75rem', padding: '0.35rem 0.65rem' }}
+            style={{ fontSize: '0.75rem', padding: '0.35rem 0.65rem', minHeight: '32px' }}
           >
             <BarChart3 size={14} /> Bar Graph
           </button>
@@ -139,7 +139,7 @@ export default function StockDepletionChart({ forecast }) {
             className={`nav-tab-btn ${chartType === 'histogram' ? 'active' : ''}`}
             onClick={() => setChartType('histogram')}
             title="Histogram: Demand Surge Distribution"
-            style={{ fontSize: '0.75rem', padding: '0.35rem 0.65rem' }}
+            style={{ fontSize: '0.75rem', padding: '0.35rem 0.65rem', minHeight: '32px' }}
           >
             <BarChart2 size={14} /> Histogram
           </button>
@@ -148,7 +148,7 @@ export default function StockDepletionChart({ forecast }) {
             className={`nav-tab-btn ${chartType === 'pie' ? 'active' : ''}`}
             onClick={() => setChartType('pie')}
             title="Pie / Donut: Inventory Proportions"
-            style={{ fontSize: '0.75rem', padding: '0.35rem 0.65rem' }}
+            style={{ fontSize: '0.75rem', padding: '0.35rem 0.65rem', minHeight: '32px' }}
           >
             <PieIcon size={14} /> Pie Chart
           </button>
@@ -156,8 +156,8 @@ export default function StockDepletionChart({ forecast }) {
       </div>
 
       {/* Trajectory Status Bar */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
           <span className={`badge ${forecast.urgency_level === 'Critical' ? 'badge-red' : (forecast.urgency_level === 'Warning' ? 'badge-yellow' : 'badge-green')}`}>
             {forecast.urgency_level === 'Critical' ? <ShieldAlert size={12} /> : <Clock size={12} />}
             {forecast.days_to_stockout <= 3 ? `Stock-Out in ${forecast.days_to_stockout} Days` : `${forecast.days_to_stockout} Days Safety Inventory`}
@@ -282,8 +282,8 @@ export default function StockDepletionChart({ forecast }) {
 
         {/* VIEW 4: PIE / DONUT CHART */}
         {chartType === 'pie' && (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '2rem', padding: '0.5rem 1rem' }}>
-            <svg width="240" height="240" viewBox="0 0 240 240">
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'clamp(1rem, 3vw, 2rem)', padding: '0.5rem', flexWrap: 'wrap' }}>
+            <svg width="220" height="220" viewBox="0 0 240 240" style={{ maxWidth: '100%', height: 'auto' }}>
               {donutSlices.map((slice, idx) => (
                 <path key={idx} d={slice.pathData} fill={slice.color} stroke="#ffffff" strokeWidth="2" />
               ))}
@@ -292,10 +292,10 @@ export default function StockDepletionChart({ forecast }) {
               <text x="120" y="132" textAnchor="middle" fontSize="10" fill="#64748b">{initialStock}u</text>
             </svg>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', minWidth: '180px' }}>
               {donutSlices.map((slice, idx) => (
                 <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.82rem' }}>
-                  <div style={{ width: '12px', height: '12px', borderRadius: '3px', background: slice.color }} />
+                  <div style={{ width: '12px', height: '12px', borderRadius: '3px', background: slice.color, flexShrink: 0 }} />
                   <span style={{ color: '#0f172a', fontWeight: 600 }}>{slice.label}:</span>
                   <span style={{ color: '#64748b' }}>{slice.value} units ({slice.pct}%)</span>
                 </div>

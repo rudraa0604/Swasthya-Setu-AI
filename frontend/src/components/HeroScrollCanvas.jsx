@@ -158,8 +158,10 @@ export default function HeroScrollCanvas({ onEnterPortal, lang }) {
           position: 'fixed',
           top: 0,
           left: 0,
-          width: '100vw',
-          height: '100vh',
+          right: 0,
+          bottom: 0,
+          width: '100%',
+          height: '100%',
           objectFit: 'cover',
           zIndex: 0,
           pointerEvents: 'none'
@@ -172,8 +174,10 @@ export default function HeroScrollCanvas({ onEnterPortal, lang }) {
           position: 'fixed',
           top: 0,
           left: 0,
-          width: '100vw',
-          height: '100vh',
+          right: 0,
+          bottom: 0,
+          width: '100%',
+          height: '100%',
           background: 'radial-gradient(circle at center, rgba(13, 43, 78, 0.2) 0%, rgba(10, 25, 47, 0.52) 100%)',
           zIndex: 0,
           pointerEvents: 'none'
@@ -192,11 +196,11 @@ export default function HeroScrollCanvas({ onEnterPortal, lang }) {
           alignItems: 'center',
           justifyContent: 'center',
           textAlign: 'center',
-          padding: '6rem 2rem 4rem 2rem',
+          padding: 'clamp(4.5rem, 8vw, 6rem) clamp(1rem, 4vw, 2rem) 3rem clamp(1rem, 4vw, 2rem)',
           boxSizing: 'border-box'
         }}
       >
-        <div style={{ maxWidth: '850px' }}>
+        <div style={{ maxWidth: '850px', width: '100%' }}>
           <div
             style={{
               display: 'inline-flex',

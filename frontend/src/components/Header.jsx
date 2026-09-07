@@ -200,38 +200,41 @@ export default function Header({
           )}
         </div>
 
-        {/* Emergency Mode Toggle */}
-        {(role === 'national' || role === 'district' || role === 'developer') && (
-          <button 
-            className={`btn-emergency-toggle ${emergencyMode ? 'active' : ''}`}
-            onClick={() => setEmergencyMode(!emergencyMode)}
-          >
-            <ShieldAlert size={16} /> {t.emergencyMode}
-          </button>
-        )}
+        {/* Secondary Action Controls Row */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap', justifyContent: 'flex-end', width: 'auto' }}>
+          {/* Emergency Mode Toggle */}
+          {(role === 'national' || role === 'district' || role === 'developer') && (
+            <button 
+              className={`btn-emergency-toggle ${emergencyMode ? 'active' : ''}`}
+              onClick={() => setEmergencyMode(!emergencyMode)}
+            >
+              <ShieldAlert size={15} /> {t.emergencyMode}
+            </button>
+          )}
 
-        {/* Indian Language Selector Dropdown */}
-        <LanguageSelector lang={lang} setLang={setLang} isDark={false} />
+          {/* Indian Language Selector Dropdown */}
+          <LanguageSelector lang={lang} setLang={setLang} isDark={false} />
 
-        {/* User Role Badge & Switch Portal / Logout Button */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', background: '#f1f5f9', padding: '0.3rem 0.6rem', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-          <div style={{ textAlign: 'right' }}>
-            <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0f172a' }}>
-              {user?.displayName?.split('(')[0] || 'User'}
+          {/* User Role Badge & Switch Portal / Logout Button */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', background: '#f1f5f9', padding: '0.3rem 0.6rem', borderRadius: '8px', border: '1px solid #e2e8f0', minHeight: '36px' }}>
+            <div style={{ textAlign: 'right' }}>
+              <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0f172a', whiteSpace: 'nowrap' }}>
+                {user?.displayName?.split('(')[0] || 'User'}
+              </div>
+              <div style={{ fontSize: '0.68rem', color: '#0284c7', fontWeight: 600, whiteSpace: 'nowrap' }}>
+                {role.toUpperCase()} • {user?.phcId || user?.district || user?.stateId || 'Root'}
+              </div>
             </div>
-            <div style={{ fontSize: '0.68rem', color: '#0284c7', fontWeight: 600 }}>
-              {role.toUpperCase()} • {user?.phcId || user?.district || user?.stateId || 'Root'}
-            </div>
+
+            <button 
+              className="btn-action btn-reject" 
+              style={{ padding: '0.25rem 0.45rem', fontSize: '0.72rem', background: '#ffffff', minHeight: '28px' }}
+              onClick={onLogout}
+              title="Switch Login Role / Portal"
+            >
+              <LogOut size={12} /> {t.switchRole}
+            </button>
           </div>
-
-          <button 
-            className="btn-action btn-reject" 
-            style={{ padding: '0.25rem 0.45rem', fontSize: '0.72rem', background: '#ffffff' }}
-            onClick={onLogout}
-            title="Switch Login Role / Portal"
-          >
-            <LogOut size={12} /> {t.switchRole}
-          </button>
         </div>
       </div>
     </header>

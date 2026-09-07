@@ -196,20 +196,20 @@ export default function DeveloperAdminPanel({ lang }) {
     <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
       
       {/* Header Banner */}
-      <div style={{ background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)', color: '#ffffff', padding: '1.5rem', borderRadius: '12px', marginBottom: '1.5rem', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div style={{ background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)', color: '#ffffff', padding: '1.25rem', borderRadius: '12px', marginBottom: '1.5rem', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <Code size={28} color="#38bdf8" />
+            <Code size={28} color="#38bdf8" style={{ flexShrink: 0 }} />
             <div>
-              <h2 style={{ fontSize: '1.4rem', fontWeight: 800 }}>Developer & Master Admin Control Console</h2>
-              <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>
+              <h2 style={{ fontSize: 'clamp(1.15rem, 3vw, 1.4rem)', fontWeight: 800 }}>Developer & Master Admin Control Console</h2>
+              <div style={{ fontSize: '0.78rem', color: '#94a3b8' }}>
                 Live Database Inspection • Dynamic Entity CRUD • Real-Time Outbreak Stress Testing • ML Engine Tuning
               </div>
             </div>
           </div>
 
           <div style={{ display: 'flex', gap: '0.5rem' }}>
-            <button className="btn-action" style={{ background: '#38bdf8', color: '#0f172a', fontWeight: 700 }} onClick={loadData}>
+            <button className="btn-action" style={{ background: '#38bdf8', color: '#0f172a', fontWeight: 700, minHeight: '36px' }} onClick={loadData}>
               <RefreshCw size={14} className={loading ? 'spin' : ''} /> Refresh Telemetry
             </button>
           </div>
@@ -217,22 +217,22 @@ export default function DeveloperAdminPanel({ lang }) {
 
         {/* Live Overview Cards */}
         {overview && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '0.75rem', marginTop: '1.25rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 140px), 1fr))', gap: '0.75rem', marginTop: '1.25rem' }}>
             <div style={{ background: 'rgba(255,255,255,0.08)', padding: '0.75rem 1rem', borderRadius: '8px' }}>
               <div style={{ fontSize: '0.72rem', color: '#94a3b8' }}>TOTAL PHC FACILITIES</div>
-              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#38bdf8' }}>{overview.total_phcs}</div>
+              <div style={{ fontSize: '1.3rem', fontWeight: 800, color: '#38bdf8' }}>{overview.total_phcs}</div>
             </div>
             <div style={{ background: 'rgba(255,255,255,0.08)', padding: '0.75rem 1rem', borderRadius: '8px' }}>
               <div style={{ fontSize: '0.72rem', color: '#94a3b8' }}>TOTAL MEDICINE STOCKS</div>
-              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#4ade80' }}>{overview.total_stock_records}</div>
+              <div style={{ fontSize: '1.3rem', fontWeight: 800, color: '#4ade80' }}>{overview.total_stock_records}</div>
             </div>
             <div style={{ background: 'rgba(255,255,255,0.08)', padding: '0.75rem 1rem', borderRadius: '8px' }}>
               <div style={{ fontSize: '0.72rem', color: '#94a3b8' }}>ACTIVE ALERTS</div>
-              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#f87171' }}>{overview.total_active_alerts}</div>
+              <div style={{ fontSize: '1.3rem', fontWeight: 800, color: '#f87171' }}>{overview.total_active_alerts}</div>
             </div>
             <div style={{ background: 'rgba(255,255,255,0.08)', padding: '0.75rem 1rem', borderRadius: '8px' }}>
               <div style={{ fontSize: '0.72rem', color: '#94a3b8' }}>PENDING TRANSFERS</div>
-              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#fbbf24' }}>{overview.pending_transfers}</div>
+              <div style={{ fontSize: '1.3rem', fontWeight: 800, color: '#fbbf24' }}>{overview.pending_transfers}</div>
             </div>
           </div>
         )}

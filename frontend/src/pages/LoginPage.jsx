@@ -113,11 +113,11 @@ export default function LoginPage({ onLogin, lang, setLang, initialRole = 'phc' 
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem' }}>
-      <div style={{ maxWidth: '1000px', width: '100%', background: '#ffffff', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.35)', display: 'grid', gridTemplateColumns: '1.1fr 1fr' }}>
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'clamp(0.75rem, 2vw, 1.5rem)', width: '100%', boxSizing: 'border-box' }}>
+      <div className="login-card-container">
         
         {/* Left Side: Role Selector */}
-        <div style={{ padding: '2.5rem', background: '#f8fafc', borderRight: '1px solid #e2e8f0' }}>
+        <div style={{ padding: 'clamp(1.25rem, 3vw, 2.5rem)', background: '#f8fafc', borderRight: '1px solid #e2e8f0', boxSizing: 'border-box' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.5rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
               <img 
@@ -130,7 +130,7 @@ export default function LoginPage({ onLogin, lang, setLang, initialRole = 'phc' 
                 }}
               />
               <div>
-                <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#0f172a', margin: 0, lineHeight: 1.1 }}>{t.appTitle}</h2>
+                <h2 style={{ fontSize: 'clamp(1.15rem, 2.5vw, 1.4rem)', fontWeight: 800, color: '#0f172a', margin: 0, lineHeight: 1.1 }}>{t.appTitle}</h2>
                 <div style={{ fontSize: '0.75rem', fontWeight: 600, color: '#0284c7' }}>{t.subTitle}</div>
               </div>
             </div>
@@ -153,28 +153,29 @@ export default function LoginPage({ onLogin, lang, setLang, initialRole = 'phc' 
                   key={role.id}
                   onClick={() => handleSelectRole(role)}
                   style={{
-                    padding: '1rem',
+                    padding: '0.85rem',
                     borderRadius: '10px',
                     border: `2px solid ${isSelected ? role.color : '#e2e8f0'}`,
-                    background: isSelected ? '#ffffff' : '#ffffff',
+                    background: '#ffffff',
                     boxShadow: isSelected ? '0 4px 12px rgba(0,0,0,0.08)' : 'none',
                     cursor: 'pointer',
-                    transition: 'all 0.15s ease'
+                    transition: 'all 0.15s ease',
+                    minWidth: 0
                   }}
                 >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.35rem' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                      <div style={{ background: `${role.color}15`, padding: '0.45rem', borderRadius: '8px' }}>
+                      <div style={{ background: `${role.color}15`, padding: '0.45rem', borderRadius: '8px', flexShrink: 0 }}>
                         <Icon size={18} color={role.color} />
                       </div>
                       <div>
-                        <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#0f172a' }}>{role.title}</div>
-                        <div style={{ fontSize: '0.75rem', color: '#64748b' }}>{role.subtitle}</div>
+                        <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>{role.title}</div>
+                        <div style={{ fontSize: '0.72rem', color: '#64748b' }}>{role.subtitle}</div>
                       </div>
                     </div>
                     {isSelected && <CheckCircle2 size={18} color={role.color} />}
                   </div>
-                  <div style={{ marginTop: '0.5rem', fontSize: '0.75rem', color: '#475569', lineHeight: 1.4 }}>
+                  <div style={{ marginTop: '0.45rem', fontSize: '0.75rem', color: '#475569', lineHeight: 1.4 }}>
                     {role.description}
                   </div>
                 </div>
@@ -184,12 +185,12 @@ export default function LoginPage({ onLogin, lang, setLang, initialRole = 'phc' 
         </div>
 
         {/* Right Side: Authentication Form */}
-        <div style={{ padding: '2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-          <div style={{ marginBottom: '1.5rem' }}>
-            <span className="badge badge-purple" style={{ marginBottom: '0.5rem' }}>
+        <div style={{ padding: 'clamp(1.25rem, 3vw, 2.5rem)', display: 'flex', flexDirection: 'column', justifyContent: 'center', boxSizing: 'border-box' }}>
+          <div style={{ marginBottom: '1.25rem' }}>
+            <span className="badge badge-purple" style={{ marginBottom: '0.5rem', whiteSpace: 'normal', textAlign: 'left' }}>
               <Shield size={12} /> Secure ABDM / HMIS Credential Gateway
             </span>
-            <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0f172a', marginTop: '0.35rem' }}>
+            <h3 style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.3rem)', fontWeight: 800, color: '#0f172a', marginTop: '0.35rem' }}>
               {t.signInStation}
             </h3>
             <div style={{ fontSize: '0.8rem', color: '#64748b' }}>

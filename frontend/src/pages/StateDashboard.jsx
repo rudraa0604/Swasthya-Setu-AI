@@ -48,9 +48,9 @@ export default function StateDashboard({ stateId = 'ST-MH', onSelectDistrict, on
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.75rem' }}>
         <div>
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a' }}>
+          <h2 style={{ fontSize: 'clamp(1.2rem, 3vw, 1.5rem)', fontWeight: 800, color: '#0f172a' }}>
             {stateNames[stateId] || stateId} — State Health Operations
           </h2>
           <div style={{ fontSize: '0.85rem', color: '#64748b' }}>
@@ -58,7 +58,7 @@ export default function StateDashboard({ stateId = 'ST-MH', onSelectDistrict, on
           </div>
         </div>
 
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
+        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
           {['ST-MH', 'ST-KA', 'ST-UP'].map(sId => (
             <button
               key={sId}
@@ -72,7 +72,7 @@ export default function StateDashboard({ stateId = 'ST-MH', onSelectDistrict, on
       </div>
 
       {/* District Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem', marginBottom: '1.5rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))', gap: '1rem', marginBottom: '1.5rem' }}>
         {Object.entries(districtMap).map(([distName, distPhcs]) => {
           const isNashik = distName === 'Nashik';
           const isPune = distName === 'Pune';
