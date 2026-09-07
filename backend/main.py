@@ -27,25 +27,35 @@ app.add_middleware(
 
 app.include_router(api_router, prefix=settings.API_V1_STR)
 
-@app.get("/health")
+@app.api_route("/health", methods=["GET", "HEAD"])
 def health_check():
     return {"status": "healthy", "database": "connected"}
 
 # Serve Frontend static files if dist folder exists
 frontend_dist = os.path.join(os.getcwd(), "frontend", "dist")
+index_html = os.path.join(frontend_dist, "index.html")
+
 if os.path.exists(frontend_dist):
     assets_path = os.path.join(frontend_dist, "assets")
     if os.path.exists(assets_path):
         app.mount("/assets", StaticFiles(directory=assets_path), name="assets")
 
-    @app.get("/{full_path:path}")
+    @app.api_route("/", methods=["GET", "HEAD"])
+    async def serve_root():
+        if os.path.exists(index_html):
+            return FileResponse(index_html)
+        return {"status": "online", "message": "SwasthyaSetu AI Backend"}
+
+    @app.api_route("/{full_path:path}", methods=["GET", "HEAD"])
     async def serve_spa(full_path: str):
         file_path = os.path.join(frontend_dist, full_path)
         if full_path and os.path.exists(file_path) and os.path.isfile(file_path):
             return FileResponse(file_path)
-        return FileResponse(os.path.join(frontend_dist, "index.html"))
+        if os.path.exists(index_html):
+            return FileResponse(index_html)
+        return {"detail": "Not Found"}
 else:
-    @app.get("/")
+    @app.api_route("/", methods=["GET", "HEAD"])
     def root():
         return {
             "platform": settings.PROJECT_NAME,
@@ -58,4 +68,3 @@ else:
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("backend.main:app", host="0.0.0.0", port=8000, reload=True)
-
