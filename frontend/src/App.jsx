@@ -112,21 +112,27 @@ export default function App() {
             onClick={() => setShowLoginModal(false)}
             style={{
               position: 'fixed',
-              top: '12px',
-              right: '12px',
+              top: '16px',
+              right: '20px',
               zIndex: 1000,
               background: '#ffffff',
-              border: 'none',
+              color: '#0f172a',
+              border: '1px solid #e2e8f0',
               borderRadius: '999px',
-              padding: '0.35rem 0.75rem',
-              fontSize: '0.8rem',
+              padding: '0.45rem 1rem',
+              fontSize: '0.85rem',
               fontWeight: 700,
               cursor: 'pointer',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-              minHeight: '36px'
+              boxShadow: '0 4px 16px rgba(0,0,0,0.2)',
+              minHeight: '38px',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.35rem',
+              transition: 'transform 0.15s ease, background 0.15s ease'
             }}
+            title="Return to Main Hero Portal / Dashboard"
           >
-            ✕ Back to Landing Page
+            ← {lang === 'hi' ? 'डैशबोर्ड पर जाएं' : 'Back to Dashboard'}
           </button>
           <LoginPage onLogin={handleLogin} lang={lang} setLang={setLang} initialRole={preselectedRole} />
         </div>
