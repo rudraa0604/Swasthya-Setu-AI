@@ -232,7 +232,7 @@ export default function Header({
               onClick={onLogout}
               title="Logout and return to Login Station"
             >
-              <LogOut size={13} /> {lang === 'hi' ? 'लॉगआउट' : 'Logout'}
+              <LogOut size={13} /> {t.logout || 'Logout'}
             </button>
           </div>
         </div>

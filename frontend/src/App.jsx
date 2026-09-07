@@ -10,6 +10,7 @@ import PHCDetailView from './pages/PHCDetailView';
 import PHCEdgeApp from './pages/PHCEdgeApp';
 import EmergencyModeView from './pages/EmergencyModeView';
 import DeveloperAdminPanel from './pages/DeveloperAdminPanel';
+import { translations } from './services/i18n';
 
 export default function App() {
   // Splash Screen State (shown on first visit in session)
@@ -36,6 +37,8 @@ export default function App() {
   const [selectedState, setSelectedState] = useState('ST-MH');
   const [selectedDistrict, setSelectedDistrict] = useState('Nashik');
   const [selectedPHC, setSelectedPHC] = useState('PHC-MH-NAS-01');
+
+  const t = translations[lang] || translations.en;
 
   // Handle Login event
   const handleLogin = (userProfile) => {
@@ -132,7 +135,7 @@ export default function App() {
             }}
             title="Return to Main Hero Portal / Dashboard"
           >
-            ← {lang === 'hi' ? 'डैशबोर्ड पर जाएं' : 'Back to Dashboard'}
+            ← {t.backToDashboard || 'Back to Dashboard'}
           </button>
           <LoginPage onLogin={handleLogin} lang={lang} setLang={setLang} initialRole={preselectedRole} />
         </div>

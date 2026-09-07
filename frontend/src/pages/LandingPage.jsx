@@ -303,7 +303,7 @@ export default function LandingPage({ onLaunchPortal, onSelectRole, lang, setLan
           <div style={{ textAlign: 'left' }}>
             <div>{t.footerBuiltFor}</div>
             <div style={{ marginTop: '0.4rem', color: '#94a3b8', fontSize: '0.82rem' }}>
-              {lang === 'hi' ? 'डेवलपर: ' : 'Developed by: '}
+              {t.developedBy || 'Developed by:'}{' '}
               <span style={{ color: '#86efac', fontWeight: 700 }}>Rudra Pratap Chaurasiya (CSJMU KANPUR)</span>
             </div>
           </div>
