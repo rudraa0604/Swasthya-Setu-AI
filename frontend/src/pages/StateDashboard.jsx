@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { MapPin, Building, ShieldAlert, CheckCircle, AlertTriangle } from 'lucide-react';
+import { MapPin, Building, ShieldAlert, CheckCircle, AlertTriangle, ArrowLeft } from 'lucide-react';
 import MetricCard from '../components/MetricCard';
 import RedistributionPanel from '../components/RedistributionPanel';
 import { apiClient } from '../services/api';
 import { translations } from '../services/i18n';
 
-export default function StateDashboard({ stateId = 'ST-MH', onSelectDistrict, onSelectPHC, lang }) {
+export default function StateDashboard({ stateId = 'ST-MH', onSelectDistrict, onSelectPHC, onBackToNational, lang }) {
   const t = translations[lang] || translations.en;
   const [phcs, setPhcs] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
@@ -49,12 +49,19 @@ export default function StateDashboard({ stateId = 'ST-MH', onSelectDistrict, on
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.75rem' }}>
-        <div>
-          <h2 style={{ fontSize: 'clamp(1.2rem, 3vw, 1.5rem)', fontWeight: 800, color: '#0f172a' }}>
-            {stateNames[stateId] || stateId} — State Health Operations
-          </h2>
-          <div style={{ fontSize: '0.85rem', color: '#64748b' }}>
-            5 Districts Monitored • {phcs.length} Total Primary Health Centres (PHCs)
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+          {onBackToNational && (
+            <button className="btn-action btn-reject" onClick={onBackToNational}>
+              <ArrowLeft size={14} /> Back to National View
+            </button>
+          )}
+          <div>
+            <h2 style={{ fontSize: 'clamp(1.2rem, 3vw, 1.5rem)', fontWeight: 800, color: '#0f172a' }}>
+              {stateNames[stateId] || stateId} — State Health Operations
+            </h2>
+            <div style={{ fontSize: '0.85rem', color: '#64748b' }}>
+              5 Districts Monitored • {phcs.length} Total Primary Health Centres (PHCs)
+            </div>
           </div>
         </div>
 

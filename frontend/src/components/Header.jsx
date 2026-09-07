@@ -228,11 +228,11 @@ export default function Header({
 
             <button 
               className="btn-action btn-reject" 
-              style={{ padding: '0.25rem 0.45rem', fontSize: '0.72rem', background: '#ffffff', minHeight: '28px' }}
+              style={{ padding: '0.3rem 0.6rem', fontSize: '0.78rem', background: '#fee2e2', color: '#dc2626', border: '1px solid #fca5a5', minHeight: '30px', fontWeight: 700 }}
               onClick={onLogout}
-              title="Switch Login Role / Portal"
+              title="Logout and return to Login Station"
             >
-              <LogOut size={12} /> {t.switchRole}
+              <LogOut size={13} /> {lang === 'hi' ? 'लॉगआउट' : 'Logout'}
             </button>
           </div>
         </div>

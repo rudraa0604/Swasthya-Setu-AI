@@ -15,8 +15,16 @@ export default function App() {
   // Splash Screen State (shown on first visit in session)
   const [showSplash, setShowSplash] = useState(true);
 
-  // Authentication & Current User Role State
-  const [currentUser, setCurrentUser] = useState(null); // null when logged out
+  // Authentication & Current User Role State initialized from sessionStorage
+  const [currentUser, setCurrentUser] = useState(() => {
+    try {
+      const saved = sessionStorage.getItem('swasthya_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
+
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [preselectedRole, setPreselectedRole] = useState(null);
 
@@ -32,6 +40,11 @@ export default function App() {
   // Handle Login event
   const handleLogin = (userProfile) => {
     setCurrentUser(userProfile);
+    try {
+      sessionStorage.setItem('swasthya_user', JSON.stringify(userProfile));
+    } catch (e) {
+      console.error('Session storage error:', e);
+    }
     setShowLoginModal(false);
     if (userProfile.role === 'phc') {
       setSelectedPHC(userProfile.phcId || 'PHC-MH-NAS-01');
@@ -52,9 +65,15 @@ export default function App() {
     }
   };
 
+  // Fixed Logout: clears session and lands on Login Page directly
   const handleLogout = () => {
+    try {
+      sessionStorage.removeItem('swasthya_user');
+    } catch (e) {
+      console.error('Session storage remove error:', e);
+    }
     setCurrentUser(null);
-    setShowLoginModal(false);
+    setShowLoginModal(true); // Land on Login Page specifically
     setEmergencyMode(false);
   };
 
@@ -158,6 +177,7 @@ export default function App() {
                     stateId={selectedState}
                     onSelectDistrict={handleSelectDistrict}
                     onSelectPHC={handleSelectPHC}
+                    onBackToNational={(currentUser?.role === 'national' || currentUser?.role === 'developer') ? () => setCurrentTab('national') : null}
                     lang={lang}
                   />
                 )}
