@@ -15,6 +15,7 @@ def get_phc_forecasts(
     horizon_days: int = Query(14, ge=7, le=30, description="Forecast horizon in days"),
     db: Session = Depends(get_db)
 ):
+    horizon_val = horizon_days if isinstance(horizon_days, int) else getattr(horizon_days, "default", 14)
     phc = db.query(PHC).filter(PHC.id == phc_id).first()
     if not phc:
         raise HTTPException(status_code=404, detail="PHC not found")
@@ -52,7 +53,7 @@ def get_phc_forecasts(
             buffer_threshold=stock.buffer_threshold,
             daily_consumption_history=history,
             footfall_history=footfall_data,
-            forecast_horizon_days=horizon_days
+            forecast_horizon_days=horizon_val
         )
         results.append(forecast_res)
 

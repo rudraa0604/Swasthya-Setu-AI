@@ -30,5 +30,6 @@ def run_federated_simulation(
     """
     Triggers simulated federated learning round across 3 state nodes.
     """
-    result = federated_server.run_simulation(num_rounds=rounds)
+    rounds_val = rounds if isinstance(rounds, int) else getattr(rounds, "default", 5)
+    result = federated_server.run_simulation(num_rounds=rounds_val)
     return result

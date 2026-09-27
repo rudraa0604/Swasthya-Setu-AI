@@ -16,9 +16,12 @@ def list_recommendations(
     status: Optional[str] = Query("pending", description="Filter by status (pending, approved, rejected, in_transit)"),
     db: Session = Depends(get_db)
 ):
+    status_val = status if isinstance(status, str) else getattr(status, "default", "pending")
+    state_val = state_id if isinstance(state_id, str) else (getattr(state_id, "default", None) if state_id is not None else None)
+
     query = db.query(RedistributionRecommendation)
-    if status and status != "all":
-        query = query.filter(RedistributionRecommendation.status == status)
+    if status_val and status_val != "all":
+        query = query.filter(RedistributionRecommendation.status == status_val)
 
     recs = query.order_by(RedistributionRecommendation.urgency_score.desc()).all()
     
@@ -28,7 +31,7 @@ def list_recommendations(
         from_phc = db.query(PHC).filter(PHC.id == r.from_phc_id).first()
         to_phc = db.query(PHC).filter(PHC.id == r.to_phc_id).first()
         
-        if state_id and to_phc and to_phc.state_id != state_id:
+        if state_val and to_phc and to_phc.state_id != state_val:
             continue
 
         results.append({

@@ -18,19 +18,25 @@ def list_alerts(
     limit: int = Query(50, ge=1, le=200),
     db: Session = Depends(get_db)
 ):
+    resolved_val = resolved if isinstance(resolved, bool) else getattr(resolved, "default", False)
+    limit_val = limit if isinstance(limit, int) else getattr(limit, "default", 50)
+    sev_val = severity if isinstance(severity, str) else (getattr(severity, "default", None) if severity is not None else None)
+    st_val = state_id if isinstance(state_id, str) else (getattr(state_id, "default", None) if state_id is not None else None)
+    dist_val = district_name if isinstance(district_name, str) else (getattr(district_name, "default", None) if district_name is not None else None)
+
     query = (
         db.query(Alert)
         .join(PHC, Alert.phc_id == PHC.id)
-        .filter(Alert.resolved_boolean == resolved)
+        .filter(Alert.resolved_boolean == resolved_val)
     )
-    if severity:
-        query = query.filter(Alert.severity == severity)
-    if state_id:
-        query = query.filter(PHC.state_id == state_id)
-    if district_name:
-        query = query.filter(PHC.district_name == district_name)
+    if sev_val:
+        query = query.filter(Alert.severity == sev_val)
+    if st_val:
+        query = query.filter(PHC.state_id == st_val)
+    if dist_val:
+        query = query.filter(PHC.district_name == dist_val)
 
-    return query.order_by(Alert.created_at.desc()).limit(limit).all()
+    return query.order_by(Alert.created_at.desc()).limit(limit_val).all()
 
 @router.post("/scan-all", response_model=Dict[str, Any])
 def trigger_alert_scan(db: Session = Depends(get_db)):
