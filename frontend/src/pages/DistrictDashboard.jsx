@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Building, MapPin, AlertTriangle, CheckCircle, ShieldAlert, ArrowLeft } from 'lucide-react';
 import RedistributionPanel from '../components/RedistributionPanel';
+import ProximityEarlyWarningRadar from '../components/ProximityEarlyWarningRadar';
 import { apiClient } from '../services/api';
 import { translations } from '../services/i18n';
 
@@ -53,6 +54,13 @@ export default function DistrictDashboard({ districtName = 'Nashik', onSelectPHC
           </span>
         )}
       </div>
+
+      {/* AI Proximity Early Warning Radar for District Clinics */}
+      <ProximityEarlyWarningRadar 
+        phcId={phcs[0]?.id || 'PHC-MH-NAS-01'} 
+        phcName={`${districtName} District Zone`}
+        lang={lang} 
+      />
 
       {/* PHC List Table */}
       <div className="panel">

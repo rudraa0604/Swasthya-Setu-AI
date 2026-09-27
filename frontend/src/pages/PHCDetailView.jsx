@@ -4,6 +4,7 @@ import PHCHeaderSection from '../components/sections/phc/PHCHeaderSection';
 import PHCInventorySection from '../components/sections/phc/PHCInventorySection';
 import PHCBedStaffSection from '../components/sections/phc/PHCBedStaffSection';
 import PHCFootfallSection from '../components/sections/phc/PHCFootfallSection';
+import ProximityEarlyWarningRadar from '../components/ProximityEarlyWarningRadar';
 import { apiClient } from '../services/api';
 import { translations } from '../services/i18n';
 
@@ -48,6 +49,9 @@ export default function PHCDetailView({ phcId = 'PHC-MH-NAS-01', onBack, lang })
     <div>
       {/* 1. Header & Quick Actions */}
       <PHCHeaderSection phc={phc} onBack={onBack} loadData={loadData} loading={loading} />
+
+      {/* AI Proximity Early Warning Radar */}
+      <ProximityEarlyWarningRadar phcId={phcId} phcName={phc.name} lang={lang} />
 
       {/* 2. Medicine Inventory Table */}
       <PHCInventorySection 

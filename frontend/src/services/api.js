@@ -634,5 +634,172 @@ export const apiClient = {
       console.warn('API fallback for reseedDatabase');
     }
     return { status: "success", message: "Database reseeded successfully" };
+  },
+
+  async getProximityEarlyWarnings(phcId) {
+    try {
+      const res = await fetch(`${API_BASE}/alerts/proximity/${phcId}`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('API fallback for getProximityEarlyWarnings');
+    }
+    // Fallback simulation based on PHC location
+    const isNashik = phcId?.includes('NAS') || phcId === 'PHC-MH-NAS-01' || phcId === 'PHC-MH-NAS-02';
+    return {
+      phc_id: phcId || "PHC-MH-NAS-01",
+      phc_name: isNashik ? "Nashik PHC #1 (Rural Primary Center)" : "Community Health Center",
+      district_name: isNashik ? "Nashik" : "District",
+      lat: 19.9975,
+      lng: 73.7898,
+      nearby_disease_spread_alerts: isNashik ? [
+        {
+          epicenter_phc_id: "PHC-MH-NAS-02",
+          epicenter_phc_name: "Nashik PHC #2 (Sub-center)",
+          epicenter_district: "Nashik",
+          distance_km: 7.4,
+          disease_name: "Dengue & Acute Viral Fever",
+          epicenter_patient_count: 148,
+          projected_inflow_surge_pct: 145,
+          expected_arrival_window: "12 - 24 Hours",
+          urgency: "critical",
+          recommended_medicines: ["Paracetamol 500mg", "IV Normal Saline 500ml", "ORS Sachet (Oral Rehydration Salts)"],
+          recommended_action: "Prepare +145% buffer for Paracetamol 500mg, IV Normal Saline 500ml. Alert local health workers."
+        },
+        {
+          epicenter_phc_id: "PHC-MH-NAS-03",
+          epicenter_phc_name: "Niphad Rural Hospital",
+          epicenter_district: "Nashik",
+          distance_km: 18.2,
+          disease_name: "Gastroenteritis & Water Contamination",
+          epicenter_patient_count: 94,
+          projected_inflow_surge_pct: 75,
+          expected_arrival_window: "24 - 48 Hours",
+          urgency: "warning",
+          recommended_medicines: ["ORS Sachet (Oral Rehydration Salts)", "Amoxicillin 250mg", "IV Normal Saline 500ml"],
+          recommended_action: "Stage ORS sachets and water purification supplies. Reserve 4 general beds."
+        }
+      ] : [],
+      nearby_incident_alerts: isNashik ? [
+        {
+          incident_id: "INC-MH-NAS-01",
+          title: "Major Multi-Vehicle Highway Crash on NH-60",
+          incident_type: "road_accident",
+          location_name: "Nashik-Pune Expressway, Milestone 42 (Near Dindori Junction)",
+          distance_km: 8.6,
+          eta_minutes: 20,
+          severity: "critical",
+          expected_incoming_patients: 18,
+          disease_or_trauma_type: "Mass Trauma & Severe Hemorrhage",
+          recommended_supplies: [
+            "IV Normal Saline 500ml",
+            "Anti-Tetanus Toxoid",
+            "Trauma Dressing & Sterile Bandages",
+            "Emergency Pain Relief (Paracetamol/Diclofenac)"
+          ],
+          recommended_beds: 8,
+          created_at: new Date().toISOString(),
+          recommended_action: "Ready 8 triage beds immediately. Stage IV Normal Saline 500ml and Anti-Tetanus at reception."
+        }
+      ] : [],
+      total_proximity_threats: isNashik ? 3 : 0,
+      highest_urgency: isNashik ? "critical" : "safe"
+    };
+  },
+
+  async getActiveIncidents() {
+    try {
+      const res = await fetch(`${API_BASE}/alerts/incidents`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('API fallback for getActiveIncidents');
+    }
+    return [
+      {
+        id: "INC-MH-NAS-01",
+        title: "Major Multi-Vehicle Highway Crash on NH-60",
+        incident_type: "road_accident",
+        location_name: "Nashik-Pune Expressway, Milestone 42 (Near Dindori Junction)",
+        lat: 20.025,
+        lng: 73.805,
+        severity: "critical",
+        estimated_casualties: 35,
+        affected_radius_km: 18.0,
+        disease_or_trauma_type: "Mass Trauma & Severe Hemorrhage",
+        recommended_supplies: [
+          "IV Normal Saline 500ml",
+          "Anti-Tetanus Toxoid",
+          "Trauma Dressing & Sterile Bandages",
+          "Emergency Pain Relief (Paracetamol)"
+        ],
+        recommended_beds: 8,
+        created_at: new Date().toISOString()
+      },
+      {
+        id: "INC-MH-NAS-02",
+        title: "Sudden River Water Contamination & Gastroenteritis Cluster",
+        incident_type: "flood_waterborne",
+        location_name: "Godavari River Basin (Niphad Sector)",
+        lat: 20.090,
+        lng: 73.910,
+        severity: "warning",
+        estimated_casualties: 60,
+        affected_radius_km: 22.0,
+        disease_or_trauma_type: "Acute Diarrheal Outbreak & Dehydration",
+        recommended_supplies: [
+          "ORS Sachet (Oral Rehydration Salts)",
+          "Amoxicillin 250mg",
+          "IV Normal Saline 500ml",
+          "Water Purification Tablets"
+        ],
+        recommended_beds: 6,
+        created_at: new Date().toISOString()
+      }
+    ];
+  },
+
+  async reportEmergencyIncident(incidentData) {
+    try {
+      const res = await fetch(`${API_BASE}/alerts/report-incident`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(incidentData)
+      });
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('API fallback for reportEmergencyIncident');
+    }
+    return {
+      status: "success",
+      message: `Emergency Alert broadcasted to all PHCs within ${incidentData.affected_radius_km || 20}km radius!`,
+      incident: incidentData
+    };
+  },
+
+  async resolveEmergencyIncident(incidentId) {
+    try {
+      const res = await fetch(`${API_BASE}/alerts/incidents/${incidentId}`, { method: 'DELETE' });
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('API fallback for resolveEmergencyIncident');
+    }
+    return { status: "success", message: `Incident ${incidentId} resolved` };
+  },
+
+  async getDistrictThreatMatrix(districtName) {
+    try {
+      const res = await fetch(`${API_BASE}/alerts/district-threat-matrix/${encodeURIComponent(districtName)}`);
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('API fallback for getDistrictThreatMatrix');
+    }
+    return {
+      district_name: districtName,
+      clinics_monitored: 10,
+      total_active_threats: districtName === 'Nashik' ? 5 : 0,
+      clinics_with_warnings: []
+    };
   }
 };
+
+export const api = apiClient;
+export default apiClient;

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, Body
 from sqlalchemy.orm import Session
 from typing import List, Optional, Dict, Any
 
@@ -6,6 +6,7 @@ from backend.app.db.session import get_db
 from backend.app.models.models import Alert, PHC
 from backend.app.schemas.schemas import AlertOut
 from ml.alerts.engine import early_warning_engine
+from ml.alerts.proximity_engine import proximity_warning_engine
 
 router = APIRouter()
 
@@ -37,6 +38,67 @@ def list_alerts(
         query = query.filter(PHC.district_name == dist_val)
 
     return query.order_by(Alert.created_at.desc()).limit(limit_val).all()
+
+@router.get("/proximity/{phc_id}", response_model=Dict[str, Any])
+def get_phc_proximity_early_warnings(phc_id: str, db: Session = Depends(get_db)):
+    """
+    AI Proximity Early Warning Scanner:
+    1. Detects disease outbreaks spreading within 25km radius.
+    2. Detects mass casualty incidents / tragedies with arrival ETA and trauma supply needs.
+    """
+    phc = db.query(PHC).filter(PHC.id == phc_id).first()
+    if not phc:
+        raise HTTPException(status_code=404, detail="PHC not found")
+    
+    return proximity_warning_engine.scan_proximity_alerts_for_phc(phc, db)
+
+@router.get("/incidents", response_model=List[Dict[str, Any]])
+def list_active_incidents():
+    """
+    Returns all active emergency incidents and disaster tragedies.
+    """
+    return proximity_warning_engine.get_active_incidents()
+
+@router.post("/report-incident", response_model=Dict[str, Any])
+def report_emergency_incident(incident_data: Dict[str, Any] = Body(...), db: Session = Depends(get_db)):
+    """
+    Report or simulate an emergency mass casualty tragedy (Highway Crash, Chemical Leak, Flood, Food Poisoning).
+    Broadcasts real-time proximity alerts to all clinics within the affected radius.
+    """
+    result = proximity_warning_engine.report_incident(incident_data)
+    return {
+        "status": "success",
+        "message": f"Emergency Alert broadcasted to all PHCs within {result.get('affected_radius_km')}km radius!",
+        "incident": result
+    }
+
+@router.delete("/incidents/{incident_id}", response_model=Dict[str, Any])
+def resolve_emergency_incident(incident_id: str):
+    """
+    Resolves / clears an emergency incident alert.
+    """
+    success = proximity_warning_engine.remove_incident(incident_id)
+    if not success:
+        raise HTTPException(status_code=404, detail="Incident not found")
+    return {"status": "success", "message": f"Incident {incident_id} marked resolved."}
+
+@router.get("/district-threat-matrix/{district_name}", response_model=Dict[str, Any])
+def get_district_threat_matrix(district_name: str, db: Session = Depends(get_db)):
+    """
+    Returns high-level threat matrix across all clinics in a district.
+    """
+    phcs = db.query(PHC).filter(PHC.district_name == district_name).all()
+    matrix = []
+    for p in phcs:
+        warns = proximity_warning_engine.scan_proximity_alerts_for_phc(p, db)
+        matrix.append(warns)
+    
+    return {
+        "district_name": district_name,
+        "clinics_monitored": len(phcs),
+        "total_active_threats": sum(m["total_proximity_threats"] for m in matrix),
+        "clinics_with_warnings": [m for m in matrix if m["total_proximity_threats"] > 0]
+    }
 
 @router.post("/scan-all", response_model=Dict[str, Any])
 def trigger_alert_scan(db: Session = Depends(get_db)):
@@ -71,3 +133,4 @@ def resolve_alert(alert_id: str, db: Session = Depends(get_db)):
     alert.resolved_boolean = True
     db.commit()
     return {"status": "success", "message": f"Alert {alert_id} resolved"}
+

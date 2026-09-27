@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Wifi, WifiOff, UploadCloud, CheckCircle2, Pill, UserPlus, Layers, RefreshCw } from 'lucide-react';
 import { apiClient } from '../services/api';
 import { translations } from '../services/i18n';
+import ProximityEarlyWarningRadar from '../components/ProximityEarlyWarningRadar';
 
 export default function PHCEdgeApp({ phcId = 'PHC-MH-NAS-01', lang }) {
   const t = translations[lang] || translations.en;
@@ -110,6 +111,9 @@ export default function PHCEdgeApp({ phcId = 'PHC-MH-NAS-01', lang }) {
           </div>
         )}
       </div>
+
+      {/* AI Proximity Early Warning Radar: Nearby Outbreaks & Emergency Inflow */}
+      <ProximityEarlyWarningRadar phcId={phcId} phcName={phcId} lang={lang} />
 
       {/* Quick Entry Form 1: Medicine Dispensation */}
       <div className="panel">
