@@ -304,7 +304,7 @@ export default function LandingPage({ onLaunchPortal, onSelectRole, lang, setLan
             <div>{t.footerBuiltFor}</div>
             <div style={{ marginTop: '0.4rem', color: '#94a3b8', fontSize: '0.82rem' }}>
               {t.developedBy || 'Developed by:'}{' '}
-              <span style={{ color: '#86efac', fontWeight: 700 }}>Rudra Pratap Chaurasiya (CSJMU KANPUR)</span>
+              <span style={{ color: '#86efac', fontWeight: 700 }}><br/>Rudra Pratap Chaurasiya (CSJMU KANPUR)<br/>Sankalp Sachan (CSJMU KANPUR)<br/>Mohammad Sirfan (CSJMU KANPUR)</span>
             </div>
           </div>
         </div>
