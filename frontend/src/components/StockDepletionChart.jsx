@@ -59,10 +59,10 @@ export default function StockDepletionChart({ forecast }) {
   const safetyBufferCover = Math.max(0, initialStock - projected7DayDemand);
   const deficitRisk = Math.max(0, bufferThreshold - initialStock);
   const pieData = [
-    { label: 'Current Usable Stock', value: Math.max(5, initialStock), color: '#0284c7' },
-    { label: 'Required Buffer Margin', value: Math.max(5, bufferThreshold), color: '#f59e0b' },
-    { label: '7-Day Projected Demand', value: Math.max(5, projected7DayDemand), color: '#8b5cf6' },
-    { label: 'Critical Deficit Risk', value: Math.max(0, deficitRisk), color: '#ef4444' }
+    { label: 'Current Available Stock', value: Math.max(5, initialStock), color: '#16a34a' },
+    { label: 'Required Safety Buffer', value: Math.max(5, bufferThreshold), color: '#f97316' },
+    { label: '7-Day Estimated Demand', value: Math.max(5, projected7DayDemand), color: '#ea580c' },
+    { label: 'Shortage Risk Deficit', value: Math.max(0, deficitRisk), color: '#dc2626' }
   ].filter(item => item.value > 0);
 
   const totalPieVal = pieData.reduce((sum, item) => sum + item.value, 0);
@@ -102,25 +102,25 @@ export default function StockDepletionChart({ forecast }) {
   });
 
   return (
-    <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '1.25rem', marginTop: '1rem', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+    <div style={{ background: '#ffffff', border: '1px solid #fed7aa', borderRadius: '10px', padding: '1.25rem', marginTop: '1rem', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
       
       {/* Header with Title & Multi-Graph Mode Switcher */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '1rem', paddingBottom: '0.75rem', borderBottom: '1px solid #f1f5f9' }}>
         <div>
           <div style={{ fontWeight: 800, fontSize: '1.05rem', color: '#0f172a' }}>
-            {forecast.medicine_name} — Visual Forecasting Trajectory
+            {forecast.medicine_name} — AI Stock Forecast
           </div>
           <div style={{ fontSize: '0.78rem', color: '#64748b' }}>
-            Stock: <strong>{initialStock} units</strong> • Daily Consumption: ~<strong>{dailyAvg} units/day</strong> • Buffer: <strong>{bufferThreshold} units</strong>
+            Stock: <strong>{initialStock} units</strong> • Daily Usage: ~<strong>{dailyAvg} units/day</strong> • Safety Buffer: <strong>{bufferThreshold} units</strong>
           </div>
         </div>
 
         {/* Graph Type Switcher Buttons */}
-        <div style={{ display: 'flex', background: '#f1f5f9', padding: '0.25rem', borderRadius: '8px', gap: '0.25rem', overflowX: 'auto', maxWidth: '100%', WebkitOverflowScrolling: 'touch' }}>
+        <div style={{ display: 'flex', background: '#fff7ed', padding: '0.25rem', borderRadius: '8px', gap: '0.25rem', overflowX: 'auto', maxWidth: '100%', WebkitOverflowScrolling: 'touch', border: '1px solid #fed7aa' }}>
           <button
             className={`nav-tab-btn ${chartType === 'line' ? 'active' : ''}`}
             onClick={() => setChartType('line')}
-            title="Line Graph: Depletion Trajectory"
+            title="Line Graph"
             style={{ fontSize: '0.75rem', padding: '0.35rem 0.65rem', minHeight: '32px' }}
           >
             <LineIcon size={14} /> Line Graph
@@ -129,7 +129,7 @@ export default function StockDepletionChart({ forecast }) {
           <button
             className={`nav-tab-btn ${chartType === 'bar' ? 'active' : ''}`}
             onClick={() => setChartType('bar')}
-            title="Bar Graph: Daily Projected Remaining Stock"
+            title="Bar Graph"
             style={{ fontSize: '0.75rem', padding: '0.35rem 0.65rem', minHeight: '32px' }}
           >
             <BarChart3 size={14} /> Bar Graph
@@ -138,19 +138,19 @@ export default function StockDepletionChart({ forecast }) {
           <button
             className={`nav-tab-btn ${chartType === 'histogram' ? 'active' : ''}`}
             onClick={() => setChartType('histogram')}
-            title="Histogram: Demand Surge Distribution"
+            title="Daily Usage Pattern"
             style={{ fontSize: '0.75rem', padding: '0.35rem 0.65rem', minHeight: '32px' }}
           >
-            <BarChart2 size={14} /> Histogram
+            <BarChart2 size={14} /> Usage Pattern
           </button>
 
           <button
             className={`nav-tab-btn ${chartType === 'pie' ? 'active' : ''}`}
             onClick={() => setChartType('pie')}
-            title="Pie / Donut: Inventory Proportions"
+            title="Inventory Breakdown"
             style={{ fontSize: '0.75rem', padding: '0.35rem 0.65rem', minHeight: '32px' }}
           >
-            <PieIcon size={14} /> Pie Chart
+            <PieIcon size={14} /> Stock Pie Chart
           </button>
         </div>
       </div>
@@ -160,15 +160,15 @@ export default function StockDepletionChart({ forecast }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
           <span className={`badge ${forecast.urgency_level === 'Critical' ? 'badge-red' : (forecast.urgency_level === 'Warning' ? 'badge-yellow' : 'badge-green')}`}>
             {forecast.urgency_level === 'Critical' ? <ShieldAlert size={12} /> : <Clock size={12} />}
-            {forecast.days_to_stockout <= 3 ? `Stock-Out in ${forecast.days_to_stockout} Days` : `${forecast.days_to_stockout} Days Safety Inventory`}
+            {forecast.days_to_stockout <= 3 ? `Stock runs out in ${forecast.days_to_stockout} Days` : `${forecast.days_to_stockout} Days of stock remaining`}
           </span>
           <span style={{ fontSize: '0.78rem', color: '#64748b' }}>
-            Risk Probability: <strong style={{ color: forecast.stockout_probability_pct > 70 ? '#dc2626' : '#0284c7' }}>{forecast.stockout_probability_pct}%</strong>
+            Shortage Risk: <strong style={{ color: forecast.stockout_probability_pct > 70 ? '#dc2626' : '#ea580c' }}>{forecast.stockout_probability_pct}%</strong>
           </span>
         </div>
 
         <div style={{ fontSize: '0.72rem', color: '#94a3b8' }}>
-          Active View: {chartType === 'line' ? '📈 14-Day Trajectory Curve' : (chartType === 'bar' ? '📊 Daily Stock Levels' : (chartType === 'histogram' ? '📶 Consumption Frequency Bins' : '🥧 Proportion Breakdown'))}
+          Active View: {chartType === 'line' ? '📈 14-Day Stock Curve' : (chartType === 'bar' ? '📊 Daily Stock Levels' : (chartType === 'histogram' ? '📶 Usage Frequency' : '🥧 Stock Proportions'))}
         </div>
       </div>
 
@@ -178,22 +178,22 @@ export default function StockDepletionChart({ forecast }) {
         {/* VIEW 1: LINE GRAPH */}
         {chartType === 'line' && (
           <svg viewBox={`0 0 ${width} ${height}`} style={{ width: '100%', maxHeight: '240px' }}>
-            <line x1={padding.left} y1={padding.top} x2={width - padding.right} y2={padding.top} stroke="#e2e8f0" strokeDasharray="3 3" />
-            <line x1={padding.left} y1={height / 2} x2={width - padding.right} y2={height / 2} stroke="#e2e8f0" strokeDasharray="3 3" />
+            <line x1={padding.left} y1={padding.top} x2={width - padding.right} y2={padding.top} stroke="#fed7aa" strokeDasharray="3 3" />
+            <line x1={padding.left} y1={height / 2} x2={width - padding.right} y2={height / 2} stroke="#fed7aa" strokeDasharray="3 3" />
             <line x1={padding.left} y1={height - padding.bottom} x2={width - padding.right} y2={height - padding.bottom} stroke="#94a3b8" />
 
             {/* Buffer threshold reference line */}
             {bufferY >= padding.top && bufferY <= height - padding.bottom && (
               <g>
-                <line x1={padding.left} y1={bufferY} x2={width - padding.right} y2={bufferY} stroke="#f59e0b" strokeDasharray="4 4" strokeWidth="1.5" />
-                <text x={width - padding.right - 5} y={bufferY - 4} fill="#d97706" fontSize="10" textAnchor="end" fontWeight="700">
-                  Buffer Threshold ({bufferThreshold} units)
+                <line x1={padding.left} y1={bufferY} x2={width - padding.right} y2={bufferY} stroke="#f97316" strokeDasharray="4 4" strokeWidth="1.5" />
+                <text x={width - padding.right - 5} y={bufferY - 4} fill="#ea580c" fontSize="10" textAnchor="end" fontWeight="700">
+                  Safety Buffer ({bufferThreshold} units)
                 </text>
               </g>
             )}
 
             {/* Main Path */}
-            <path d={linePathD} fill="none" stroke={forecast.urgency_level === 'Critical' ? '#ef4444' : '#0284c7'} strokeWidth="3" />
+            <path d={linePathD} fill="none" stroke={forecast.urgency_level === 'Critical' ? '#dc2626' : '#ea580c'} strokeWidth="3" />
 
             {/* Data Points */}
             {points.map((pt, idx) => {
@@ -202,7 +202,7 @@ export default function StockDepletionChart({ forecast }) {
               const isZero = pt.projected_stock_level === 0;
               return (
                 <g key={idx}>
-                  <circle cx={cx} cy={cy} r={isZero ? 5.5 : 4} fill={isZero ? '#dc2626' : '#0284c7'} stroke="#ffffff" strokeWidth="1.5" />
+                  <circle cx={cx} cy={cy} r={isZero ? 5.5 : 4} fill={isZero ? '#dc2626' : (pt.projected_stock_level < bufferThreshold ? '#f97316' : '#16a34a')} stroke="#ffffff" strokeWidth="1.5" />
                   {idx % 2 === 0 && (
                     <text x={cx} y={height - padding.bottom + 16} fill="#64748b" fontSize="9" textAnchor="middle">
                       Day {idx + 1}
@@ -235,7 +235,7 @@ export default function StockDepletionChart({ forecast }) {
                     y={y}
                     width={barWidth}
                     height={barHeight}
-                    fill={pt.projected_stock_level === 0 ? '#ef4444' : (isShortage ? '#f59e0b' : '#0284c7')}
+                    fill={pt.projected_stock_level === 0 ? '#dc2626' : (isShortage ? '#ea580c' : '#16a34a')}
                     rx="3"
                   />
                   <text x={x + barWidth / 2} y={y - 4} fill="#475569" fontSize="8.5" textAnchor="middle" fontWeight="600">
@@ -266,8 +266,8 @@ export default function StockDepletionChart({ forecast }) {
 
               return (
                 <g key={idx}>
-                  <rect x={x} y={y} width={hBarWidth} height={bHeight} fill="#8b5cf6" rx="4" opacity="0.85" />
-                  <text x={x + hBarWidth / 2} y={y - 5} fill="#5b21b6" fontSize="10" textAnchor="middle" fontWeight="700">
+                  <rect x={x} y={y} width={hBarWidth} height={bHeight} fill="#f97316" rx="4" opacity="0.85" />
+                  <text x={x + hBarWidth / 2} y={y - 5} fill="#9a3412" fontSize="10" textAnchor="middle" fontWeight="700">
                     {bin.count} days ({bin.pct}%)
                   </text>
                   <text x={x + hBarWidth / 2} y={height - padding.bottom + 18} fill="#475569" fontSize="9.5" textAnchor="middle" fontWeight="600">
@@ -308,7 +308,7 @@ export default function StockDepletionChart({ forecast }) {
 
       {/* Explainability Insight */}
       <div className={`reason-box ${forecast.urgency_level === 'Critical' ? 'urgent' : ''}`} style={{ marginTop: '0.75rem' }}>
-        <strong>AI Diagnostic Summary:</strong> {forecast.explanation}
+        <strong>AI Insight:</strong> {forecast.explanation}
       </div>
     </div>
   );

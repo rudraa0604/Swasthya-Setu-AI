@@ -130,7 +130,7 @@ export default function HeroScrollCanvas({ onEnterPortal, lang }) {
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
-            <Activity size={32} color="#2e8b57" />
+            <Activity size={32} color="#ea580c" />
             <h2 style={{ fontSize: '1.5rem', fontWeight: 800, letterSpacing: '-0.02em' }}>{t.appTitle}</h2>
           </div>
 
@@ -139,14 +139,14 @@ export default function HeroScrollCanvas({ onEnterPortal, lang }) {
               style={{
                 width: `${loadingProgress}%`,
                 height: '100%',
-                background: 'linear-gradient(90deg, #0284c7, #2e8b57)',
+                background: 'linear-gradient(90deg, #ea580c, #16a34a)',
                 transition: 'width 0.15s ease'
               }}
             />
           </div>
 
-          <div style={{ marginTop: '0.75rem', fontSize: '0.8rem', color: '#94a3b8' }}>
-            Preloading ({loadingProgress}%)
+          <div style={{ marginTop: '0.75rem', fontSize: '0.8rem', color: '#fed7aa' }}>
+            Loading ({loadingProgress}%)
           </div>
         </div>
       )}
@@ -178,7 +178,7 @@ export default function HeroScrollCanvas({ onEnterPortal, lang }) {
           bottom: 0,
           width: '100%',
           height: '100%',
-          background: 'radial-gradient(circle at center, rgba(13, 43, 78, 0.2) 0%, rgba(10, 25, 47, 0.52) 100%)',
+          background: 'radial-gradient(circle at center, rgba(13, 27, 42, 0.25) 0%, rgba(10, 20, 35, 0.6) 100%)',
           zIndex: 0,
           pointerEvents: 'none'
         }}
@@ -206,9 +206,9 @@ export default function HeroScrollCanvas({ onEnterPortal, lang }) {
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.5rem',
-              background: 'rgba(46, 139, 87, 0.25)',
-              border: '1px solid rgba(46, 139, 87, 0.5)',
-              color: '#86efac',
+              background: 'rgba(234, 88, 12, 0.2)',
+              border: '1px solid rgba(249, 115, 22, 0.45)',
+              color: '#fed7aa',
               padding: '0.35rem 0.9rem',
               borderRadius: '999px',
               fontSize: '0.85rem',
@@ -217,7 +217,7 @@ export default function HeroScrollCanvas({ onEnterPortal, lang }) {
               backdropFilter: 'blur(8px)'
             }}
           >
-            <Shield size={14} /> {t.heroInitiativeBadge}
+            <Shield size={14} color="#f97316" /> {t.heroInitiativeBadge}
           </div>
 
           <h1
@@ -234,7 +234,7 @@ export default function HeroScrollCanvas({ onEnterPortal, lang }) {
             {t.heroHeadingPre}
             <span
               style={{
-                background: 'linear-gradient(135deg, #38bdf8 0%, #2e8b57 100%)',
+                background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 display: 'inline-block'
@@ -245,7 +245,7 @@ export default function HeroScrollCanvas({ onEnterPortal, lang }) {
             {t.heroHeadingMid}
             <span
               style={{
-                background: 'linear-gradient(135deg, #2e8b57 0%, #38bdf8 100%)',
+                background: 'linear-gradient(135deg, #16a34a 0%, #22c55e 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 display: 'inline-block'
@@ -258,7 +258,7 @@ export default function HeroScrollCanvas({ onEnterPortal, lang }) {
           <p
             style={{
               fontSize: 'clamp(1rem, 1.8vw, 1.25rem)',
-              color: '#f1f5f9',
+              color: '#f8fafc',
               maxWidth: '700px',
               margin: '0 auto 2rem auto',
               lineHeight: 1.6,
@@ -271,16 +271,19 @@ export default function HeroScrollCanvas({ onEnterPortal, lang }) {
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button
               className="btn-action"
-              onClick={onEnterPortal}
+              onClick={() => {
+                window.location.hash = '#/login';
+                if (onEnterPortal) onEnterPortal();
+              }}
               style={{
-                background: 'linear-gradient(135deg, #0284c7 0%, #2e8b57 100%)',
+                background: 'linear-gradient(135deg, #ea580c 0%, #16a34a 100%)',
                 color: '#ffffff',
                 padding: '0.85rem 1.85rem',
                 fontSize: '1.05rem',
                 fontWeight: 800,
                 borderRadius: '10px',
                 border: 'none',
-                boxShadow: '0 10px 25px rgba(2, 132, 199, 0.4)',
+                boxShadow: '0 10px 25px rgba(234, 88, 12, 0.45)',
                 cursor: 'pointer',
                 display: 'inline-flex',
                 alignItems: 'center',

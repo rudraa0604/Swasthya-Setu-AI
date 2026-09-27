@@ -6,8 +6,8 @@ export default function PHCInventorySection({ stocks, selectedMedicine, setSelec
     <div className="panel">
       <div className="panel-header">
         <div className="panel-title">
-          <Pill size={20} color="#0284c7" />
-          <span>Facility Medicine Inventory & Current Buffer Status</span>
+          <Pill size={20} color="#ea580c" />
+          <span>Clinic Medicine Stock & Safety Levels</span>
         </div>
       </div>
 
@@ -15,21 +15,21 @@ export default function PHCInventorySection({ stocks, selectedMedicine, setSelec
         <table className="custom-table">
           <thead>
             <tr>
-              <th>Medicine Description</th>
-              <th>Batch Code</th>
-              <th>Available Stock</th>
-              <th>Safety Threshold</th>
-              <th>Daily Avg Burn Rate</th>
+              <th>Medicine Name</th>
+              <th>Batch No.</th>
+              <th>In Stock</th>
+              <th>Min Safety Level</th>
+              <th>Daily Usage</th>
               <th>Status</th>
-              <th>Simulate Forecast</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             {stocks.map((s) => (
-              <tr key={s.id} style={{ background: selectedMedicine === s.medicine_name ? '#f0f9ff' : 'transparent' }}>
+              <tr key={s.id} style={{ background: selectedMedicine === s.medicine_name ? '#fff7ed' : 'transparent' }}>
                 <td style={{ fontWeight: 600 }}>{s.medicine_name}</td>
                 <td style={{ fontFamily: 'monospace', color: '#64748b' }}>{s.batch_id}</td>
-                <td style={{ fontWeight: 700, color: s.status === 'Critical' ? '#dc2626' : (s.status === 'Warning' ? '#d97706' : '#166534') }}>
+                <td style={{ fontWeight: 700, color: s.status === 'Critical' ? '#dc2626' : (s.status === 'Warning' ? '#f97316' : '#16a34a') }}>
                   {s.quantity} units
                 </td>
                 <td>{s.buffer_threshold} units</td>
@@ -42,10 +42,10 @@ export default function PHCInventorySection({ stocks, selectedMedicine, setSelec
                 <td>
                   <button 
                     className="btn-action"
-                    style={{ fontSize: '0.72rem', background: selectedMedicine === s.medicine_name ? '#0284c7' : '#e2e8f0', color: selectedMedicine === s.medicine_name ? '#ffffff' : '#0f172a' }}
+                    style={{ fontSize: '0.72rem', background: selectedMedicine === s.medicine_name ? '#ea580c' : '#f1f5f9', color: selectedMedicine === s.medicine_name ? '#ffffff' : '#0f172a', border: '1px solid #e2e8f0' }}
                     onClick={() => setSelectedMedicine(s.medicine_name)}
                   >
-                    Select Forecast
+                    View Chart
                   </button>
                 </td>
               </tr>

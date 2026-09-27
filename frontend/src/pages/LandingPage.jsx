@@ -14,44 +14,56 @@ import LandingArchitecturePage from './LandingArchitecturePage';
 import LandingCreditsPage from './LandingCreditsPage';
 import { translations } from '../services/i18n';
 
-export default function LandingPage({ onLaunchPortal, onSelectRole, lang, setLang }) {
+export default function LandingPage({ 
+  onLaunchPortal, 
+  onSelectRole, 
+  lang, 
+  setLang,
+  initialLandingPage = 'home'
+}) {
   const t = translations[lang] || translations.en;
-  const [activeLandingPage, setActiveLandingPage] = useState('home'); // 'home', 'features', 'portals', 'architecture', 'credits'
+  const [activeLandingPage, setActiveLandingPage] = useState(initialLandingPage || 'home'); // 'home', 'features', 'portals', 'architecture', 'credits'
+
+  React.useEffect(() => {
+    if (initialLandingPage) {
+      setActiveLandingPage(initialLandingPage);
+    }
+  }, [initialLandingPage]);
 
   const features = [
     {
       title: t.featStockTitle,
       icon: Activity,
-      color: '#0284c7',
-      bg: 'rgba(2, 132, 199, 0.25)',
+      color: '#ea580c',
+      bg: 'rgba(234, 88, 12, 0.22)',
       desc: t.featStockDesc
     },
     {
       title: t.featForecastingTitle,
       icon: TrendingUp,
-      color: '#10b981',
-      bg: 'rgba(16, 185, 129, 0.25)',
+      color: '#16a34a',
+      bg: 'rgba(22, 163, 74, 0.22)',
       desc: t.featForecastingDesc
     },
     {
       title: t.featAlertsTitle,
       icon: AlertTriangle,
-      color: '#f59e0b',
-      bg: 'rgba(245, 158, 11, 0.25)',
+      color: '#dc2626',
+      bg: 'rgba(220, 38, 38, 0.22)',
       desc: t.featAlertsDesc
     },
     {
       title: t.featRedistributionTitle,
       icon: Truck,
-      color: '#8b5cf6',
-      bg: 'rgba(139, 92, 246, 0.25)',
+      color: '#f97316',
+      bg: 'rgba(249, 115, 22, 0.22)',
       desc: t.featRedistributionDesc
     },
     {
       title: t.featCareTitle,
       icon: Users,
-      color: '#2e8b57',
-      bg: 'rgba(46, 139, 87, 0.25)',
+      color: '#16a34a',
+      bg: 'rgba(22, 163, 74, 0.22)',
       desc: t.featCareDesc
     }
   ];
@@ -62,7 +74,7 @@ export default function LandingPage({ onLaunchPortal, onSelectRole, lang, setLan
       title: t.rolePhcTitle,
       subtitle: t.rolePhcSubtitle,
       icon: Building,
-      color: '#0284c7',
+      color: '#ea580c',
       badge: t.rolePhcBadge,
       desc: t.rolePhcDesc
     },
@@ -71,7 +83,7 @@ export default function LandingPage({ onLaunchPortal, onSelectRole, lang, setLan
       title: t.roleDistrictTitle,
       subtitle: t.roleDistrictSubtitle,
       icon: MapPin,
-      color: '#f59e0b',
+      color: '#f97316',
       badge: t.roleDistrictBadge,
       desc: t.roleDistrictDesc
     },
@@ -80,7 +92,7 @@ export default function LandingPage({ onLaunchPortal, onSelectRole, lang, setLan
       title: t.roleStateTitle,
       subtitle: t.roleStateSubtitle,
       icon: Layers,
-      color: '#8b5cf6',
+      color: '#16a34a',
       badge: t.roleStateBadge,
       desc: t.roleStateDesc
     },
@@ -89,7 +101,7 @@ export default function LandingPage({ onLaunchPortal, onSelectRole, lang, setLan
       title: t.roleNationalTitle,
       subtitle: t.roleNationalSubtitle,
       icon: Globe,
-      color: '#10b981',
+      color: '#dc2626',
       badge: t.roleNationalBadge,
       desc: t.roleNationalDesc
     },
@@ -98,7 +110,7 @@ export default function LandingPage({ onLaunchPortal, onSelectRole, lang, setLan
       title: t.roleDevTitle,
       subtitle: t.roleDevSubtitle,
       icon: Code,
-      color: '#38bdf8',
+      color: '#ea580c',
       badge: t.roleDevBadge,
       desc: t.roleDevDesc
     }

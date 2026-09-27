@@ -77,17 +77,17 @@ export default function RouteControlPanel({
 
         {/* Optimization Objective */}
         <div>
-          <label style={{ fontSize: '0.75rem', color: '#94a3b8', display: 'block', marginBottom: '4px' }}>AI Routing Algorithm Objective</label>
+          <label style={{ fontSize: '0.75rem', color: '#94a3b8', display: 'block', marginBottom: '4px' }}>Route Priority Goal</label>
           <select 
             className="input-custom"
             value={objective}
             onChange={(e) => setObjective(e.target.value)}
             style={{ background: '#1e293b', color: '#f8fafc', borderColor: '#334155' }}
           >
-            <option value="fastest">Fastest Emergency Transit (Min Time)</option>
-            <option value="shortest">Shortest Road Distance (Min KM)</option>
-            <option value="cold_chain">Maximum Cold-Chain Safety</option>
-            <option value="eco">Eco-Green Corridor (Lowest Carbon)</option>
+            <option value="fastest">Fastest Trip (Shortest Time)</option>
+            <option value="shortest">Shortest Distance (Lowest KM)</option>
+            <option value="cold_chain">Medicine Safety (Cold-Chain Priority)</option>
+            <option value="eco">Fuel Efficient (Lowest Carbon)</option>
           </select>
         </div>
       </div>
@@ -95,11 +95,11 @@ export default function RouteControlPanel({
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
         <button 
           className="btn-action btn-primary"
-          style={{ background: '#0284c7', padding: '0.65rem 1.25rem', fontWeight: 800 }}
+          style={{ background: '#ea580c', padding: '0.65rem 1.25rem', fontWeight: 800 }}
           onClick={() => computeRoute(false)}
           disabled={loading}
         >
-          <Navigation size={16} /> Compute AI Optimal Route
+          <Navigation size={16} /> Find Best Route
         </button>
 
         {/* Candidate Route Tabs */}
@@ -112,7 +112,7 @@ export default function RouteControlPanel({
                 style={{
                   padding: '0.4rem 0.75rem',
                   fontSize: '0.75rem',
-                  background: activeCandidateIdx === i ? '#0284c7' : '#1e293b',
+                  background: activeCandidateIdx === i ? '#ea580c' : '#1e293b',
                   color: '#f8fafc',
                   border: '1px solid #334155',
                   fontWeight: activeCandidateIdx === i ? 700 : 500

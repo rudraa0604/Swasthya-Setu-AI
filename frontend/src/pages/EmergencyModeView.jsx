@@ -78,13 +78,13 @@ export default function EmergencyModeView({ onClose, lang }) {
           <div className="kpi-subtext" style={{ color: '#94a3b8' }}>18 of 20 District ICU beds occupied</div>
         </div>
 
-        <div className="kpi-card" style={{ background: '#1e293b', borderColor: '#0284c7' }}>
+        <div className="kpi-card" style={{ background: '#1e293b', borderColor: '#f97316' }}>
           <div className="kpi-header">
             <span>RAPID DISPATCH READY</span>
-            <Truck size={18} color="#0284c7" />
+            <Truck size={18} color="#f97316" />
           </div>
-          <div className="kpi-value" style={{ color: '#38bdf8' }}>{recommendations.length} Orders</div>
-          <div className="kpi-subtext" style={{ color: '#94a3b8' }}>Surplus staged from Pune / Thane</div>
+          <div className="kpi-value" style={{ color: '#f97316' }}>{recommendations.length} Orders</div>
+          <div className="kpi-subtext" style={{ color: '#94a3b8' }}>Surplus ready from Pune / Thane</div>
         </div>
       </div>
 
@@ -93,9 +93,9 @@ export default function EmergencyModeView({ onClose, lang }) {
         <div className="panel-header" style={{ borderBottomColor: '#334155' }}>
           <div className="panel-title" style={{ color: '#f8fafc' }}>
             <Truck size={20} color="#ef4444" />
-            <span>Emergency Inter-Facility Supply Redistribution Authorizations</span>
+            <span>Emergency Supply Sharing Approvals</span>
           </div>
-          <span className="badge badge-red">{recommendations.length} Transfers Awaiting Immediate Signature</span>
+          <span className="badge badge-red">{recommendations.length} Transfers Awaiting Immediate Approval</span>
         </div>
 
         <div className="table-container">
@@ -103,10 +103,10 @@ export default function EmergencyModeView({ onClose, lang }) {
             <thead>
               <tr>
                 <th>Emergency Supply</th>
-                <th>Source Depot (Surplus)</th>
-                <th>Target Hospital (Deficit)</th>
-                <th>Transit Dist. & Urgency</th>
-                <th>Immediate Authorization Action</th>
+                <th>Sending Clinic (Extra Stock)</th>
+                <th>Receiving Hospital (Needs Stock)</th>
+                <th>Distance & Urgency</th>
+                <th>Quick Action</th>
               </tr>
             </thead>
             <tbody>
@@ -114,7 +114,7 @@ export default function EmergencyModeView({ onClose, lang }) {
                 <tr key={rec.id}>
                   <td>
                     <div style={{ fontWeight: 800, fontSize: '1rem', color: '#f8fafc' }}>{rec.medicine_name}</div>
-                    <div style={{ color: '#38bdf8', fontWeight: 700, fontSize: '0.9rem' }}>
+                    <div style={{ color: '#f97316', fontWeight: 700, fontSize: '0.9rem' }}>
                       📦 {rec.quantity} units requested
                     </div>
                   </td>
@@ -141,7 +141,7 @@ export default function EmergencyModeView({ onClose, lang }) {
                         marginTop: '4px',
                         border: 'none',
                         background: 'transparent',
-                        color: '#38bdf8',
+                        color: '#f97316',
                         fontSize: '0.75rem',
                         fontWeight: 700,
                         cursor: 'pointer',
@@ -150,9 +150,9 @@ export default function EmergencyModeView({ onClose, lang }) {
                         alignItems: 'center',
                         gap: '2px'
                       }}
-                      title="Inspect AI Emergency Green Corridor Route"
+                      title="Inspect Fast Emergency Route"
                     >
-                      🗺️ View AI Emergency Route →
+                      🗺️ View Fast Route →
                     </button>
                   </td>
                   <td>
@@ -162,7 +162,7 @@ export default function EmergencyModeView({ onClose, lang }) {
                         style={{ padding: '0.5rem 0.9rem', fontSize: '0.85rem', fontWeight: 800, minHeight: '36px' }}
                         onClick={() => handleAuthorize(rec.id, 'approved')}
                       >
-                        <Check size={15} /> AUTHORIZE DISPATCH
+                        <Check size={15} /> APPROVE DISPATCH
                       </button>
                       <button 
                         className="btn-action btn-reject"

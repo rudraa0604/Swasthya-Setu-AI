@@ -12,68 +12,68 @@ export default function LandingFeaturesPage({ onBackToHome, onLaunchPortal, onSe
 
   const deepFeatures = [
     {
-      title: t.featStockTitle || "Real-Time Telemetry & Stock-Out Warning",
+      title: t.featStockTitle || "Live Medicine Tracking",
       icon: Activity,
-      color: "#0284c7",
-      bg: "rgba(2, 132, 199, 0.25)",
-      desc: t.featStockDesc || "Tracks 150+ PHC medicine stocks, daily burn rates, and provides explainable 0.8-day critical stock-out alerts.",
+      color: "#ea580c",
+      bg: "rgba(234, 88, 12, 0.22)",
+      desc: t.featStockDesc || "Tracks clinic medicine stocks, daily usage, and sends instant shortage alerts.",
       details: [
-        "Real-time integration with ABDM, eVIN, and HMIS health records",
-        "Threshold-based multi-tier buffer alerts (Critical < 30%, Warning < 100%)",
-        "Explainable AI diagnostics detailing root cause footfall surges",
-        "Automated batch expiry tracking with FEFO (First-Expired, First-Out)"
+        "Connects directly with Indian clinic health records (ABDM, eVIN, HMIS)",
+        "Easy color-coded alerts when medicine gets low (Critical < 30%, Warning < 100%)",
+        "Clear explanations showing why medicine demand increased",
+        "Tracks expiry dates so older medicine batches are used first"
       ]
     },
     {
-      title: t.featForecastingTitle || "Prophet AI 14-Day Demand Forecast",
+      title: t.featForecastingTitle || "14-Day AI Demand Prediction",
       icon: TrendingUp,
-      color: "#10b981",
-      bg: "rgba(16, 185, 129, 0.25)",
-      desc: t.featForecastingDesc || "Predicts seasonal flu, dengue surges, and epidemiological footfalls using localized additive trend time-series models.",
+      color: "#16a34a",
+      bg: "rgba(22, 163, 74, 0.22)",
+      desc: t.featForecastingDesc || "Predicts seasonal illnesses like viral fever or dengue so clinics are prepared in advance.",
       details: [
-        "Additive trend decomposition with weekly and annual seasonality",
-        "Uncertainty intervals with 80% & 95% confidence bounds",
-        "Pre-emptive shortage notification 7-14 days ahead of crisis",
-        "Local node training with zero central raw data leakage"
+        "Learns from seasonal trends, weather patterns, and patient history",
+        "High-accuracy demand forecasts for the next 7, 14, and 30 days",
+        "Provides 1 to 2 weeks early warning before a clinic runs out",
+        "Keeps all patient personal records 100% private and protected"
       ]
     },
     {
-      title: t.featAlertsTitle || "Automated Early Warning Signals",
+      title: t.featAlertsTitle || "Fast Hospital & Shortage Alerts",
       icon: AlertTriangle,
-      color: "#f59e0b",
-      bg: "rgba(245, 158, 11, 0.25)",
-      desc: t.featAlertsDesc || "Monitors ICU saturation, doctor absenteeism, and footfall anomalies across district triage layers.",
+      color: "#dc2626",
+      bg: "rgba(220, 38, 38, 0.22)",
+      desc: t.featAlertsDesc || "Monitors hospital bed occupancy, doctor attendance, and sudden spikes in patients.",
       details: [
-        "Epidemic cluster detection when footfall exceeds 200% baseline",
-        "High-acuity ICU saturation monitoring with automatic divert alerts",
-        "Medical Officer & Staff Nurse absenteeism risk scoring",
-        "Priority color-coded dispatch queues with one-click resolution"
+        "Detects viral disease outbreaks as soon as patient visits double",
+        "Monitors ICU and general bed availability across clinics",
+        "Alerts administrators if doctors or nurses are absent",
+        "Easy 1-click action to resolve clinic shortages quickly"
       ]
     },
     {
-      title: t.featRedistributionTitle || "AI Green Corridor Redistribution",
+      title: t.featRedistributionTitle || "Smart Medicine Sharing & Delivery",
       icon: Truck,
-      color: "#8b5cf6",
-      bg: "rgba(139, 92, 246, 0.25)",
-      desc: t.featRedistributionDesc || "Calculates optimal inter-PHC medicine transfer paths and generates automated green corridors.",
+      color: "#f97316",
+      bg: "rgba(249, 115, 22, 0.22)",
+      desc: t.featRedistributionDesc || "Finds nearby clinics with extra medicines and arranges quick transfer orders.",
       details: [
-        "Dijkstra multi-criteria shortest and fastest pathfinder",
-        "Automated FastTag & RFID emergency toll clearance pass generation",
-        "Dynamic real-time landslide & flood road blockage bypass engine",
-        "Multi-vehicle Fleet Vehicle Routing Problem (VRP) solver"
+        "Calculates the fastest and safest roads between clinics",
+        "Generates emergency passes for quick highway and toll passage",
+        "Automatically detects and avoids flooded or blocked roads",
+        "Coordinates delivery vans for fastest emergency medicine delivery"
       ]
     },
     {
-      title: t.featCareTitle || "Privacy-Preserving Federated Learning",
+      title: t.featCareTitle || "Safe & Private Healthcare AI",
       icon: Users,
-      color: "#2e8b57",
-      bg: "rgba(46, 139, 87, 0.25)",
-      desc: t.featCareDesc || "Enables state health directorates to collaboratively train AI models without raw patient health telemetry leaving state borders.",
+      color: "#16a34a",
+      bg: "rgba(22, 163, 74, 0.22)",
+      desc: t.featCareDesc || "Allows health departments to train smart AI without sharing sensitive patient medical records.",
       details: [
-        "FedAvg algorithm for secure gradient weight aggregation",
-        "DP-SGD Differential Privacy with mathematical epsilon guarantees",
-        "State data sovereignty compliance with Indian Health Data policies",
-        "Robust against network dropouts and asynchronous edge nodes"
+        "Patient records never leave their local hospital or state",
+        "Strictly follows Indian digital health and privacy standards",
+        "Works smoothly even with slow or intermittent rural internet",
+        "Guarantees that citizen health data remains confidential"
       ]
     }
   ];
@@ -82,18 +82,26 @@ export default function LandingFeaturesPage({ onBackToHome, onLaunchPortal, onSe
     <div style={{ background: 'linear-gradient(180deg, #07111e 0%, #0c1a2d 100%)', color: '#f8fafc', minHeight: '100vh', fontFamily: 'var(--font-sans)', position: 'relative' }}>
       
       {/* Top Navbar */}
-      <LandingNavbar onLaunchPortal={onLaunchPortal} lang={lang} setLang={setLang} />
+      <LandingNavbar 
+        onLaunchPortal={onLaunchPortal} 
+        lang={lang} 
+        setLang={setLang} 
+        activePage="features"
+      />
 
       <main style={{ paddingTop: '5.5rem', paddingBottom: '4rem', paddingLeft: 'clamp(1rem, 4vw, 2.5rem)', paddingRight: 'clamp(1rem, 4vw, 2.5rem)', maxWidth: '1200px', margin: '0 auto' }}>
         
         {/* Breadcrumb & Navigation Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', flexWrap: 'wrap', gap: '0.75rem' }}>
           <button 
-            onClick={onBackToHome}
+            onClick={() => {
+              window.location.hash = '#/';
+              if (onBackToHome) onBackToHome();
+            }}
             style={{
               background: 'rgba(255, 255, 255, 0.08)',
-              color: '#38bdf8',
-              border: '1px solid rgba(255, 255, 255, 0.15)',
+              color: '#f97316',
+              border: '1px solid rgba(249, 115, 22, 0.3)',
               borderRadius: '999px',
               padding: '0.45rem 1rem',
               fontSize: '0.85rem',
@@ -108,21 +116,21 @@ export default function LandingFeaturesPage({ onBackToHome, onLaunchPortal, onSe
             <ArrowLeft size={15} /> Back to Main Portal
           </button>
 
-          <span style={{ fontSize: '0.8rem', color: '#86efac', background: 'rgba(46, 139, 87, 0.25)', border: '1px solid rgba(134, 239, 172, 0.3)', padding: '0.25rem 0.75rem', borderRadius: '999px', fontWeight: 600 }}>
-            ✨ SwasthyaSetu AI Core Capabilities
+          <span style={{ fontSize: '0.8rem', color: '#fed7aa', background: 'rgba(234, 88, 12, 0.2)', border: '1px solid rgba(249, 115, 22, 0.35)', padding: '0.25rem 0.75rem', borderRadius: '999px', fontWeight: 600 }}>
+            ✨ SwasthyaSetu AI Core Features
           </span>
         </div>
 
         {/* Hero Title */}
         <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', color: '#38bdf8', background: 'rgba(2, 132, 199, 0.2)', padding: '0.35rem 0.9rem', borderRadius: '999px', fontSize: '0.8rem', fontWeight: 700, marginBottom: '0.75rem' }}>
-            <Shield size={14} /> National Health Mission AI Stack
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', color: '#fed7aa', background: 'rgba(234, 88, 12, 0.2)', border: '1px solid rgba(249, 115, 22, 0.3)', padding: '0.35rem 0.9rem', borderRadius: '999px', fontSize: '0.8rem', fontWeight: 700, marginBottom: '0.75rem' }}>
+            <Shield size={14} color="#f97316" /> Smart Health Supply Initiative
           </div>
           <h1 style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 900, color: '#ffffff', letterSpacing: '-0.02em', margin: 0 }}>
-            Architectural Capabilities & Features
+            Key Platform Features
           </h1>
-          <p style={{ color: '#94a3b8', maxWidth: '720px', margin: '0.85rem auto 0 auto', fontSize: 'clamp(0.95rem, 2vw, 1.1rem)', lineHeight: 1.6 }}>
-            Explore how SwasthyaSetu AI combines Federated Edge Learning, Time-Series Epidemiological Forecasting, and Intelligent Emergency Route Optimization for India's Primary Health Centres.
+          <p style={{ color: '#fed7aa', maxWidth: '720px', margin: '0.85rem auto 0 auto', fontSize: 'clamp(0.95rem, 2vw, 1.1rem)', lineHeight: 1.6 }}>
+            See how SwasthyaSetu AI keeps clinics stocked with essential medicines, prevents shortages with smart AI, and plans fast emergency delivery routes.
           </p>
         </div>
 
@@ -134,9 +142,9 @@ export default function LandingFeaturesPage({ onBackToHome, onLaunchPortal, onSe
               <div 
                 key={idx}
                 style={{
-                  background: 'rgba(19, 57, 102, 0.35)',
+                  background: 'rgba(20, 25, 35, 0.55)',
                   backdropFilter: 'blur(12px)',
-                  border: '1px solid rgba(255, 255, 255, 0.12)',
+                  border: '1px solid rgba(255, 255, 255, 0.18)',
                   borderRadius: '16px',
                   padding: 'clamp(1.5rem, 3vw, 2.25rem)',
                   display: 'grid',
@@ -147,7 +155,7 @@ export default function LandingFeaturesPage({ onBackToHome, onLaunchPortal, onSe
                 }}
               >
                 <div>
-                  <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: feat.bg, border: `1px solid ${feat.color}50`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem' }}>
+                  <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: feat.bg, border: `1px solid ${feat.color}60`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem' }}>
                     <Icon size={24} color={feat.color} />
                   </div>
 
@@ -164,9 +172,9 @@ export default function LandingFeaturesPage({ onBackToHome, onLaunchPortal, onSe
                   <button
                     onClick={onLaunchPortal}
                     style={{
-                      background: 'rgba(255, 255, 255, 0.08)',
+                      background: 'rgba(255, 255, 255, 0.1)',
                       color: '#ffffff',
-                      border: '1px solid rgba(255, 255, 255, 0.2)',
+                      border: '1px solid rgba(255, 255, 255, 0.25)',
                       padding: '0.45rem 1rem',
                       borderRadius: '8px',
                       fontSize: '0.85rem',
@@ -181,14 +189,14 @@ export default function LandingFeaturesPage({ onBackToHome, onLaunchPortal, onSe
                   </button>
                 </div>
 
-                <div style={{ background: 'rgba(7, 17, 30, 0.6)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '12px', padding: '1.25rem' }}>
-                  <h3 style={{ fontSize: '0.9rem', fontWeight: 700, color: '#38bdf8', marginBottom: '0.75rem' }}>
-                    Technical Specifications & Guarantees:
+                <div style={{ background: 'rgba(10, 15, 25, 0.65)', border: '1px solid rgba(255, 255, 255, 0.12)', borderRadius: '12px', padding: '1.25rem' }}>
+                  <h3 style={{ fontSize: '0.9rem', fontWeight: 700, color: '#f97316', marginBottom: '0.75rem' }}>
+                    How It Works & What It Solves:
                   </h3>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
                     {feat.details.map((item, i) => (
-                      <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', fontSize: '0.85rem', color: '#e2e8f0', lineHeight: 1.45 }}>
-                        <CheckCircle2 size={16} color="#86efac" style={{ flexShrink: 0, marginTop: '2px' }} />
+                      <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', fontSize: '0.85rem', color: '#f1f5f9', lineHeight: 1.45 }}>
+                        <CheckCircle2 size={16} color="#16a34a" style={{ flexShrink: 0, marginTop: '2px' }} />
                         <span>{item}</span>
                       </div>
                     ))}
@@ -204,7 +212,7 @@ export default function LandingFeaturesPage({ onBackToHome, onLaunchPortal, onSe
           <button
             onClick={onLaunchPortal}
             style={{
-              background: 'linear-gradient(135deg, #0284c7 0%, #2e8b57 100%)',
+              background: 'linear-gradient(135deg, #ea580c 0%, #16a34a 100%)',
               color: '#ffffff',
               border: 'none',
               padding: '0.85rem 2.5rem',
@@ -212,13 +220,13 @@ export default function LandingFeaturesPage({ onBackToHome, onLaunchPortal, onSe
               fontSize: '1.1rem',
               fontWeight: 800,
               cursor: 'pointer',
-              boxShadow: '0 10px 30px rgba(2, 132, 199, 0.4)',
+              boxShadow: '0 10px 30px rgba(234, 88, 12, 0.45)',
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.75rem'
             }}
           >
-            Access Full Platform Portal <ArrowRight size={18} />
+            Open SwasthyaSetu AI Dashboard <ArrowRight size={18} />
           </button>
         </div>
       </main>

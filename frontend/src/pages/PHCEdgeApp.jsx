@@ -115,8 +115,8 @@ export default function PHCEdgeApp({ phcId = 'PHC-MH-NAS-01', lang }) {
       <div className="panel">
         <div className="panel-header">
           <div className="panel-title">
-            <Pill size={20} color="#0284c7" />
-            <span>Fast Medicine Dispensation / Daily Log</span>
+            <Pill size={20} color="#ea580c" />
+            <span>Daily Medicine Dispensed Log</span>
           </div>
         </div>
 
@@ -141,7 +141,7 @@ export default function PHCEdgeApp({ phcId = 'PHC-MH-NAS-01', lang }) {
 
           <div>
             <label style={{ fontSize: '0.85rem', fontWeight: 600, display: 'block', marginBottom: '0.35rem' }}>
-              Quantity Dispensed / Used
+              Quantity Given / Used
             </label>
             <input 
               type="number" 
@@ -157,7 +157,7 @@ export default function PHCEdgeApp({ phcId = 'PHC-MH-NAS-01', lang }) {
           style={{ width: '100%', marginTop: '1rem', padding: '0.65rem', justifyContent: 'center' }}
           onClick={handleRecordConsumption}
         >
-          <CheckCircle2 size={16} /> Log Consumption ({isOnline ? 'Online Sync' : 'Offline Queue'})
+          <CheckCircle2 size={16} /> Save Medicine Usage ({isOnline ? 'Online Sync' : 'Offline Queue'})
         </button>
       </div>
 
@@ -165,15 +165,15 @@ export default function PHCEdgeApp({ phcId = 'PHC-MH-NAS-01', lang }) {
       <div className="panel">
         <div className="panel-header">
           <div className="panel-title">
-            <UserPlus size={20} color="#0284c7" />
-            <span>Daily Outpatient (OPD) Footfall & Syndromic Surveillance</span>
+            <UserPlus size={20} color="#ea580c" />
+            <span>Daily Patient Visits & Sickness Report</span>
           </div>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))', gap: '1rem' }}>
           <div>
             <label style={{ fontSize: '0.85rem', fontWeight: 600, display: 'block', marginBottom: '0.35rem' }}>
-              Total Patient Footfall Count
+              Total Patients Visited Today
             </label>
             <input 
               type="number" 
@@ -185,7 +185,7 @@ export default function PHCEdgeApp({ phcId = 'PHC-MH-NAS-01', lang }) {
 
           <div>
             <label style={{ fontSize: '0.85rem', fontWeight: 600, display: 'block', marginBottom: '0.35rem' }}>
-              Suspected Syndromic Disease Tags
+              Common Symptoms / Illnesses Observed
             </label>
             <input 
               type="text" 
@@ -202,7 +202,7 @@ export default function PHCEdgeApp({ phcId = 'PHC-MH-NAS-01', lang }) {
           style={{ width: '100%', marginTop: '1rem', padding: '0.65rem', justifyContent: 'center' }}
           onClick={handleRecordFootfall}
         >
-          <CheckCircle2 size={16} /> Record Outpatient Telemetry
+          <CheckCircle2 size={16} /> Save Daily Patient Report
         </button>
       </div>
     </div>

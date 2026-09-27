@@ -2,40 +2,48 @@
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-hindi: 'Noto Sans Devanagari', 'Inter', sans-serif;
 
-  /* Colors */
+  /* Colors: Pure White, Red, Green, Orange */
   --bg-main: #f8fafc;
   --bg-card: #ffffff;
-  --bg-card-hover: #f1f5f9;
-  --border-color: #e2e8f0;
+  --bg-card-hover: #fef7ee;
+  --border-color: #fed7aa;
   
   --text-primary: #0f172a;
   --text-secondary: #475569;
   --text-muted: #94a3b8;
 
-  --brand-primary: #0284c7;
-  --brand-primary-light: #e0f2fe;
-  --brand-dark: #0369a1;
+  /* Brand Primary: Warm Saffron / Orange */
+  --brand-primary: #ea580c;
+  --brand-primary-light: #fff7ed;
+  --brand-primary-hover: #c2410c;
+  --brand-dark: #9a3412;
+  --brand-orange: #f97316;
+  --brand-orange-light: #ffedd5;
 
-  /* Semantic Status Colors (Strictly adhered to per design) */
-  --status-green: #10b981;
-  --status-green-bg: #ecfdf5;
-  --status-green-border: #a7f3d0;
+  /* Semantic Status Colors */
+  --status-green: #16a34a;
+  --status-green-bg: #f0fdf4;
+  --status-green-border: #86efac;
 
-  --status-yellow: #f59e0b;
-  --status-yellow-bg: #fffbeb;
-  --status-yellow-border: #fde68a;
+  --status-orange: #f97316;
+  --status-orange-bg: #fff7ed;
+  --status-orange-border: #fed7aa;
 
-  --status-red: #ef4444;
+  --status-yellow: #ea580c;
+  --status-yellow-bg: #fff7ed;
+  --status-yellow-border: #fed7aa;
+
+  --status-red: #dc2626;
   --status-red-bg: #fef2f2;
-  --status-red-border: #fecaca;
+  --status-red-border: #fca5a5;
 
-  --status-purple: #8b5cf6;
-  --status-purple-bg: #f5f3ff;
-  --status-purple-border: #ddd6fe;
+  --status-purple: #ea580c;
+  --status-purple-bg: #fff7ed;
+  --status-purple-border: #fed7aa;
 
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-sm: 0 1px 3px 0 rgb(234 88 12 / 0.08);
+  --shadow-md: 0 4px 6px -1px rgb(234 88 12 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --shadow-lg: 0 10px 20px -3px rgb(234 88 12 / 0.15), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 14px;
@@ -568,13 +576,13 @@ textarea {
 @media (hover: hover) {
   .kpi-card-hover:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 35px rgba(2, 132, 199, 0.25) !important;
-    border-color: rgba(56, 189, 248, 0.4) !important;
+    box-shadow: 0 12px 35px rgba(234, 88, 12, 0.25) !important;
+    border-color: rgba(249, 115, 22, 0.6) !important;
   }
   .role-card-hover:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 35px rgba(2, 132, 199, 0.3) !important;
-    border-color: rgba(56, 189, 248, 0.5) !important;
+    box-shadow: 0 12px 35px rgba(234, 88, 12, 0.3) !important;
+    border-color: rgba(249, 115, 22, 0.65) !important;
   }
 }
 

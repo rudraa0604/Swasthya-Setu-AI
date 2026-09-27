@@ -139,7 +139,7 @@ export default function PhcManagerSection({
           <tbody>
             {phcs.slice(0, 15).map((p) => (
               <tr key={p.id}>
-                <td style={{ fontWeight: 700, color: '#38bdf8', fontFamily: 'monospace' }}>{p.id}</td>
+                <td style={{ fontWeight: 700, color: '#ea580c', fontFamily: 'monospace' }}>{p.id}</td>
                 <td style={{ color: '#f8fafc' }}>{p.name}</td>
                 <td style={{ color: '#cbd5e1' }}>{p.district_name} ({p.state_id})</td>
                 <td style={{ fontSize: '0.78rem', color: '#94a3b8' }}>{p.lat}, {p.lng}</td>
@@ -147,7 +147,7 @@ export default function PhcManagerSection({
                   <div style={{ display: 'flex', gap: '0.4rem' }}>
                     <button 
                       className="btn-action" 
-                      style={{ padding: '0.35rem 0.6rem', fontSize: '0.75rem', background: '#0284c7', color: '#fff' }}
+                      style={{ padding: '0.35rem 0.6rem', fontSize: '0.75rem', background: '#ea580c', color: '#fff' }}
                       onClick={() => handleEditPHC(p)}
                     >
                       <Edit2 size={13} />

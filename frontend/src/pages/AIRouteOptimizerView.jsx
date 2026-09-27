@@ -188,15 +188,15 @@ export default function AIRouteOptimizerView({
       {/* Top Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '0.75rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <div style={{ background: '#0284c7', padding: '0.6rem', borderRadius: '10px' }}>
+          <div style={{ background: '#ea580c', padding: '0.6rem', borderRadius: '10px' }}>
             <Navigation size={24} color="#ffffff" />
           </div>
           <div>
             <h2 style={{ fontSize: 'clamp(1.2rem, 3vw, 1.4rem)', fontWeight: 800, margin: 0 }}>
-              AI Green Corridor Route Optimization & Emergency Pathfinder
+              Fast Delivery Route Planner
             </h2>
             <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>
-              Multi-Criteria Dijkstra & Real-time Monsoon Rerouting Engine
+              Find fastest routes, multi-stop trips, and avoid road blocks
             </div>
           </div>
         </div>
@@ -206,23 +206,23 @@ export default function AIRouteOptimizerView({
           <button 
             className={`nav-tab-btn ${activeTab === 'point_to_point' ? 'active' : ''}`}
             onClick={() => setActiveTab('point_to_point')}
-            style={{ background: activeTab === 'point_to_point' ? '#0284c7' : '#1e293b', color: '#fff' }}
+            style={{ background: activeTab === 'point_to_point' ? '#ea580c' : '#1e293b', color: '#fff' }}
           >
-            <Navigation size={14} /> Point-to-Point Pathfinder
+            <Navigation size={14} /> Direct Route
           </button>
           <button 
             className={`nav-tab-btn ${activeTab === 'fleet_vrp' ? 'active' : ''}`}
             onClick={() => setActiveTab('fleet_vrp')}
-            style={{ background: activeTab === 'fleet_vrp' ? '#0284c7' : '#1e293b', color: '#fff' }}
+            style={{ background: activeTab === 'fleet_vrp' ? '#ea580c' : '#1e293b', color: '#fff' }}
           >
-            <Truck size={14} /> Fleet Multi-Stop VRP
+            <Truck size={14} /> Multi-Stop Trip
           </button>
           <button 
             className={`nav-tab-btn ${activeTab === 'incident_reroute' ? 'active' : ''}`}
             onClick={() => setActiveTab('incident_reroute')}
-            style={{ background: activeTab === 'incident_reroute' ? '#0284c7' : '#1e293b', color: '#fff' }}
+            style={{ background: activeTab === 'incident_reroute' ? '#ea580c' : '#1e293b', color: '#fff' }}
           >
-            <AlertTriangle size={14} /> Hazard Reroute Simulator
+            <AlertTriangle size={14} /> Avoid Road Hazard
           </button>
         </div>
       </div>

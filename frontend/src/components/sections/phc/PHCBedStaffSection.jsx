@@ -8,30 +8,30 @@ export default function PHCBedStaffSection({ bed, staff }) {
       <div className="panel" style={{ marginBottom: 0 }}>
         <div className="panel-header">
           <div className="panel-title">
-            <BedDouble size={20} color="#0284c7" />
-            <span>Facility Bed & ICU Capacity</span>
+            <BedDouble size={20} color="#ea580c" />
+            <span>Clinic Bed Capacity</span>
           </div>
         </div>
 
         {bed && (
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '0.5rem' }}>
             <div style={{ background: '#f8fafc', padding: '0.9rem', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-              <div style={{ fontSize: '0.8rem', color: '#64748b' }}>General Ward Beds</div>
+              <div style={{ fontSize: '0.8rem', color: '#64748b' }}>General Beds</div>
               <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#0f172a', margin: '4px 0' }}>
                 {bed.occupied_beds} / {bed.total_beds}
               </div>
-              <div style={{ fontSize: '0.75rem', color: bed.available_beds > 5 ? '#166534' : '#dc2626' }}>
+              <div style={{ fontSize: '0.75rem', color: bed.available_beds > 5 ? '#16a34a' : '#dc2626' }}>
                 {bed.available_beds} Beds Available
               </div>
             </div>
 
             <div style={{ background: '#f8fafc', padding: '0.9rem', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-              <div style={{ fontSize: '0.8rem', color: '#64748b' }}>ICU Beds (High-Acuity)</div>
+              <div style={{ fontSize: '0.8rem', color: '#64748b' }}>Emergency / ICU Beds</div>
               <div style={{ fontSize: '1.4rem', fontWeight: 800, color: bed.icu_available === 0 ? '#dc2626' : '#0f172a', margin: '4px 0' }}>
                 {bed.icu_occupied} / {bed.icu_beds}
               </div>
-              <div style={{ fontSize: '0.75rem', color: bed.icu_available === 0 ? '#dc2626' : '#166534', fontWeight: 600 }}>
-                {bed.icu_available === 0 ? 'ICU Saturated' : `${bed.icu_available} ICU Available`}
+              <div style={{ fontSize: '0.75rem', color: bed.icu_available === 0 ? '#dc2626' : '#16a34a', fontWeight: 600 }}>
+                {bed.icu_available === 0 ? 'Full (No Beds Left)' : `${bed.icu_available} Beds Free`}
               </div>
             </div>
           </div>
@@ -42,8 +42,8 @@ export default function PHCBedStaffSection({ bed, staff }) {
       <div className="panel" style={{ marginBottom: 0 }}>
         <div className="panel-header">
           <div className="panel-title">
-            <Users size={20} color="#10b981" />
-            <span>Personnel & Staff Strength</span>
+            <Users size={20} color="#16a34a" />
+            <span>Staff Attendance Today</span>
           </div>
         </div>
 

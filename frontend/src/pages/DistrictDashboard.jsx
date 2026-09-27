@@ -58,8 +58,8 @@ export default function DistrictDashboard({ districtName = 'Nashik', onSelectPHC
       <div className="panel">
         <div className="panel-header">
           <div className="panel-title">
-            <Building size={20} color="#0284c7" />
-            <span>Primary Health Centres (PHCs) Status Overview</span>
+            <Building size={20} color="#ea580c" />
+            <span>Health Clinics (PHCs) Status Overview</span>
           </div>
         </div>
 
@@ -67,11 +67,11 @@ export default function DistrictDashboard({ districtName = 'Nashik', onSelectPHC
           <table className="custom-table">
             <thead>
               <tr>
-                <th>PHC Facility Name</th>
-                <th>Facility ID</th>
-                <th>Staffing Strength</th>
-                <th>Coordinates (Lat/Lng)</th>
-                <th>Simulated Role</th>
+                <th>Clinic Name</th>
+                <th>Clinic ID</th>
+                <th>Staff Strength</th>
+                <th>Location (Lat/Lng)</th>
+                <th>Current Status</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -81,12 +81,12 @@ export default function DistrictDashboard({ districtName = 'Nashik', onSelectPHC
                 return (
                   <tr key={phc.id}>
                     <td style={{ fontWeight: 600 }}>{phc.name}</td>
-                    <td style={{ fontFamily: 'monospace', color: '#0284c7' }}>{phc.id}</td>
-                    <td>{phc.sanctioned_staff_count} Sanctioned Personnel</td>
+                    <td style={{ fontFamily: 'monospace', color: '#ea580c', fontWeight: 600 }}>{phc.id}</td>
+                    <td>{phc.sanctioned_staff_count} Staff Members</td>
                     <td style={{ fontSize: '0.8rem', color: '#64748b' }}>{phc.lat}, {phc.lng}</td>
                     <td>
                       <span className={`badge ${isShortagePHC ? 'badge-red' : 'badge-green'}`}>
-                        {isShortagePHC ? 'Deficit (Outbreak Node)' : 'Normal Operations'}
+                        {isShortagePHC ? 'Low Stock (High Demand)' : 'Well Stocked'}
                       </span>
                     </td>
                     <td>
@@ -95,7 +95,7 @@ export default function DistrictDashboard({ districtName = 'Nashik', onSelectPHC
                         onClick={() => onSelectPHC(phc.id)}
                         style={{ fontSize: '0.75rem' }}
                       >
-                        Inspect Inventory & Forecast →
+                        Check Stock & Forecast →
                       </button>
                     </td>
                   </tr>

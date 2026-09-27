@@ -11,25 +11,25 @@ export default function SystemMaintenanceSection({
     <div className="panel" style={{ background: '#0f172a', borderColor: '#1e293b' }}>
       <div className="panel-header" style={{ borderBottomColor: '#334155' }}>
         <div className="panel-title" style={{ color: '#f8fafc' }}>
-          <RefreshCw size={20} color="#38bdf8" />
-          <span>System Reset & Model Re-aggregation Tools</span>
+          <RefreshCw size={20} color="#ea580c" />
+          <span>System Maintenance & Reset Tools</span>
         </div>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: '1rem' }}>
         {/* Reset Stocks to Healthy */}
         <div style={{ background: '#1e293b', padding: '1.25rem', borderRadius: '8px', border: '1px solid #334155' }}>
-          <h4 style={{ color: '#38bdf8', marginBottom: '0.5rem', fontWeight: 700 }}>Restore Baseline Buffers</h4>
+          <h4 style={{ color: '#ea580c', marginBottom: '0.5rem', fontWeight: 700 }}>Restore Baseline Stock</h4>
           <p style={{ fontSize: '0.8rem', color: '#94a3b8', marginBottom: '1rem', lineHeight: 1.5 }}>
-            Resets all 150 PHC medicine inventories back to safe, healthy stock levels and clears active stockout warnings.
+            Resets all 150 clinic medicine inventories back to safe, healthy stock levels and clears active stockout warnings.
           </p>
           <button 
             className="btn-action"
-            style={{ background: '#0284c7', color: '#fff', width: '100%', justifyContent: 'center' }}
+            style={{ background: '#ea580c', color: '#fff', width: '100%', justifyContent: 'center' }}
             onClick={handleResetHealthy}
             disabled={loading}
           >
-            <CheckCircle2 size={15} /> Reset All Stocks to Healthy
+            <CheckCircle2 size={15} /> Reset All Stocks to Safe Level
           </button>
         </div>
 

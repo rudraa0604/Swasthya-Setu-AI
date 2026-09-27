@@ -108,8 +108,8 @@ export default function StateDashboard({ stateId = 'ST-MH', onSelectDistrict, on
               <div style={{ fontSize: '0.8rem', color: '#64748b', marginTop: '0.5rem' }}>
                 {distPhcs.length} PHCs Active • {isNashik ? '12 Critical Alerts' : (isPune ? 'Surplus Hub' : '0 Alerts')}
               </div>
-              <div style={{ marginTop: '0.75rem', fontSize: '0.75rem', color: '#0284c7', fontWeight: 600 }}>
-                View District PHCs →
+              <div style={{ marginTop: '0.75rem', fontSize: '0.75rem', color: '#ea580c', fontWeight: 600 }}>
+                View District Clinics →
               </div>
             </div>
           );

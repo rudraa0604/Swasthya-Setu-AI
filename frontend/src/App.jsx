@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Header from './components/Header';
 import SplashScreen from './components/SplashScreen';
 import LandingPage from './pages/LandingPage';
@@ -12,6 +12,92 @@ import EmergencyModeView from './pages/EmergencyModeView';
 import DeveloperAdminPanel from './pages/DeveloperAdminPanel';
 import AIRouteOptimizerView from './pages/AIRouteOptimizerView';
 import { translations } from './services/i18n';
+
+// Default demo profiles for direct portal URL access
+const DEMO_PROFILES = {
+  phc: {
+    role: 'phc',
+    username: 'staff.nashik01@swasthya.gov.in',
+    displayName: 'Dr. Ramesh Patil (Clinic Doctor)',
+    phcId: 'PHC-MH-NAS-01',
+    district: 'Nashik',
+    stateId: 'ST-MH'
+  },
+  edge: {
+    role: 'phc',
+    username: 'staff.nashik01@swasthya.gov.in',
+    displayName: 'Dr. Ramesh Patil (Clinic Doctor)',
+    phcId: 'PHC-MH-NAS-01',
+    district: 'Nashik',
+    stateId: 'ST-MH'
+  },
+  district: {
+    role: 'district',
+    username: 'dho.nashik@health.mh.gov.in',
+    displayName: 'Dr. Suresh Kulkarni (District Health Officer)',
+    district: 'Nashik',
+    stateId: 'ST-MH'
+  },
+  state: {
+    role: 'state',
+    username: 'director.health@maharashtra.gov.in',
+    displayName: 'State Health Admin (Maharashtra)',
+    stateId: 'ST-MH'
+  },
+  national: {
+    role: 'national',
+    username: 'officer.nhm@gov.in',
+    displayName: 'Executive Health Director (National Health Ministry)'
+  },
+  developer: {
+    role: 'developer',
+    username: 'dev.admin@swasthyasetu.ai',
+    displayName: 'Lead Platform Admin'
+  },
+  dev: {
+    role: 'developer',
+    username: 'dev.admin@swasthyasetu.ai',
+    displayName: 'Lead Platform Admin'
+  },
+  routes: {
+    role: 'national',
+    username: 'officer.nhm@gov.in',
+    displayName: 'Logistics Directorate (National)'
+  },
+  emergency: {
+    role: 'national',
+    username: 'officer.nhm@gov.in',
+    displayName: 'National Emergency Response Director'
+  }
+};
+
+// Route parser helper
+function parseHash(hashStr) {
+  const clean = (hashStr || '').replace(/^#\/?/, '').trim();
+  const parts = clean.split('/').filter(Boolean);
+  
+  if (parts.length === 0) {
+    return { type: 'landing', sub: 'home', param: null };
+  }
+  
+  const root = parts[0].toLowerCase();
+  
+  if (['features', 'portals', 'architecture', 'credits'].includes(root)) {
+    return { type: 'landing', sub: root, param: null };
+  }
+  
+  if (root === 'login') {
+    return { type: 'login', sub: parts[1] || 'phc', param: null };
+  }
+  
+  if (root === 'portal') {
+    const portalType = (parts[1] || 'national').toLowerCase();
+    const param = parts[2] ? decodeURIComponent(parts[2]) : null;
+    return { type: 'portal', sub: portalType, param };
+  }
+  
+  return { type: 'landing', sub: 'home', param: null };
+}
 
 export default function App() {
   // Splash Screen State (shown on first visit in session)
@@ -27,10 +113,11 @@ export default function App() {
     }
   });
 
-  const [showLoginModal, setShowLoginModal] = useState(false);
-  const [preselectedRole, setPreselectedRole] = useState(null);
+  // Current Route parsed from window.location.hash
+  const [route, setRoute] = useState(() => parseHash(window.location.hash));
 
-  const [currentTab, setCurrentTab] = useState('national'); // national, state, district, phc, edge, dev
+  // Portal State
+  const [currentTab, setCurrentTab] = useState('national'); // national, state, district, phc, edge, dev, route
   const [emergencyMode, setEmergencyMode] = useState(false);
 
   // Language State with persistence in localStorage
@@ -58,17 +145,73 @@ export default function App() {
   const [routeOriginPHC, setRouteOriginPHC] = useState('PHC-MH-PUN-01');
   const [routeDestPHC, setRouteDestPHC] = useState('PHC-MH-NAS-01');
 
-  React.useEffect(() => {
+  // Synchronize route changes from URL hash
+  const syncRouteFromHash = useCallback(() => {
+    const parsed = parseHash(window.location.hash);
+    setRoute(parsed);
+
+    if (parsed.type === 'portal') {
+      if (parsed.sub === 'emergency') {
+        setEmergencyMode(true);
+      } else {
+        setEmergencyMode(false);
+        if (['national', 'state', 'district', 'phc', 'edge', 'dev', 'developer', 'routes', 'route'].includes(parsed.sub)) {
+          const tab = parsed.sub === 'developer' ? 'dev' : (parsed.sub === 'routes' ? 'route' : parsed.sub);
+          setCurrentTab(tab);
+        }
+      }
+
+      // Handle parameters for deep-linked portals
+      if (parsed.sub === 'state' && parsed.param) {
+        setSelectedState(parsed.param);
+      } else if (parsed.sub === 'district' && parsed.param) {
+        setSelectedDistrict(parsed.param);
+      } else if ((parsed.sub === 'phc' || parsed.sub === 'edge') && parsed.param) {
+        setSelectedPHC(parsed.param);
+      }
+
+      // Auto-provision demo session if user is opening a direct portal link without prior login
+      setCurrentUser(prevUser => {
+        if (!prevUser) {
+          const demoKey = parsed.sub === 'dev' ? 'developer' : (parsed.sub === 'routes' ? 'national' : parsed.sub);
+          const demoProfile = DEMO_PROFILES[demoKey] || DEMO_PROFILES.national;
+          try {
+            sessionStorage.setItem('swasthya_user', JSON.stringify(demoProfile));
+          } catch (e) {
+            console.error('SessionStorage error:', e);
+          }
+          return demoProfile;
+        }
+        return prevUser;
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('hashchange', syncRouteFromHash);
+    window.addEventListener('popstate', syncRouteFromHash);
+    syncRouteFromHash();
+
+    return () => {
+      window.removeEventListener('hashchange', syncRouteFromHash);
+      window.removeEventListener('popstate', syncRouteFromHash);
+    };
+  }, [syncRouteFromHash]);
+
+  // Custom events
+  useEffect(() => {
     const handleRouteOpt = (e) => {
       if (e.detail?.fromId) setRouteOriginPHC(e.detail.fromId);
       if (e.detail?.toId) setRouteDestPHC(e.detail.toId);
       setEmergencyMode(false);
       setCurrentTab('route');
+      window.location.hash = '#/portal/routes';
     };
     const handleSelectStateEvt = (e) => {
       if (e.detail) {
         setSelectedState(e.detail);
         setCurrentTab('state');
+        window.location.hash = `#/portal/state/${encodeURIComponent(e.detail)}`;
       }
     };
     window.addEventListener('view-route-optimizer', handleRouteOpt);
@@ -89,23 +232,31 @@ export default function App() {
     } catch (e) {
       console.error('Session storage error:', e);
     }
-    setShowLoginModal(false);
+    
     if (userProfile.role === 'phc') {
-      setSelectedPHC(userProfile.phcId || 'PHC-MH-NAS-01');
+      const phc = userProfile.phcId || 'PHC-MH-NAS-01';
+      setSelectedPHC(phc);
       setSelectedDistrict(userProfile.district || 'Nashik');
       setSelectedState(userProfile.stateId || 'ST-MH');
       setCurrentTab('edge');
+      window.location.hash = `#/portal/edge/${phc}`;
     } else if (userProfile.role === 'district') {
-      setSelectedDistrict(userProfile.district || 'Nashik');
+      const dist = userProfile.district || 'Nashik';
+      setSelectedDistrict(dist);
       setSelectedState(userProfile.stateId || 'ST-MH');
       setCurrentTab('district');
+      window.location.hash = `#/portal/district/${encodeURIComponent(dist)}`;
     } else if (userProfile.role === 'state') {
-      setSelectedState(userProfile.stateId || 'ST-MH');
+      const st = userProfile.stateId || 'ST-MH';
+      setSelectedState(st);
       setCurrentTab('state');
+      window.location.hash = `#/portal/state/${encodeURIComponent(st)}`;
     } else if (userProfile.role === 'developer') {
       setCurrentTab('dev');
+      window.location.hash = '#/portal/developer';
     } else {
       setCurrentTab('national');
+      window.location.hash = '#/portal/national';
     }
   };
 
@@ -117,43 +268,51 @@ export default function App() {
       console.error('Session storage remove error:', e);
     }
     setCurrentUser(null);
-    setShowLoginModal(true); // Land on Login Page specifically
     setEmergencyMode(false);
+    window.location.hash = '#/login';
   };
 
   const handleLaunchPortal = (roleId = null) => {
     if (roleId) {
-      setPreselectedRole(roleId);
+      window.location.hash = `#/login/${roleId}`;
+    } else {
+      window.location.hash = '#/login';
     }
-    setShowLoginModal(true);
   };
 
-  // Handle drill down events
+  // Handle drill down events with URL routing
   const handleSelectState = (stateId) => {
     setSelectedState(stateId);
     setCurrentTab('state');
+    window.location.hash = `#/portal/state/${encodeURIComponent(stateId)}`;
   };
 
   const handleSelectDistrict = (districtName) => {
     setSelectedDistrict(districtName);
     setCurrentTab('district');
+    window.location.hash = `#/portal/district/${encodeURIComponent(districtName)}`;
   };
 
   const handleSelectPHC = (phcId) => {
     setSelectedPHC(phcId);
     setCurrentTab('phc');
+    window.location.hash = `#/portal/phc/${encodeURIComponent(phcId)}`;
   };
 
   return (
     <div>
-      {/* Task 2: Splash Screen */}
+      {/* Splash Screen */}
       {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
 
-      {/* If not logged in and login portal requested */}
-      {!currentUser && showLoginModal && (
+      {/* Multi-page Router View 1: Login Gateway Page */}
+      {route.type === 'login' && (
         <div style={{ position: 'relative' }}>
-          <button
-            onClick={() => setShowLoginModal(false)}
+          <a
+            href="#/"
+            onClick={(e) => {
+              e.preventDefault();
+              window.location.hash = '#/';
+            }}
             style={{
               position: 'fixed',
               top: '16px',
@@ -172,31 +331,38 @@ export default function App() {
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.35rem',
+              textDecoration: 'none',
               transition: 'transform 0.15s ease, background 0.15s ease'
             }}
-            title="Return to Main Hero Portal / Dashboard"
+            title="Return to Main Home Portal"
           >
-            ← {t.backToDashboard || 'Back to Dashboard'}
-          </button>
-          <LoginPage onLogin={handleLogin} lang={lang} setLang={handleSetLang} initialRole={preselectedRole} />
+            ← {t.backToDashboard || 'Back to Home'}
+          </a>
+          <LoginPage 
+            onLogin={handleLogin} 
+            lang={lang} 
+            setLang={handleSetLang} 
+            initialRole={route.sub || 'phc'} 
+          />
         </div>
       )}
 
-      {/* If not logged in and on landing page */}
-      {!currentUser && !showLoginModal && (
+      {/* Multi-page Router View 2: Landing Multi-Pages (Home, Features, Portals, Architecture, Credits) */}
+      {route.type === 'landing' && (
         <LandingPage
           onLaunchPortal={() => handleLaunchPortal()}
           onSelectRole={(roleId) => handleLaunchPortal(roleId)}
           lang={lang}
           setLang={handleSetLang}
+          initialLandingPage={route.sub || 'home'}
         />
       )}
 
-      {/* Authenticated Application Shell */}
-      {currentUser && (
+      {/* Multi-page Router View 3: Operational Portal Hub */}
+      {route.type === 'portal' && (
         <div className="app-container">
           <Header
-            user={currentUser}
+            user={currentUser || DEMO_PROFILES.national}
             onLogout={handleLogout}
             currentTab={currentTab}
             setCurrentTab={setCurrentTab}
@@ -211,7 +377,13 @@ export default function App() {
 
           <main className="main-content">
             {emergencyMode ? (
-              <EmergencyModeView onClose={() => setEmergencyMode(false)} lang={lang} />
+              <EmergencyModeView 
+                onClose={() => {
+                  setEmergencyMode(false);
+                  window.location.hash = `#/portal/${currentTab}`;
+                }} 
+                lang={lang} 
+              />
             ) : (
               <>
                 {currentTab === 'national' && (
@@ -227,7 +399,10 @@ export default function App() {
                     stateId={selectedState}
                     onSelectDistrict={handleSelectDistrict}
                     onSelectPHC={handleSelectPHC}
-                    onBackToNational={(currentUser?.role === 'national' || currentUser?.role === 'developer') ? () => setCurrentTab('national') : null}
+                    onBackToNational={() => {
+                      setCurrentTab('national');
+                      window.location.hash = '#/portal/national';
+                    }}
                     lang={lang}
                   />
                 )}
@@ -236,7 +411,10 @@ export default function App() {
                   <DistrictDashboard
                     districtName={selectedDistrict}
                     onSelectPHC={handleSelectPHC}
-                    onBackToState={() => setCurrentTab('state')}
+                    onBackToState={() => {
+                      setCurrentTab('state');
+                      window.location.hash = `#/portal/state/${encodeURIComponent(selectedState)}`;
+                    }}
                     lang={lang}
                   />
                 )}
@@ -244,7 +422,15 @@ export default function App() {
                 {currentTab === 'phc' && (
                   <PHCDetailView
                     phcId={selectedPHC}
-                    onBack={() => setCurrentTab(currentUser.role === 'phc' ? 'edge' : 'district')}
+                    onBack={() => {
+                      if (currentUser?.role === 'phc') {
+                        setCurrentTab('edge');
+                        window.location.hash = `#/portal/edge/${encodeURIComponent(selectedPHC)}`;
+                      } else {
+                        setCurrentTab('district');
+                        window.location.hash = `#/portal/district/${encodeURIComponent(selectedDistrict)}`;
+                      }
+                    }}
                     lang={lang}
                   />
                 )}

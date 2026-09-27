@@ -214,32 +214,32 @@ export default function DeveloperAdminPanel({ lang }) {
       {/* Top Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '0.75rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <div style={{ background: '#0284c7', padding: '0.6rem', borderRadius: '10px' }}>
+          <div style={{ background: '#ea580c', padding: '0.6rem', borderRadius: '10px' }}>
             <Code size={24} color="#ffffff" />
           </div>
           <div>
             <h2 style={{ fontSize: 'clamp(1.2rem, 3vw, 1.4rem)', fontWeight: 800, margin: 0 }}>
-              Master Developer & Architect Control Panel
+              System Developer & Settings Panel
             </h2>
             <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>
-              SwasthyaSetu AI Core • Direct Schema CRUD & Disruption Stress-Testing
+              SwasthyaSetu AI • Manage clinics, medicine inventory, and run emergency simulations
             </div>
           </div>
         </div>
 
         <button 
           className="btn-action" 
-          style={{ background: '#1e293b', color: '#38bdf8', border: '1px solid #334155' }}
+          style={{ background: '#1e293b', color: '#ea580c', border: '1px solid #334155' }}
           onClick={loadData}
           disabled={loading}
         >
-          <RefreshCw size={14} className={loading ? 'spin' : ''} /> Refresh Telemetry
+          <RefreshCw size={14} className={loading ? 'spin' : ''} /> Refresh Data
         </button>
       </div>
 
       {/* Toast Notification Banner */}
       {notification && (
-        <div style={{ background: '#0369a1', color: '#ffffff', padding: '0.75rem 1rem', borderRadius: '8px', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 600 }}>
+        <div style={{ background: '#16a34a', color: '#ffffff', padding: '0.75rem 1rem', borderRadius: '8px', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 600 }}>
           <CheckCircle2 size={16} /> {notification}
         </div>
       )}
@@ -252,30 +252,30 @@ export default function DeveloperAdminPanel({ lang }) {
         <button 
           className={`nav-tab-btn ${activeDevTab === 'phcs' ? 'active' : ''}`}
           onClick={() => setActiveDevTab('phcs')}
-          style={{ background: activeDevTab === 'phcs' ? '#0284c7' : '#1e293b', color: '#f8fafc' }}
+          style={{ background: activeDevTab === 'phcs' ? '#ea580c' : '#1e293b', color: '#f8fafc' }}
         >
-          <Building size={15} /> PHC Facility CRUD ({phcs.length})
+          <Building size={15} /> Manage Clinics ({phcs.length})
         </button>
         <button 
           className={`nav-tab-btn ${activeDevTab === 'stocks' ? 'active' : ''}`}
           onClick={() => setActiveDevTab('stocks')}
-          style={{ background: activeDevTab === 'stocks' ? '#0284c7' : '#1e293b', color: '#f8fafc' }}
+          style={{ background: activeDevTab === 'stocks' ? '#ea580c' : '#1e293b', color: '#f8fafc' }}
         >
-          <Pill size={15} /> Stock Buffers
+          <Pill size={15} /> Stock Levels
         </button>
         <button 
           className={`nav-tab-btn ${activeDevTab === 'stress' ? 'active' : ''}`}
           onClick={() => setActiveDevTab('stress')}
-          style={{ background: activeDevTab === 'stress' ? '#0284c7' : '#1e293b', color: '#f8fafc' }}
+          style={{ background: activeDevTab === 'stress' ? '#ea580c' : '#1e293b', color: '#f8fafc' }}
         >
           <Zap size={15} /> Outbreak Simulator
         </button>
         <button 
           className={`nav-tab-btn ${activeDevTab === 'system' ? 'active' : ''}`}
           onClick={() => setActiveDevTab('system')}
-          style={{ background: activeDevTab === 'system' ? '#0284c7' : '#1e293b', color: '#f8fafc' }}
+          style={{ background: activeDevTab === 'system' ? '#ea580c' : '#1e293b', color: '#f8fafc' }}
         >
-          <Sliders size={15} /> Database & Models
+          <Sliders size={15} /> Database & Backup
         </button>
       </div>
 

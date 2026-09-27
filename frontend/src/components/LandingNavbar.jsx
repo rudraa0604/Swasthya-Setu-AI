@@ -15,11 +15,21 @@ export default function LandingNavbar({
 
   const handleNavClick = (pageId, sectionId) => {
     setMobileMenuOpen(false);
+    if (pageId === 'home') {
+      window.location.hash = '#/';
+    } else {
+      window.location.hash = `#/${pageId}`;
+    }
     if (onNavigatePage) {
       onNavigatePage(pageId);
-    } else if (sectionId) {
-      const el = document.getElementById(sectionId);
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleLaunchClick = () => {
+    if (onLaunchPortal) {
+      onLaunchPortal();
+    } else {
+      window.location.hash = '#/login';
     }
   };
 
@@ -45,9 +55,10 @@ export default function LandingNavbar({
         }}
       >
         {/* Brand: Icon + Typography Wordmark */}
-        <div 
-          style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', cursor: 'pointer', flexShrink: 0 }} 
-          onClick={() => handleNavClick('home', 'hero')}
+        <a 
+          href="#/"
+          style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', cursor: 'pointer', flexShrink: 0, textDecoration: 'none' }} 
+          onClick={(e) => { e.preventDefault(); handleNavClick('home'); }}
         >
           <img
             src="/assets/swasthyasetu_icon_only.png"
@@ -56,85 +67,95 @@ export default function LandingNavbar({
           />
           <div>
             <div style={{ fontSize: 'clamp(1rem, 2.5vw, 1.25rem)', fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.1, color: '#ffffff' }}>
-              SwasthyaSetu <span style={{ color: '#86efac' }}>AI</span>
+              SwasthyaSetu <span style={{ color: '#f97316' }}>AI</span>
             </div>
-            <div style={{ fontSize: '0.65rem', color: '#94a3b8', fontWeight: 600, letterSpacing: '0.03em' }}>
+            <div style={{ fontSize: '0.65rem', color: '#fed7aa', fontWeight: 600, letterSpacing: '0.03em' }}>
               {t.fedBadge}
             </div>
           </div>
-        </div>
+        </a>
 
         {/* Desktop Nav Links */}
         <div className="landing-nav-links" style={{ display: 'flex', gap: '1.25rem', alignItems: 'center' }}>
-          <button
-            onClick={() => handleNavClick('home', 'hero')}
+          <a
+            href="#/"
+            onClick={(e) => { e.preventDefault(); handleNavClick('home'); }}
             style={{
+              textDecoration: 'none',
               background: 'none',
               border: 'none',
-              color: activePage === 'home' ? '#38bdf8' : '#cbd5e1',
+              color: activePage === 'home' ? '#f97316' : '#ffffff',
               fontSize: '0.88rem',
               fontWeight: activePage === 'home' ? 800 : 600,
               cursor: 'pointer'
             }}
           >
             Home
-          </button>
+          </a>
 
-          <button
-            onClick={() => handleNavClick('features', 'features')}
+          <a
+            href="#/features"
+            onClick={(e) => { e.preventDefault(); handleNavClick('features'); }}
             style={{
+              textDecoration: 'none',
               background: 'none',
               border: 'none',
-              color: activePage === 'features' ? '#38bdf8' : '#cbd5e1',
+              color: activePage === 'features' ? '#f97316' : '#ffffff',
               fontSize: '0.88rem',
               fontWeight: activePage === 'features' ? 800 : 600,
               cursor: 'pointer'
             }}
           >
             {t.navFeatures}
-          </button>
+          </a>
 
-          <button
-            onClick={() => handleNavClick('portals', 'portals')}
+          <a
+            href="#/portals"
+            onClick={(e) => { e.preventDefault(); handleNavClick('portals'); }}
             style={{
+              textDecoration: 'none',
               background: 'none',
               border: 'none',
-              color: activePage === 'portals' ? '#38bdf8' : '#cbd5e1',
+              color: activePage === 'portals' ? '#f97316' : '#ffffff',
               fontSize: '0.88rem',
               fontWeight: activePage === 'portals' ? 800 : 600,
               cursor: 'pointer'
             }}
           >
             {t.navPortals}
-          </button>
+          </a>
 
-          <button
-            onClick={() => handleNavClick('architecture', 'architecture')}
+          <a
+            href="#/architecture"
+            onClick={(e) => { e.preventDefault(); handleNavClick('architecture'); }}
             style={{
+              textDecoration: 'none',
               background: 'none',
               border: 'none',
-              color: activePage === 'architecture' ? '#38bdf8' : '#cbd5e1',
+              color: activePage === 'architecture' ? '#f97316' : '#ffffff',
               fontSize: '0.88rem',
               fontWeight: activePage === 'architecture' ? 800 : 600,
               cursor: 'pointer'
             }}
           >
             Architecture
-          </button>
+          </a>
 
-          <button
-            onClick={() => handleNavClick('credits', 'credits')}
+          <a
+            href="#/credits"
+            onClick={(e) => { e.preventDefault(); handleNavClick('credits'); }}
             style={{
+              textDecoration: 'none',
               background: 'none',
               border: 'none',
-              color: activePage === 'credits' ? '#38bdf8' : '#cbd5e1',
+              color: activePage === 'credits' ? '#f97316' : '#ffffff',
               fontSize: '0.88rem',
               fontWeight: activePage === 'credits' ? 800 : 600,
               cursor: 'pointer'
             }}
           >
             Team Credits
-          </button>
+          </a>
         </div>
 
         {/* Right Action Buttons with Language Selector */}
@@ -142,9 +163,9 @@ export default function LandingNavbar({
           <LanguageSelector lang={lang} setLang={setLang} isDark={true} />
 
           <button
-            onClick={onLaunchPortal}
+            onClick={handleLaunchClick}
             style={{
-              background: 'linear-gradient(135deg, #0284c7 0%, #2e8b57 100%)',
+              background: 'linear-gradient(135deg, #ea580c 0%, #16a34a 100%)',
               color: '#ffffff',
               border: 'none',
               padding: '0.45rem 0.85rem',
@@ -155,7 +176,7 @@ export default function LandingNavbar({
               display: 'flex',
               alignItems: 'center',
               gap: '0.35rem',
-              boxShadow: '0 4px 12px rgba(2, 132, 199, 0.3)',
+              boxShadow: '0 4px 12px rgba(234, 88, 12, 0.35)',
               whiteSpace: 'nowrap',
               minHeight: '36px'
             }}
@@ -203,31 +224,31 @@ export default function LandingNavbar({
           }}
         >
           <button
-            onClick={() => handleNavClick('home', 'hero')}
+            onClick={() => handleNavClick('home')}
             style={{ background: 'none', border: 'none', color: '#ffffff', fontSize: '1rem', fontWeight: 600, textAlign: 'left', padding: '0.4rem 0', cursor: 'pointer' }}
           >
             Home
           </button>
           <button
-            onClick={() => handleNavClick('features', 'features')}
+            onClick={() => handleNavClick('features')}
             style={{ background: 'none', border: 'none', color: '#ffffff', fontSize: '1rem', fontWeight: 600, textAlign: 'left', padding: '0.4rem 0', cursor: 'pointer' }}
           >
             {t.navFeatures}
           </button>
           <button
-            onClick={() => handleNavClick('portals', 'portals')}
+            onClick={() => handleNavClick('portals')}
             style={{ background: 'none', border: 'none', color: '#ffffff', fontSize: '1rem', fontWeight: 600, textAlign: 'left', padding: '0.4rem 0', cursor: 'pointer' }}
           >
             {t.navPortals}
           </button>
           <button
-            onClick={() => handleNavClick('architecture', 'architecture')}
+            onClick={() => handleNavClick('architecture')}
             style={{ background: 'none', border: 'none', color: '#ffffff', fontSize: '1rem', fontWeight: 600, textAlign: 'left', padding: '0.4rem 0', cursor: 'pointer' }}
           >
             Architecture
           </button>
           <button
-            onClick={() => handleNavClick('credits', 'credits')}
+            onClick={() => handleNavClick('credits')}
             style={{ background: 'none', border: 'none', color: '#ffffff', fontSize: '1rem', fontWeight: 600, textAlign: 'left', padding: '0.4rem 0', cursor: 'pointer' }}
           >
             Team Credits

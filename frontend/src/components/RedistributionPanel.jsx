@@ -36,10 +36,10 @@ export default function RedistributionPanel({ recommendations, onUpdate, lang, s
     <div className="panel">
       <div className="panel-header">
         <div className="panel-title">
-          <Truck size={20} color="#0284c7" />
+          <Truck size={20} color="#ea580c" />
           <span>{t.pendingTransfers}</span>
           <span className="badge badge-yellow">
-            {recommendations?.filter(r => r.status === 'pending').length || 0} Pending Human Approval
+            {recommendations?.filter(r => r.status === 'pending').length || 0} Awaiting Approval
           </span>
         </div>
         <button 
@@ -48,14 +48,14 @@ export default function RedistributionPanel({ recommendations, onUpdate, lang, s
           disabled={generating}
         >
           <Zap size={14} />
-          {generating ? 'Optimizing...' : t.triggerOptimization}
+          {generating ? 'Finding Best Transfers...' : t.triggerOptimization}
         </button>
       </div>
 
       {(!recommendations || recommendations.length === 0) ? (
         <div style={{ padding: '2rem', textAlign: 'center', color: '#64748b' }}>
-          <Check size={32} color="#10b981" style={{ margin: '0 auto 0.5rem auto' }} />
-          <p>No active cross-facility transfer deficits. All monitored facilities have adequate stock buffers.</p>
+          <Check size={32} color="#16a34a" style={{ margin: '0 auto 0.5rem auto' }} />
+          <p>All monitored health clinics have adequate medicine stock right now.</p>
         </div>
       ) : (
         <div className="table-container">
@@ -63,19 +63,19 @@ export default function RedistributionPanel({ recommendations, onUpdate, lang, s
             <thead>
               <tr>
                 <th>Medicine & Quantity</th>
-                <th>Supply Facility (Surplus Source)</th>
-                <th>Demand Facility (Deficit Target)</th>
-                <th>Logistics (Distance / Urgency)</th>
+                <th>Sending Clinic (Extra Stock)</th>
+                <th>Receiving Clinic (Needs Stock)</th>
+                <th>Distance & Urgency</th>
                 <th>Status</th>
-                <th>Officer Authorization Action</th>
+                <th>Approval Action</th>
               </tr>
             </thead>
             <tbody>
               {recommendations.map((rec) => (
-                <tr key={rec.id} style={{ background: rec.status === 'pending' ? '#fffdf7' : 'inherit' }}>
+                <tr key={rec.id} style={{ background: rec.status === 'pending' ? '#fff7ed' : 'inherit' }}>
                   <td>
                     <div style={{ fontWeight: 700, color: '#0f172a' }}>{rec.medicine_name}</div>
-                    <div style={{ fontSize: '0.8rem', color: '#0284c7', fontWeight: 600 }}>
+                    <div style={{ fontSize: '0.8rem', color: '#ea580c', fontWeight: 600 }}>
                       📦 {rec.quantity} units requested
                     </div>
                   </td>
@@ -91,7 +91,7 @@ export default function RedistributionPanel({ recommendations, onUpdate, lang, s
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', fontSize: '0.8rem' }}>
                       <Compass size={13} color="#64748b" /> {rec.transport_distance_km} km
                     </div>
-                    <div style={{ fontSize: '0.75rem', color: rec.urgency_score > 0.7 ? '#dc2626' : '#d97706', fontWeight: 600 }}>
+                    <div style={{ fontSize: '0.75rem', color: rec.urgency_score > 0.7 ? '#dc2626' : '#ea580c', fontWeight: 600 }}>
                       Urgency Score: {rec.urgency_score}
                     </div>
                     <button
@@ -104,7 +104,7 @@ export default function RedistributionPanel({ recommendations, onUpdate, lang, s
                         marginTop: '4px',
                         border: 'none',
                         background: 'transparent',
-                        color: '#0284c7',
+                        color: '#ea580c',
                         fontSize: '0.73rem',
                         fontWeight: 700,
                         cursor: 'pointer',
@@ -113,9 +113,9 @@ export default function RedistributionPanel({ recommendations, onUpdate, lang, s
                         alignItems: 'center',
                         gap: '2px'
                       }}
-                      title="Inspect AI Optimized Route Map"
+                      title="View Delivery Route Map"
                     >
-                      🗺️ View AI Best Path →
+                      🗺️ View Delivery Route →
                     </button>
                   </td>
                   <td>
@@ -157,7 +157,7 @@ export default function RedistributionPanel({ recommendations, onUpdate, lang, s
       {/* Show detailed AI reason preview for pending ones */}
       {recommendations?.filter(r => r.status === 'pending').slice(0, 3).map(rec => (
         <div key={rec.id} className="reason-box urgent" style={{ marginTop: '0.75rem' }}>
-          <strong>Optimizer Rationale ({rec.medicine_name} &rarr; {rec.to_phc_name}):</strong> {rec.reason}
+          <strong>Transfer Reason ({rec.medicine_name} &rarr; {rec.to_phc_name}):</strong> {rec.reason}
         </div>
       ))}
     </div>

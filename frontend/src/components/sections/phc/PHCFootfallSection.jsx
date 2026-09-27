@@ -8,8 +8,8 @@ export default function PHCFootfallSection({ footfall, alerts }) {
       <div className="panel" style={{ marginBottom: 0 }}>
         <div className="panel-header">
           <div className="panel-title">
-            <Activity size={20} color="#0284c7" />
-            <span>14-Day Patient Footfall Pattern</span>
+            <Activity size={20} color="#ea580c" />
+            <span>14-Day Patient Attendance Trend</span>
           </div>
         </div>
 
@@ -22,7 +22,7 @@ export default function PHCFootfallSection({ footfall, alerts }) {
                   style={{ 
                     width: '100%', 
                     height: `${heightPct}%`, 
-                    background: f.is_spike ? '#ef4444' : '#0284c7', 
+                    background: f.is_spike ? '#ef4444' : '#ea580c', 
                     borderRadius: '3px 3px 0 0',
                     transition: 'all 0.2s ease'
                   }} 
@@ -33,7 +33,7 @@ export default function PHCFootfallSection({ footfall, alerts }) {
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.72rem', color: '#94a3b8', marginTop: '6px' }}>
           <span>14 Days Ago</span>
-          <span style={{ color: '#ef4444', fontWeight: 600 }}>■ Epidemic Surge Day</span>
+          <span style={{ color: '#ef4444', fontWeight: 600 }}>■ High Inflow Day</span>
           <span>Today</span>
         </div>
       </div>
@@ -43,7 +43,7 @@ export default function PHCFootfallSection({ footfall, alerts }) {
         <div className="panel-header">
           <div className="panel-title">
             <AlertCircle size={20} color="#ef4444" />
-            <span>Facility Active Diagnostic Alerts</span>
+            <span>Active Clinic Alerts</span>
           </div>
         </div>
 
@@ -61,8 +61,8 @@ export default function PHCFootfallSection({ footfall, alerts }) {
             ))}
           </div>
         ) : (
-          <div style={{ padding: '1.5rem', textAlign: 'center', color: '#166534', background: '#f0fdf4', borderRadius: '6px', fontSize: '0.85rem' }}>
-            ✓ No critical alerts active for this facility node. All inventory and staff operational.
+          <div style={{ padding: '1.5rem', textAlign: 'center', color: '#16a34a', background: '#f0fdf4', borderRadius: '6px', fontSize: '0.85rem' }}>
+            ✓ No urgent alerts. All stocks and staffing are normal.
           </div>
         )}
       </div>

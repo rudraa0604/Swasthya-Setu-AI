@@ -45,11 +45,11 @@ export default function IndiaMap({ onSelectState, selectedState, statesSummary }
     <div className="panel">
       <div className="panel-header">
         <div className="panel-title">
-          <MapPin size={20} color="#0284c7" />
-          <span>National Geographic Health Risk Overview (Federated State Nodes)</span>
+          <MapPin size={20} color="#ea580c" />
+          <span>State Health & Supply Map</span>
         </div>
         <span style={{ fontSize: '0.8rem', color: '#64748b' }}>
-          Select a state node to drill down
+          Click a state to view details
         </span>
       </div>
 
@@ -62,13 +62,13 @@ export default function IndiaMap({ onSelectState, selectedState, statesSummary }
               onClick={() => onSelectState(st.id)}
               style={{
                 background: st.color,
-                border: `2px solid ${isSelected ? '#0284c7' : st.borderColor}`,
+                border: `2px solid ${isSelected ? '#ea580c' : st.borderColor}`,
                 borderRadius: '10px',
                 padding: '1.15rem',
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
                 transform: isSelected ? 'scale(1.02)' : 'none',
-                boxShadow: isSelected ? '0 4px 12px rgba(2, 132, 199, 0.25)' : 'none'
+                boxShadow: isSelected ? '0 4px 12px rgba(234, 88, 12, 0.25)' : 'none'
               }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
@@ -91,14 +91,14 @@ export default function IndiaMap({ onSelectState, selectedState, statesSummary }
                 </div>
                 <div>
                   <div style={{ fontSize: '0.72rem', color: '#64748b' }}>Pending Transfers</div>
-                  <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0284c7' }}>
+                  <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#ea580c' }}>
                     {st.pendingTransfers}
                   </div>
                 </div>
               </div>
 
               <div style={{ marginTop: '0.65rem', fontSize: '0.75rem', color: '#334155' }}>
-                <strong>Vulnerability Focus:</strong> {st.topMedicineDeficit}
+                <strong>Needed Medicines:</strong> {st.topMedicineDeficit}
               </div>
             </div>
           );

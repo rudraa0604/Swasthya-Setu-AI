@@ -21,6 +21,17 @@ export default function LoginPage({ onLogin, lang, setLang, initialRole = 'phc' 
   const [district, setDistrict] = useState('Nashik');
   const [stateId, setStateId] = useState('ST-MH');
 
+  React.useEffect(() => {
+    if (initialRole && initialRole !== selectedRole) {
+      setSelectedRole(initialRole);
+      if (initialRole === 'district') setUsername('dho.nashik@health.mh.gov.in');
+      else if (initialRole === 'state') setUsername('director.health@maharashtra.gov.in');
+      else if (initialRole === 'national') setUsername('officer.nhm@gov.in');
+      else if (initialRole === 'developer') setUsername('dev.admin@swasthyasetu.ai');
+      else setUsername('staff.nashik01@swasthya.gov.in');
+    }
+  }, [initialRole]);
+
   const presetRoles = [
     {
       id: 'phc',
@@ -28,9 +39,9 @@ export default function LoginPage({ onLogin, lang, setLang, initialRole = 'phc' 
       subtitle: t.rolePhcSubtitle,
       icon: Building,
       badge: t.rolePhcBadge,
-      color: '#0284c7',
+      color: '#ea580c',
       defaultUsername: 'staff.nashik01@swasthya.gov.in',
-      scope: 'Nashik PHC #1 (Rural Sub-center)',
+      scope: 'Nashik Clinic #1 (Rural Center)',
       description: t.rolePhcDesc
     },
     {
@@ -39,9 +50,9 @@ export default function LoginPage({ onLogin, lang, setLang, initialRole = 'phc' 
       subtitle: t.roleDistrictSubtitle,
       icon: MapPin,
       badge: t.roleDistrictBadge,
-      color: '#f59e0b',
+      color: '#f97316',
       defaultUsername: 'dho.nashik@health.mh.gov.in',
-      scope: 'Nashik District (10 PHCs)',
+      scope: 'Nashik District (10 Clinics)',
       description: t.roleDistrictDesc
     },
     {
@@ -50,9 +61,9 @@ export default function LoginPage({ onLogin, lang, setLang, initialRole = 'phc' 
       subtitle: t.roleStateSubtitle,
       icon: Layers,
       badge: t.roleStateBadge,
-      color: '#8b5cf6',
+      color: '#16a34a',
       defaultUsername: 'director.health@maharashtra.gov.in',
-      scope: 'Maharashtra State (5 Districts • 50 PHCs)',
+      scope: 'Maharashtra State (5 Districts • 50 Clinics)',
       description: t.roleStateDesc
     },
     {
@@ -61,9 +72,9 @@ export default function LoginPage({ onLogin, lang, setLang, initialRole = 'phc' 
       subtitle: t.roleNationalSubtitle,
       icon: Globe,
       badge: t.roleNationalBadge,
-      color: '#10b981',
+      color: '#dc2626',
       defaultUsername: 'officer.nhm@gov.in',
-      scope: 'National Overview (3 States • 150 PHCs)',
+      scope: 'All-India Overview (3 States • 150 Clinics)',
       description: t.roleNationalDesc
     },
     {
@@ -72,9 +83,9 @@ export default function LoginPage({ onLogin, lang, setLang, initialRole = 'phc' 
       subtitle: t.roleDevSubtitle,
       icon: Code,
       badge: t.roleDevBadge,
-      color: '#0284c7',
+      color: '#ea580c',
       defaultUsername: 'dev.admin@swasthyasetu.ai',
-      scope: 'Root Console (All Entities & ML Engines)',
+      scope: 'Admin Console (All Clinics & Settings)',
       description: t.roleDevDesc
     }
   ];
@@ -82,6 +93,7 @@ export default function LoginPage({ onLogin, lang, setLang, initialRole = 'phc' 
   const handleSelectRole = (role) => {
     setSelectedRole(role.id);
     setUsername(role.defaultUsername);
+    window.location.hash = `#/login/${role.id}`;
     if (role.id === 'phc') {
       setPhcId('PHC-MH-NAS-01');
       setDistrict('Nashik');
@@ -99,11 +111,11 @@ export default function LoginPage({ onLogin, lang, setLang, initialRole = 'phc' 
     const userProfile = {
       role: selectedRole,
       username: username,
-      displayName: selectedRole === 'phc' ? 'Dr. Ramesh Patil (PHC In-Charge)' : 
+      displayName: selectedRole === 'phc' ? 'Dr. Ramesh Patil (Clinic Doctor)' : 
                    selectedRole === 'district' ? 'Dr. Suresh Kulkarni (District Health Officer)' :
-                   selectedRole === 'state' ? 'State Directorate Admin (Maharashtra)' :
-                   selectedRole === 'developer' ? 'Lead Platform Developer (Master Root)' :
-                   'Executive Health Director (NHM Central Ministry)',
+                   selectedRole === 'state' ? 'State Health Admin (Maharashtra)' :
+                   selectedRole === 'developer' ? 'Lead Platform Admin' :
+                   'Executive Health Director (National Health Ministry)',
       phcId: phcId,
       district: district,
       stateId: stateId,
@@ -113,7 +125,7 @@ export default function LoginPage({ onLogin, lang, setLang, initialRole = 'phc' 
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'clamp(0.75rem, 2vw, 1.5rem)', width: '100%', boxSizing: 'border-box' }}>
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #07111e 0%, #0c1a2d 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'clamp(0.75rem, 2vw, 1.5rem)', width: '100%', boxSizing: 'border-box' }}>
       <div className="login-card-container">
         
         {/* Left Side: Role Selector */}
@@ -131,7 +143,7 @@ export default function LoginPage({ onLogin, lang, setLang, initialRole = 'phc' 
               />
               <div>
                 <h2 style={{ fontSize: 'clamp(1.15rem, 2.5vw, 1.4rem)', fontWeight: 800, color: '#0f172a', margin: 0, lineHeight: 1.1 }}>{t.appTitle}</h2>
-                <div style={{ fontSize: '0.75rem', fontWeight: 600, color: '#0284c7' }}>{t.subTitle}</div>
+                <div style={{ fontSize: '0.75rem', fontWeight: 600, color: '#ea580c' }}>{t.subTitle}</div>
               </div>
             </div>
 
