@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { ShieldAlert, AlertTriangle, Building2, BedDouble, RefreshCw, Layers } from 'lucide-react';
+import { ShieldAlert, AlertTriangle, Building2, BedDouble } from 'lucide-react';
 import MetricCard from '../components/MetricCard';
 import IndiaMap from '../components/IndiaMap';
 import FederatedStatusPanel from '../components/FederatedStatusPanel';
 import RedistributionPanel from '../components/RedistributionPanel';
+import TelemetryIntegrationBanner from '../components/sections/national/TelemetryIntegrationBanner';
+import EarlyWarningAlertsSection from '../components/sections/national/EarlyWarningAlertsSection';
 import { apiClient } from '../services/api';
 import { translations } from '../services/i18n';
 
@@ -50,13 +52,8 @@ export default function NationalDashboard({ onSelectState, onSelectPHC, lang }) 
 
   return (
     <div>
-      {/* Top Integration Note */}
-      <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', padding: '0.5rem 0.8rem', borderRadius: '6px', fontSize: '0.78rem', color: '#166534', marginBottom: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
-        <span>🌿 <strong>ABDM / eVIN / HMIS Telemetry Layer:</strong> {t.integrationNote}</span>
-        <button className="btn-action" style={{ background: '#dcfce7', color: '#15803d', fontSize: '0.72rem', minHeight: '32px' }} onClick={handleScanAlerts}>
-          <RefreshCw size={12} /> {t.refreshAlerts}
-        </button>
-      </div>
+      {/* Top Telemetry Integration Note */}
+      <TelemetryIntegrationBanner onScanAlerts={handleScanAlerts} lang={lang} />
 
       {/* KPI Cards Grid */}
       <div className="grid-kpi">
@@ -92,7 +89,7 @@ export default function NationalDashboard({ onSelectState, onSelectPHC, lang }) 
         />
       </div>
 
-      {/* Federated Model Panel (Primary Architectural Differentiator) */}
+      {/* Federated Model Panel */}
       <FederatedStatusPanel lang={lang} />
 
       {/* India Geographic Risk Overview */}
@@ -102,59 +99,8 @@ export default function NationalDashboard({ onSelectState, onSelectPHC, lang }) 
         statesSummary={rollup?.states_summary}
       />
 
-      {/* High-Urgency Alerts Table */}
-      <div className="panel">
-        <div className="panel-header">
-          <div className="panel-title">
-            <ShieldAlert size={20} color="#ef4444" />
-            <span>National Early Warning Triage (Top Critical Deficits)</span>
-          </div>
-          <span className="badge badge-red">{alerts.length} Critical Signals</span>
-        </div>
-
-        <div className="table-container">
-          <table className="custom-table">
-            <thead>
-              <tr>
-                <th>Facility & District</th>
-                <th>Alert Type</th>
-                <th>Diagnostic Headline</th>
-                <th>Explainable Root Cause</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {alerts.map((a) => (
-                <tr key={a.id}>
-                  <td style={{ fontWeight: 600 }}>
-                    <div>{a.phc_id}</div>
-                  </td>
-                  <td>
-                    <span className={`badge ${a.severity === 'critical' ? 'badge-red' : 'badge-yellow'}`}>
-                      {a.type.toUpperCase()}
-                    </span>
-                  </td>
-                  <td style={{ fontWeight: 600, color: a.severity === 'critical' ? '#dc2626' : '#d97706' }}>
-                    {a.message}
-                  </td>
-                  <td style={{ fontSize: '0.78rem', color: '#475569' }}>
-                    {a.explanation}
-                  </td>
-                  <td>
-                    <button 
-                      className="btn-action btn-primary"
-                      onClick={() => onSelectPHC(a.phc_id)}
-                      style={{ fontSize: '0.72rem' }}
-                    >
-                      Inspect PHC
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      {/* High-Urgency Alerts Table Section */}
+      <EarlyWarningAlertsSection alerts={alerts} onSelectPHC={onSelectPHC} />
 
       {/* Redistribution Recommendations */}
       <RedistributionPanel 

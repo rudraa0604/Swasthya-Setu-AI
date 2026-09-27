@@ -187,3 +187,20 @@ class OfflineSyncItem(BaseModel):
 class OfflineSyncBatch(BaseModel):
     phc_id: str
     items: List[OfflineSyncItem]
+
+# AI Route Optimization Schemas
+class BestPathRequest(BaseModel):
+    origin_id: str
+    destination_id: str
+    intermediate_ids: Optional[List[str]] = None
+    objective: Optional[str] = "fastest"  # fastest, shortest, cold_chain, eco, drone
+    vehicle_type: Optional[str] = "reefer_van"  # reefer_van, ambulance, rapid_carrier, drone
+    avoid_obstructions: Optional[bool] = True
+
+class HazardRerouteRequest(BaseModel):
+    origin_id: str
+    destination_id: str
+    blocked_lat: float
+    blocked_lng: float
+    hazard_type: Optional[str] = "Monsoon Flash Flood / Road Inundation"
+    hazard_radius_km: Optional[float] = 3.5

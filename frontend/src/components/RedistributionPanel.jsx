@@ -94,6 +94,29 @@ export default function RedistributionPanel({ recommendations, onUpdate, lang, s
                     <div style={{ fontSize: '0.75rem', color: rec.urgency_score > 0.7 ? '#dc2626' : '#d97706', fontWeight: 600 }}>
                       Urgency Score: {rec.urgency_score}
                     </div>
+                    <button
+                      onClick={() => {
+                        window.dispatchEvent(new CustomEvent('view-route-optimizer', {
+                          detail: { fromId: rec.from_phc_id, toId: rec.to_phc_id }
+                        }));
+                      }}
+                      style={{
+                        marginTop: '4px',
+                        border: 'none',
+                        background: 'transparent',
+                        color: '#0284c7',
+                        fontSize: '0.73rem',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        padding: 0,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '2px'
+                      }}
+                      title="Inspect AI Optimized Route Map"
+                    >
+                      🗺️ View AI Best Path →
+                    </button>
                   </td>
                   <td>
                     <span className={`badge ${rec.status === 'approved' ? 'badge-green' : (rec.status === 'rejected' ? 'badge-red' : 'badge-yellow')}`}>

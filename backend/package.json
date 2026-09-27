@@ -1,0 +1,10 @@
+{
+  "name": "swasthya-setu-backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "FastAPI Python Backend for SwasthyaSetu AI",
+  "scripts": {
+    "dev": "python main.py",
+    "start": "python main.py"
+  }
+}

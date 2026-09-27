@@ -1,4 +1,14 @@
+import sys
 import os
+
+# Ensure project root is in sys.path regardless of execution directory
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.join(CURRENT_DIR, ".."))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
+if CURRENT_DIR not in sys.path:
+    sys.path.insert(0, CURRENT_DIR)
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -15,6 +25,52 @@ app = FastAPI(
     version=settings.VERSION,
     description="Federated AI Platform for National-Scale Health Resource & Supply Chain Resilience across India's PHC Network."
 )
+
+@app.on_event("startup")
+def startup_populate_data():
+    """Ensure database has initial simulated PHCs, alerts, and recommendations on boot."""
+    try:
+        from backend.app.db.session import SessionLocal
+        from backend.app.models.models import PHC, Alert, RedistributionRecommendation
+        from db.seed_data import seed_database
+        from ml.alerts.engine import early_warning_engine
+        from ml.redistribution.optimizer import redistribution_engine
+
+        db = SessionLocal()
+        phc_count = db.query(PHC).count()
+        if phc_count < 10:
+            print("Database empty or incomplete. Auto-seeding initial Indian PHC network data...")
+            seed_database(num_phcs_per_district=10, history_days=45)
+            # Reopen session after seed
+            db = SessionLocal()
+
+        # Check if alerts exist, if not scan
+        alert_count = db.query(Alert).count()
+        if alert_count == 0:
+            print("Generating initial Early Warning alerts...")
+            all_phcs = db.query(PHC).all()
+            for p in all_phcs:
+                gen_alerts = early_warning_engine.scan_phc_for_alerts(p, db)
+                for a in gen_alerts:
+                    db.add(a)
+            db.commit()
+
+        # Check if recommendations exist, if not generate
+        rec_count = db.query(RedistributionRecommendation).count()
+        if rec_count == 0:
+            print("Generating initial Redistribution Recommendations...")
+            from ml.redistribution.optimizer import redistribution_optimizer
+            recs = redistribution_optimizer.generate_recommendations_for_state("ST-MH", db)
+            for r in recs:
+                db.add(r)
+            db.commit()
+
+        db.close()
+        print("SwasthyaSetu AI Backend data initialization ready.")
+    except Exception as e:
+        print(f"Startup data check warning: {e}")
+
+
 
 # CORS Middleware to allow React frontend connection
 app.add_middleware(
@@ -67,4 +123,8 @@ else:
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("backend.main:app", host="0.0.0.0", port=8000, reload=True)
+    # Determine module path based on current working directory
+    is_in_backend_dir = os.path.exists("app") and os.path.exists("main.py")
+    app_module = "main:app" if is_in_backend_dir else "backend.main:app"
+    uvicorn.run(app_module, host="0.0.0.0", port=8000, reload=True)
+

@@ -9,7 +9,7 @@
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB.svg?style=flat&logo=python&logoColor=white)](https://python.org)
 [![Federated Learning](https://img.shields.io/badge/AI-Federated_Learning_(FedAvg)-FF6F00.svg?style=flat)](https://flower.ai)
 [![PuLP Optimizer](https://img.shields.io/badge/Optimization-MILP_(PuLP)-4CAF50.svg?style=flat)](https://coin-or.github.io/pulp/)
-[![Deployment](https://img.shields.io/badge/Deployed_on-Render-46E3B7.svg?style=flat&logo=render&logoColor=black)](https://render.com)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 ---
 
@@ -22,16 +22,15 @@
   - [3. MILP-Based Inter-PHC Stock Redistribution Optimizer](#3-milp-based-inter-phc-stock-redistribution-optimizer)
   - [4. Privacy-Preserving Federated Learning (FedAvg)](#4-privacy-preserving-federated-learning-fedavg)
   - [5. Offline-First Edge Sync Engine for Rural PHCs](#5-offline-first-edge-sync-engine-for-rural-phcs)
-  - [6. Multi-Tiered Hierarchical Command Center](#6-multi-tiered-hierarchical-command-center)
+  - [6. Full Multilingual i18n Support (11 Indian Languages)](#6-full-multilingual-i18n-support-11-indian-languages)
   - [7. National Health Ecosystem Integrations (ABDM / eVIN / HMIS)](#7-national-health-ecosystem-integrations-abdm--evin--hmis)
 - [🏗️ System Architecture & Data Flow](#️-system-architecture--data-flow)
-- [💻 Technology Stack](#-technology-stack)
-- [👥 User Roles & Dashboard Capabilities](#-user-roles--dashboard-capabilities)
+- [👥 Role-Based Operational Stations](#-role-based-operational-stations)
 - [📂 Project Directory Structure](#-project-directory-structure)
 - [🚀 Quickstart & Local Setup Guide](#-quickstart--local-setup-guide)
-- [🌐 Cloud Deployment on Render](#-cloud-deployment-on-render)
-- [📡 API Endpoints Overview](#-api-endpoints-overview)
-- [🧪 Simulation & Stress-Testing Suite](#-simulation--stress-testing-suite)
+- [🧪 Full System Verification Suite](#-full-system-verification-suite)
+- [📡 API Endpoints Reference](#-api-endpoints-reference)
+- [👥 Development Team](#-development-team)
 - [📜 License & Acknowledgements](#-license--acknowledgements)
 
 ---
@@ -40,7 +39,7 @@
 
 **SwasthyaSetu AI (स्वास्थ्य सेतु AI)** is a state-of-the-art, privacy-preserving clinical supply-chain intelligence and resource redistribution platform designed specifically for India's **Primary Health Centre (PHC)** and **Community Health Centre (CHC)** network.
 
-In India's tiered public healthcare system, rural PHCs frequently experience acute stock-outs of life-saving medicines (e.g., Anti-Rabies Vaccines, Insulin, ORS, Antibiotics) due to demand spikes, seasonal epidemic outbreaks, delayed supply replenishment, and communication silos between neighboring districts. 
+In India's tiered public healthcare system, rural PHCs frequently experience acute stock-outs of life-saving medicines (e.g., Anti-Rabies Vaccines, Insulin, ORS, Antibiotics, IV Saline) due to sudden demand spikes, seasonal epidemic outbreaks, delayed supply replenishment, and communication silos between neighboring districts. 
 
 SwasthyaSetu AI solves this crisis by combining **Predictive AI**, **Mathematical Linear Programming (MILP)**, and **Federated Learning** to create an autonomous, real-time safety net that balances medicine stocks, anticipates shortages up to 14 days in advance, and orchestrates localized peer-to-peer redistributions with complete human-in-the-loop governance.
 
@@ -99,85 +98,36 @@ SwasthyaSetu AI solves this crisis by combining **Predictive AI**, **Mathematica
 - Uses browser `LocalStorage` and `IndexedDB` caching to allow doctors to log patient footfall, record medicine dispensing, and check local inventory without an active internet connection.
 - Automatically pushes batched delta sync payloads to the backend once connectivity is restored.
 
-### 6. Multi-Tiered Hierarchical Command Center
-- Dynamic role-based user interfaces tailored for:
-  - 🇮🇳 **National Health Authority** (National overview, federal model training, cross-state resilience).
-  - 🏛️ **State Health Mission Director** (Statewide inventory rollups, district heatmaps, outbreak alerts).
-  - 🩺 **District Chief Medical Officer (CMO)** (Supply balancing, transfer approval, emergency stock mobilization).
-  - 🏥 **PHC Medical Officer / Pharmacist** (Daily dispensing, offline logging, local stock health).
-  - 🚨 **Emergency Ops Command** (Disaster response, mass-casualty surge redistribution).
-  - ⚙️ **Developer & Admin Sandbox** (Live outbreak simulation, stress-testing, database re-seeding).
+### 6. Full Multilingual i18n Support (11 Indian Languages)
+- Fully reactive, zero-reload internationalization support across 11 official regional languages:
+  - 🌐 **English** (`en`)
+  - 🇮🇳 **हिन्दी / Hindi** (`hi`)
+  - 🇮🇳 **मराठी / Marathi** (`mr`)
+  - 🇮🇳 **ગુજરાતી / Gujarati** (`gu`)
+  - 🇮🇳 **বাংলা / Bengali** (`bn`)
+  - 🇮🇳 **தமிழ் / Tamil** (`ta`)
+  - 🇮🇳 **తెలుగు / Telugu** (`te`)
+  - 🇮🇳 **ಕನ್ನಡ / Kannada** (`kn`)
+  - 🇮🇳 **മലയാളം / Malayalam** (`ml`)
+  - 🇮🇳 **ਪੰਜਾਬੀ / Punjabi** (`pa`)
+  - 🇮🇳 **ଓଡ଼ିଆ / Odia** (`or`)
 
 ### 7. National Health Ecosystem Integrations (ABDM / eVIN / HMIS)
-- **ABDM (Ayushman Bharat Digital Mission)**: Interoperable with FHIR R4 standard payloads (`MedicationRequest`, `Encounter`, `Organization`).
-- **eVIN (electronic Vaccine Intelligence Network)**: Ingests real-time cold-chain IoT temperature alarms and vial telemetry.
-- **HMIS (Health Management Information System)**: Ingests block-level disease prevalence and historical footfall statistics.
+- **ABDM (Ayushman Bharat Digital Mission)**: Adheres to standard facility registries and M1/M2/M3 consent architectures.
+- **eVIN (electronic Vaccine Intelligence Network)**: Ingests IoT cold-chain temperature telemetry to detect temperature breaches.
+- **HMIS (Health Management Information System)**: Ingests monthly disease surveillance summaries and seasonal epidemiological footfall data.
 
 ---
 
-## 🏗️ System Architecture & Data Flow
+## 👥 Role-Based Operational Stations
 
-```
-                                  ┌─────────────────────────────────────────┐
-                                  │   National Orchestrator & Rollup Hub    │
-                                  │   (FedAvg Model Weight Aggregator)      │
-                                  └────────────────────┬────────────────────┘
-                                                       │ Federated Weights
-                         ┌─────────────────────────────┴─────────────────────────────┐
-                         ▼                                                           ▼
-       ┌──────────────────────────────────┐                        ┌──────────────────────────────────┐
-       │   State Node A (Maharashtra)     │                        │    State Node B (Karnataka)      │
-       │   Local Model Training & DB      │                        │    Local Model Training & DB     │
-       └─────────────────┬────────────────┘                        └─────────────────┬────────────────┘
-                         │                                                           │
-          ┌──────────────┴──────────────┐                             ┌──────────────┴──────────────┐
-          ▼                             ▼                             ▼                             ▼
-  ┌──────────────┐              ┌──────────────┐              ┌──────────────┐              ┌──────────────┐
-  │ District CMO │              │ District CMO │              │ District CMO │              │ District CMO │
-  │  (Pune Div)  │              │ (Nashik Div) │              │(Bengaluru R) │              │ (Mysuru Div) │
-  └───────┬──────┘              └───────┬──────┘              └───────┬──────┘              └───────┬──────┘
-          │                             │                             │                             │
-    ┌─────┴─────┐                 ┌─────┴─────┐                 ┌─────┴─────┐                 ┌─────┴─────┐
-    ▼           ▼                 ▼           ▼                 ▼           ▼                 ▼           ▼
- ┌─────┐     ┌─────┐           ┌─────┐     ┌─────┐           ┌─────┐     ┌─────┐           ┌─────┐     ┌─────┐
- │ PHC │     │ PHC │           │ PHC │     │ PHC │           │ PHC │     │ PHC │           │ PHC │     │ PHC │
- │ 001 │     │ 002 │           │ 003 │     │ 004 │           │ 005 │     │ 006 │           │ 007 │     │ 008 │
- └─────┘     └─────┘           └─────┘     └─────┘           └─────┘     └─────┘           └─────┘     └─────┘
-    ▲           ▲
-    └──[ PuLP Localized Redistribution Loop ]
-```
-
----
-
-## 💻 Technology Stack
-
-### Backend & ML Services
-- **Framework**: [FastAPI](https://fastapi.tiangolo.com) (Python 3.10+) with high-concurrency async endpoints.
-- **Data Layer & ORM**: SQLAlchemy 2.0 with SQLite / PostgreSQL relational schemas.
-- **Optimization Engine**: [PuLP](https://coin-or.github.io/pulp/) (Mixed-Integer Linear Programming with CBC solver).
-- **ML & Data Processing**: Scikit-Learn, NumPy, Pandas (Time-series depletion, trend decomposition).
-- **Federated Engine**: Federated Averaging (`FedAvg`) simulation engine with differential privacy weights.
-- **Validation**: Pydantic v2 Settings & Models.
-
-### Frontend Application
-- **Core**: React 18 (SPA Architecture) with Vite build system.
-- **Icons & Visuals**: [Lucide React](https://lucide.dev) & Custom SVG Canvas charts.
-- **Animations**: GSAP (GreenSock Animation Platform) for silky-smooth landing page micro-interactions.
-- **Styling**: Vanilla CSS Design Tokens (Glassmorphism, High-contrast Healthcare UI, Responsive Grids).
-- **Internationalization (i18n)**: Bilingual interface supporting **English** and **Hindi (हिन्दी)**.
-
----
-
-## 👥 User Roles & Dashboard Capabilities
-
-| Role | Target User | Key Actions & Tools |
+| Station Role | Target Users | Primary Functional Capabilities |
 | :--- | :--- | :--- |
-| 🇮🇳 **National Health Authority** | Ministry Officials, DGHS | Monitor national medicine availability, track cross-state supply index, inspect Federated Learning convergence rounds. |
-| 🏛️ **State Health Mission** | State Health Directors, NHM | Analyze district vulnerability heatmaps, oversee state-wide procurement buffers, monitor disease outbreak clusters. |
-| 🩺 **District CMO** | Chief Medical Officers, DTOs | Review AI-generated redistribution proposals, approve/reject inter-PHC transport orders, manage stock buffer safety limits. |
-| 🏥 **PHC Edge Portal** | Medical Officers, Pharmacists | Offline-capable medicine dispensing, daily patient footfall entry, local stockout countdown, real-time alert acknowledgements. |
-| 🚨 **Emergency Ops Mode** | Disaster Management / Epidemic Squad | Instant crisis mobilization, surge capacity override, priority routing of vaccines and critical emergency fluids. |
-| ⚙️ **Developer / Admin Sandbox** | System Architects & Evaluators | Trigger synthetic outbreak stress tests, re-seed demo databases, test live edge-sync queues, inspect model loss curves. |
+| 🏥 **PHC / CHC Edge Terminal** | Rural Doctors & Pharmacists | Offline-first medicine dispensing, batch reception, footfall logging, local inventory ledger. |
+| 📍 **District Health Officer (DHO)** | District CMOs & Drug Inspectors | District triage, shortage monitoring, reviewing and approving AI-generated stock transfers. |
+| 🏢 **State Health Directorate** | State Health Commissioners | Multi-district oversight (50 PHCs), local state AI model training, emergency state escalation. |
+| 🌐 **National Ministry Overwatch** | NHM Central Command | National health risk maps, national emergency override, global FedAvg model weight aggregation. |
+| ⚙️ **Developer / Admin Sandbox** | System Architects & Evaluators | Synthetic outbreak injection, database re-seeding, live CRUD for facilities & stocks, loss curves inspection. |
 
 ---
 
@@ -187,40 +137,50 @@ SwasthyaSetu AI solves this crisis by combining **Predictive AI**, **Mathematica
 SwasthyaSetu-AI/
 ├── backend/
 │   ├── app/
-│   │   ├── api/                  # API routers (PHCs, Alerts, Forecasting, Redistribution, Dev)
-│   │   ├── core/                 # Config settings & system constants
-│   │   ├── db/                   # Database session and base configuration
-│   │   ├── models/               # SQLAlchemy models (PHC, MedicineStock, Alerts, Transfers)
-│   │   └── schemas/              # Pydantic data validation schemas
-│   ├── main.py                   # FastAPI server entry point + React SPA static file handler
-│   └── requirements.txt          # Python backend dependencies
+│   │   ├── api/                  # API endpoints (PHCs, Alerts, Forecasts, Redistribution, Sync, Dev)
+│   │   ├── core/                 # App configuration & constants
+│   │   ├── db/                   # SQLAlchemy database engine & session
+│   │   ├── models/               # Database ORM models (PHC, MedicineStock, Alerts, Transfers)
+│   │   └── schemas/              # Pydantic validation schemas
+│   ├── main.py                   # FastAPI server entry point
+│   └── requirements.txt          # Python dependencies
 │
 ├── frontend/
+│   ├── public/
+│   │   ├── assets/               # Branding logos, icons, favicons
+│   │   └── frames/               # 3D canvas sequence frames for interactive landing experience
 │   ├── src/
-│   │   ├── components/           # Reusable UI components (Navbar, Stats Cards, Panels, Modals)
-│   │   ├── pages/                # Role dashboards (Landing, National, State, District, PHC, Admin)
-│   │   ├── services/             # API client & Offline LocalStorage sync manager
-│   │   └── styles/               # Global CSS design tokens, themes & layout styling
-│   ├── index.html                # Single Page App HTML template
-│   ├── package.json              # Frontend scripts & NPM dependencies
-│   └── vite.config.js            # Vite configuration
+│   │   ├── components/           # Reusable UI widgets (LanguageSelector, Header, Charts, Panels)
+│   │   ├── pages/                # Dashboards (Landing, Login, National, State, District, PHC, Dev)
+│   │   ├── services/             # API client, i18n translation tables (11 languages), sync engine
+│   │   └── styles/               # Glassmorphic CSS tokens & responsive mobile breakpoints
+│   ├── index.html                # Single Page Application HTML entry
+│   ├── package.json              # NPM dependencies & scripts
+│   └── vite.config.js            # Vite bundler & API proxy configuration
 │
 ├── ml/
-│   ├── alerts/                   # Early warning threshold & risk calculation algorithms
-│   ├── federated/                # FedAvg simulation engine for privacy-preserving training
-│   ├── forecasting/              # Multi-horizon time-series depletion forecast engine
-│   └── redistribution/           # PuLP MILP optimizer for route and transfer allocation
+│   ├── alerts/                   # Early warning threshold & multi-factor anomaly algorithms
+│   ├── federated/                # Flower-compatible FedAvg simulation across state nodes
+│   ├── forecasting/              # Multi-horizon statistical depletion forecast engine
+│   └── redistribution/           # PuLP MILP linear transportation route optimization
 │
 ├── db/
+│   ├── schema.sql                # Relational database schema definition
 │   └── seed_data.py              # Realistic synthetic generator (3 States, 15 Districts, 150 PHCs)
 │
 ├── docs/
-│   ├── integration_abdm.md       # Ayushman Bharat Digital Mission (ABDM) integration guide
+│   ├── architecture.md           # Deep architectural specification
+│   ├── design.md                 # UI/UX design tokens & layout guidelines
+│   ├── phases.md                 # Development roadmap & milestones
+│   ├── prd.md                    # Product Requirements Document
+│   ├── rules.md                  # System design constraints & rules
+│   ├── integration_abdm.md       # Ayushman Bharat Digital Mission integration guide
 │   ├── integration_evin.md       # eVIN Cold-Chain Telemetry ingestion guide
 │   └── integration_hmis.md       # HMIS historical footfall pipeline specification
 │
-├── .gitignore                    # Git ignore configuration
-├── package.json                  # Root monorepo script runner
+├── verify_system.py              # End-to-end 5-phase system verification suite
+├── package.json                  # Root runner script
+├── brain.md                      # System brain specification
 └── README.md                     # Project master documentation
 ```
 
@@ -239,9 +199,9 @@ git clone https://github.com/rudraa0604/Swasthya-Setu-AI.git
 cd Swasthya-Setu-AI
 ```
 
-### Step 2: Set Up Backend
+### Step 2: Set Up & Run Backend
 ```bash
-# Create and activate a Python virtual environment
+# Create and activate Python virtual environment
 python -m venv venv
 
 # Windows:
@@ -249,93 +209,84 @@ venv\Scripts\activate
 # Linux / macOS:
 source venv/bin/activate
 
-# Install dependencies
+# Install Python backend & ML dependencies
 pip install -r backend/requirements.txt
 
-# Seed the database with 150 simulated PHCs across 3 States
+# Seed the database (150 PHCs, 1200 Stocks, Outbreak node in Nashik)
 python -m db.seed_data
+
+# Start FastAPI server on port 8000
+python -m uvicorn backend.main:app --port 8000 --reload
 ```
 
-### Step 3: Set Up Frontend
+### Step 3: Set Up & Run Frontend
+In a separate terminal window:
 ```bash
 cd frontend
 npm install
-npm run build
-cd ..
+npm run dev
 ```
+Open your browser and navigate to: **`http://localhost:3000`** 🎉
 
-### Step 4: Run the Application
+---
+
+## 🧪 Full System Verification Suite
+
+You can execute the automated 5-phase verification test suite to validate database consistency, ML forecasting accuracy, early warning alert generation, PuLP optimization constraints, and federated training:
+
 ```bash
-# Run the FastAPI server (serves both API and Frontend)
-uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload
+python verify_system.py
 ```
-Now open your browser and visit: **`http://localhost:8000`** 🎉
 
-*(For independent frontend hot-reloading during development, run `npm run dev` inside `/frontend` on port 3000).*
-
----
-
-## 🌐 Cloud Deployment on Render
-
-This repository is optimized for **Single-Service Full-Stack Deployment** on [Render](https://render.com).
-
-### Render Web Service Configuration:
-1. Create a **New Web Service** and link this repository.
-2. Fill in the following deployment parameters:
-
-| Field | Value |
-| :--- | :--- |
-| **Name** | `swasthya-setu-ai` |
-| **Environment** | `Python 3` |
-| **Region** | Singapore / Frankfurt / Oregon |
-| **Branch** | `main` |
-| **Build Command** | `npm --prefix frontend install && npm --prefix frontend run build && pip install -r backend/requirements.txt && python -m db.seed_data` |
-| **Start Command** | `uvicorn backend.main:app --host 0.0.0.0 --port $PORT` |
-
-### Environment Variables:
-| Variable Key | Value | Purpose |
-| :--- | :--- | :--- |
-| `PYTHONPATH` | `.` | Ensures root-level module resolution |
-| `DATABASE_URL` | `sqlite:///./swasthya_setu.db` | Default database connection string |
-| `PYTHON_VERSION` | `3.10.12` | Specifies runtime Python version |
+**Output:**
+```
+======================================================================
+SWASTHYASETU AI — FULL SYSTEM VERIFICATION SUITE
+======================================================================
+[STEP 1] Testing Database Schema & Synthetic Data Seeding (Phase 1)...  -> PASSED
+[STEP 2] Testing Demand Forecasting Engine (Phase 2)...                 -> PASSED
+[STEP 3] Testing Early Warning Engine & Multi-Factor Alerts (Phase 3)..  -> PASSED
+[STEP 4] Testing Redistribution Optimizer & Approval Flow (Phase 3).... -> PASSED
+[STEP 5] Testing Multi-State Federated Learning Simulation (Phase 4)... -> PASSED
+======================================================================
+ALL VERIFICATION SUITE CHECKS PASSED SUCCESSFULLY! (100% DEMO READY)
+======================================================================
+```
 
 ---
 
-## 📡 API Endpoints Overview
+## 📡 API Endpoints Reference
 
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
 | `GET` | `/health` | Server & database health status |
-| `GET` | `/api/phcs/rollup/national` | National aggregate metrics (Stock health, alerts count) |
+| `GET` | `/api/phcs/rollup/national` | National aggregate metrics (Total PHCs, bed occupancy, risk states) |
 | `GET` | `/api/phcs/?state_id=ST-MH` | List PHCs filtered by state or district |
-| `GET` | `/api/phcs/{phc_id}` | Detailed status of a single PHC (stock, beds, staff) |
-| `GET` | `/api/forecast/{phc_id}?horizon_days=14` | 14-day demand forecast & depletion curves |
-| `GET` | `/api/alerts/` | List active early warning shortage alerts |
-| `POST` | `/api/alerts/scan-all` | Run automated stock-out vulnerability scan across all PHCs |
-| `GET` | `/api/redistribution/recommendations` | Get pending MILP redistribution transfer proposals |
+| `GET` | `/api/phcs/{phc_id}` | Detailed telemetry of a single PHC (stocks, beds, staff, footfall) |
+| `GET` | `/api/forecast/{phc_id}?horizon_days=14` | 14-day demand forecast trajectory & stock-out risk probability |
+| `GET` | `/api/alerts/` | List active early warning shortage and outbreak alerts |
+| `POST` | `/api/alerts/scan-all` | Trigger automated vulnerability scan across all PHCs |
+| `GET` | `/api/redistribution/recommendations` | Get pending MILP redistribution transfer orders |
 | `POST` | `/api/redistribution/generate` | Trigger the PuLP optimizer to compute optimal transfers |
 | `PUT` | `/api/redistribution/recommendations/{id}/action` | Approve / Reject a transfer proposal (Human-in-the-loop) |
-| `GET` | `/api/federated/status` | Current federated training accuracy and state node weights |
-| `POST` | `/api/federated/simulate?rounds=5` | Run FedAvg multi-state federated learning simulation |
+| `GET` | `/api/federated/status` | Current federated training round status & accuracy scores |
+| `POST` | `/api/federated/simulate?rounds=5` | Run multi-state FedAvg weight aggregation simulation |
 | `POST` | `/api/sync/batch` | Synchronize offline queue items from edge PHC devices |
-| `POST` | `/api/dev/trigger-outbreak` | Simulate an epidemic demand spike for stress-testing |
+| `POST` | `/api/dev/trigger-outbreak` | Inject simulated epidemic demand surge for stress testing |
+| `POST` | `/api/dev/reseed-database` | Reset and re-seed the SQLite database with fresh synthetic data |
 
 ---
 
-## 🧪 Simulation & Stress-Testing Suite
+## 👥 Development Team
 
-To experience the platform's reactive intelligence:
-1. Open the **Developer Admin Panel** (`/developer-admin`).
-2. Click **"Trigger Outbreak Stress Test"** (e.g., Dengue surge in Pune, MH).
-3. Observe how consumption jumps by $300\%$, triggering **Early Warning Alerts**.
-4. Go to the **District Dashboard** and click **"Generate AI Redistribution"**.
-5. Watch the **PuLP Optimizer** identify neighboring PHCs with surplus Paracetamol & Saline and compute optimal, minimum-distance transfer routes.
-6. Approve the recommendation and watch both clinics return to stable inventory equilibrium.
+- **Rudra Pratap Chaurasiya** — *CSJMU KANPUR*
+- **Sankalp Sachan** — *CSJMU KANPUR*
+- **Mohammad Sirfan** — *CSJMU KANPUR*
 
 ---
 
 ## 📜 License & Acknowledgements
 
 - **License**: MIT Open Source License.
-- **Designed For**: National Digital Health Hackathons, Ayushman Bharat Digital Mission (ABDM) innovations, and Indian Public Health System strengthening.
-- **Built With Pride for India's Healthcare Heroes.** 🇮🇳
+- **Designed For**: National Digital Health Hackathons, Ayushman Bharat Digital Mission (ABDM) innovations, and strengthening India's Primary Healthcare Network.
+- **Dedicated to India's Frontline Healthcare Heroes.** 🇮🇳

@@ -131,6 +131,29 @@ export default function EmergencyModeView({ onClose, lang }) {
                     <div style={{ fontSize: '0.75rem', color: '#ef4444', fontWeight: 700 }}>
                       Urgency Score: {rec.urgency_score} / 1.0
                     </div>
+                    <button
+                      onClick={() => {
+                        window.dispatchEvent(new CustomEvent('view-route-optimizer', {
+                          detail: { fromId: rec.from_phc_id, toId: rec.to_phc_id }
+                        }));
+                      }}
+                      style={{
+                        marginTop: '4px',
+                        border: 'none',
+                        background: 'transparent',
+                        color: '#38bdf8',
+                        fontSize: '0.75rem',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        padding: 0,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '2px'
+                      }}
+                      title="Inspect AI Emergency Green Corridor Route"
+                    >
+                      🗺️ View AI Emergency Route →
+                    </button>
                   </td>
                   <td>
                     <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>

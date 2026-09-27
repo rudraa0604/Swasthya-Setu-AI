@@ -26,6 +26,8 @@ export const translations = {
     phcDetail: "PHC Facility Detail",
     phcEdgeApp: "PHC Edge App (Offline)",
     edgeEntry: "Edge Entry",
+    routeOptimization: "AI Route Optimizer",
+    routeOptimizationTitle: "AI Route Optimization & Smart Path Finder",
     emergencyMode: "EMERGENCY MODE",
     integrationNote: "Designed for seamless integration with eVIN • ABDM • HMIS",
     
@@ -149,6 +151,8 @@ export const translations = {
     phcDetail: "पीएचसी सुविधा विवरण",
     phcEdgeApp: "पीएचसी एज ऐप (ऑफ़लाइन)",
     edgeEntry: "एज डेटा प्रविष्टि",
+    routeOptimization: "AI मार्ग अनुकूलन",
+    routeOptimizationTitle: "AI मार्ग अनुकूलन एवं श्रेष्ठ पथ खोजक",
     emergencyMode: "आपातकालीन मोड",
     integrationNote: "eVIN • ABDM • HMIS के साथ एकीकरण के लिए डिज़ाइन किया गया",
     
@@ -272,6 +276,8 @@ export const translations = {
     phcDetail: "पीएचसी सुविधा तपशील",
     phcEdgeApp: "पीएचसी एज ॲप (ऑफलाइन)",
     edgeEntry: "एज डेटा नोंदणी",
+    routeOptimization: "AI मार्ग ऑप्टिमायझेशन",
+    routeOptimizationTitle: "AI मार्ग ऑप्टिमायझेशन आणि सर्वोत्तम मार्ग शोधक",
     emergencyMode: "आपत्कालीन मोड",
     integrationNote: "eVIN • ABDM • HMIS सह अखंड एकीकरणासाठी डिझाइन केलेले",
     navFeatures: "मुख्य वैशिष्ट्ये",

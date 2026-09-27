@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldAlert, Wifi, Globe, Layers, MapPin, Building, AlertTriangle, LogOut, Code } from 'lucide-react';
+import { ShieldAlert, Wifi, Globe, Layers, MapPin, Building, AlertTriangle, LogOut, Code, Navigation } from 'lucide-react';
 import { translations } from '../services/i18n';
 import LanguageSelector from './LanguageSelector';
 
@@ -47,6 +47,21 @@ export default function Header({
       <div className="nav-right">
         {/* Role-Constrained Navigation Tabs */}
         <div className="nav-tabs">
+          {/* Universal AI Route Optimization Feature Button */}
+          <button 
+            className={`nav-tab-btn ${currentTab === 'route' ? 'active' : ''}`}
+            onClick={() => { setEmergencyMode(false); setCurrentTab('route'); }}
+            style={{
+              background: currentTab === 'route' ? '#0284c7' : '#f0f9ff',
+              color: currentTab === 'route' ? '#ffffff' : '#0284c7',
+              borderColor: '#bae6fd',
+              fontWeight: 700
+            }}
+            title="AI Route Optimization & Emergency Best Path Finder"
+          >
+            <Navigation size={15} /> {t.routeOptimization || 'AI Route Optimizer'}
+          </button>
+
           {/* Developer / Master Admin can see everything + Developer Console */}
           {role === 'developer' && (
             <>

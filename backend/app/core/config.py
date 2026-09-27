@@ -5,7 +5,8 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "SwasthyaSetu AI"
     VERSION: str = "1.0.0"
     API_V1_STR: str = "/api"
-    DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///./swasthya_setu.db")
+    PROJECT_ROOT: str = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
+    DATABASE_URL: str = os.getenv("DATABASE_URL", f"sqlite:///{os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..')), 'swasthya_setu.db')}")
     IS_SIMULATED: bool = True
     
     # 3 Simulated States for demo

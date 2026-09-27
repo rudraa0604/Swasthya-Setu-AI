@@ -130,3 +130,86 @@ def act_on_recommendation(
         "new_status": rec.status,
         "message": f"Transfer recommendation {action.status.upper()} by District Officer."
     }
+
+@router.get("/routes", response_model=Dict[str, Any])
+@router.post("/optimize-routes", response_model=Dict[str, Any])
+def get_optimized_routes(
+    state_id: Optional[str] = Query("ST-MH", description="State ID (e.g. ST-MH)"),
+    district_name: Optional[str] = Query(None, description="Optional district filter (e.g. Nashik)"),
+    vehicle_capacity: int = Query(600, ge=100, le=5000, description="Vehicle cargo unit capacity"),
+    max_stops: int = Query(6, ge=2, le=12, description="Max stops per vehicle loop"),
+    db: Session = Depends(get_db)
+):
+    """
+    Runs the multi-stop Vehicle Routing Problem (VRP) AI optimization engine.
+    Calculates turn-by-turn waypoints, direct vs loop km savings, fuel reduction,
+    and cold-chain compliance for medicine transport vans.
+    """
+    state_val = state_id if isinstance(state_id, str) else getattr(state_id, "default", "ST-MH")
+    dist_val = district_name if isinstance(district_name, str) else getattr(district_name, "default", None)
+    cap_val = vehicle_capacity if isinstance(vehicle_capacity, int) else getattr(vehicle_capacity, "default", 600)
+    stops_val = max_stops if isinstance(max_stops, int) else getattr(max_stops, "default", 6)
+
+    route_plan = redistribution_optimizer.optimize_delivery_routes(
+        state_id=state_val,
+        db_session=db,
+        district_name=dist_val,
+        vehicle_capacity=cap_val,
+        max_stops_per_van=stops_val
+    )
+    return route_plan
+
+@router.post("/find-best-path", response_model=Dict[str, Any])
+@router.get("/find-best-path", response_model=Dict[str, Any])
+def find_best_path_endpoint(
+    origin_id: Optional[str] = Query("PHC-MH-PUN-01", description="Origin PHC or Supply Depot ID"),
+    destination_id: Optional[str] = Query("PHC-MH-NAS-01", description="Destination PHC or Outbreak Node ID"),
+    objective: Optional[str] = Query("fastest", description="Objective: fastest, shortest, cold_chain, eco, drone"),
+    vehicle_type: Optional[str] = Query("reefer_van", description="Vehicle type: reefer_van, ambulance, rapid_carrier, drone"),
+    avoid_obstructions: Optional[bool] = Query(True, description="Avoid hazardous segments"),
+    db: Session = Depends(get_db)
+):
+    """
+    AI Best Path Finder: Evaluates geo-terrain, highway networks, cold-chain safety,
+    and road telemetry to find the optimal delivery trajectory between health facilities.
+    """
+    orig_val = origin_id if isinstance(origin_id, str) else getattr(origin_id, "default", "PHC-MH-PUN-01")
+    dest_val = destination_id if isinstance(destination_id, str) else getattr(destination_id, "default", "PHC-MH-NAS-01")
+    obj_val = objective if isinstance(objective, str) else getattr(objective, "default", "fastest")
+    veh_val = vehicle_type if isinstance(vehicle_type, str) else getattr(vehicle_type, "default", "reefer_van")
+    avoid_val = avoid_obstructions if isinstance(avoid_obstructions, bool) else getattr(avoid_obstructions, "default", True)
+
+    result = redistribution_optimizer.find_best_path(
+        origin_id=orig_val,
+        destination_id=dest_val,
+        db_session=db,
+        objective=obj_val,
+        vehicle_type=veh_val,
+        avoid_obstructions=avoid_val
+    )
+    return result
+
+@router.post("/simulate-reroute", response_model=Dict[str, Any])
+def simulate_incident_reroute_endpoint(
+    origin_id: str = Query("PHC-MH-PUN-01"),
+    destination_id: str = Query("PHC-MH-NAS-01"),
+    blocked_lat: float = Query(19.2000),
+    blocked_lng: float = Query(73.5000),
+    hazard_type: str = Query("Monsoon Flash Flood / Road Inundation"),
+    hazard_radius_km: float = Query(3.5),
+    db: Session = Depends(get_db)
+):
+    """
+    Dynamic Incident & Disaster Rerouter: Injects an active roadblock/hazard
+    and dynamically recalculates the best safe detour.
+    """
+    result = redistribution_optimizer.simulate_incident_reroute(
+        origin_id=origin_id,
+        destination_id=destination_id,
+        blocked_lat=blocked_lat,
+        blocked_lng=blocked_lng,
+        hazard_type=hazard_type,
+        hazard_radius_km=hazard_radius_km,
+        db_session=db
+    )
+    return result

@@ -10,6 +10,7 @@ import PHCDetailView from './pages/PHCDetailView';
 import PHCEdgeApp from './pages/PHCEdgeApp';
 import EmergencyModeView from './pages/EmergencyModeView';
 import DeveloperAdminPanel from './pages/DeveloperAdminPanel';
+import AIRouteOptimizerView from './pages/AIRouteOptimizerView';
 import { translations } from './services/i18n';
 
 export default function App() {
@@ -54,6 +55,29 @@ export default function App() {
   const [selectedState, setSelectedState] = useState('ST-MH');
   const [selectedDistrict, setSelectedDistrict] = useState('Nashik');
   const [selectedPHC, setSelectedPHC] = useState('PHC-MH-NAS-01');
+  const [routeOriginPHC, setRouteOriginPHC] = useState('PHC-MH-PUN-01');
+  const [routeDestPHC, setRouteDestPHC] = useState('PHC-MH-NAS-01');
+
+  React.useEffect(() => {
+    const handleRouteOpt = (e) => {
+      if (e.detail?.fromId) setRouteOriginPHC(e.detail.fromId);
+      if (e.detail?.toId) setRouteDestPHC(e.detail.toId);
+      setEmergencyMode(false);
+      setCurrentTab('route');
+    };
+    const handleSelectStateEvt = (e) => {
+      if (e.detail) {
+        setSelectedState(e.detail);
+        setCurrentTab('state');
+      }
+    };
+    window.addEventListener('view-route-optimizer', handleRouteOpt);
+    window.addEventListener('select-state', handleSelectStateEvt);
+    return () => {
+      window.removeEventListener('view-route-optimizer', handleRouteOpt);
+      window.removeEventListener('select-state', handleSelectStateEvt);
+    };
+  }, []);
 
   const t = translations[lang] || translations.en;
 
@@ -235,6 +259,15 @@ export default function App() {
                 {currentTab === 'dev' && (
                   <DeveloperAdminPanel
                     lang={lang}
+                  />
+                )}
+
+                {currentTab === 'route' && (
+                  <AIRouteOptimizerView
+                    lang={lang}
+                    initialOrigin={routeOriginPHC || "PHC-MH-PUN-01"}
+                    initialDest={routeDestPHC || "PHC-MH-NAS-01"}
+                    onSelectPHC={handleSelectPHC}
                   />
                 )}
               </>
