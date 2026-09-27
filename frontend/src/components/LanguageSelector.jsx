@@ -21,7 +21,11 @@ export default function LanguageSelector({ lang, setLang, isDark = true }) {
   return (
     <div ref={dropdownRef} style={{ position: 'relative', display: 'inline-block' }}>
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsOpen(!isOpen);
+        }}
         style={{
           display: 'inline-flex',
           alignItems: 'center',
@@ -51,7 +55,7 @@ export default function LanguageSelector({ lang, setLang, isDark = true }) {
             top: 'calc(100% + 6px)',
             right: 0,
             zIndex: 9999,
-            minWidth: '210px',
+            minWidth: '220px',
             maxHeight: '340px',
             overflowY: 'auto',
             background: '#0d2b4e',
@@ -71,9 +75,13 @@ export default function LanguageSelector({ lang, setLang, isDark = true }) {
               const isSelected = l.code === lang;
               return (
                 <button
+                  type="button"
                   key={l.code}
-                  onClick={() => {
-                    setLang(l.code);
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (setLang) {
+                      setLang(l.code);
+                    }
                     setIsOpen(false);
                   }}
                   style={{

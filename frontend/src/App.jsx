@@ -31,7 +31,24 @@ export default function App() {
 
   const [currentTab, setCurrentTab] = useState('national'); // national, state, district, phc, edge, dev
   const [emergencyMode, setEmergencyMode] = useState(false);
-  const [lang, setLang] = useState('en'); // en, hi
+
+  // Language State with persistence in localStorage
+  const [lang, setLang] = useState(() => {
+    try {
+      return localStorage.getItem('swasthya_lang') || 'en';
+    } catch {
+      return 'en';
+    }
+  });
+
+  const handleSetLang = (newLang) => {
+    setLang(newLang);
+    try {
+      localStorage.setItem('swasthya_lang', newLang);
+    } catch (e) {
+      console.error('LocalStorage error:', e);
+    }
+  };
   
   // Navigation drill-down state
   const [selectedState, setSelectedState] = useState('ST-MH');
@@ -137,7 +154,7 @@ export default function App() {
           >
             ← {t.backToDashboard || 'Back to Dashboard'}
           </button>
-          <LoginPage onLogin={handleLogin} lang={lang} setLang={setLang} initialRole={preselectedRole} />
+          <LoginPage onLogin={handleLogin} lang={lang} setLang={handleSetLang} initialRole={preselectedRole} />
         </div>
       )}
 
@@ -147,7 +164,7 @@ export default function App() {
           onLaunchPortal={() => handleLaunchPortal()}
           onSelectRole={(roleId) => handleLaunchPortal(roleId)}
           lang={lang}
-          setLang={setLang}
+          setLang={handleSetLang}
         />
       )}
 
@@ -162,7 +179,7 @@ export default function App() {
             emergencyMode={emergencyMode}
             setEmergencyMode={setEmergencyMode}
             lang={lang}
-            setLang={setLang}
+            setLang={handleSetLang}
             selectedState={selectedState}
             selectedDistrict={selectedDistrict}
             selectedPHC={selectedPHC}

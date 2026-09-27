@@ -193,7 +193,7 @@ export default function PHCDetailView({ phcId = 'PHC-MH-NAS-01', onBack, lang })
 
       {/* Stock Depletion AI Forecast Curve */}
       {currentForecast && (
-        <StockDepletionChart forecast={currentForecast} />
+        <StockDepletionChart forecast={currentForecast} lang={lang} />
       )}
     </div>
   );
