@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from backend.app.api.endpoints import phcs, stocks, forecasts, alerts, redistribution, federated, sync, developer
+from backend.app.api.endpoints import phcs, stocks, forecasts, alerts, redistribution, federated, sync, developer, hospital
 
 api_router = APIRouter()
 
@@ -11,4 +11,6 @@ api_router.include_router(redistribution.router, prefix="/redistribution", tags=
 api_router.include_router(federated.router, prefix="/federated", tags=["Federated Learning"])
 api_router.include_router(sync.router, prefix="/sync", tags=["Offline Edge Sync"])
 api_router.include_router(developer.router, prefix="/dev", tags=["Developer Admin Operations"])
+api_router.include_router(hospital.router, prefix="/hospital", tags=["AI Hospital Resource Optimizer"])
+
 

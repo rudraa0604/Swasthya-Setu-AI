@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldAlert, Wifi, Globe, Layers, MapPin, Building, AlertTriangle, LogOut, Code, Navigation } from 'lucide-react';
+import { ShieldAlert, Wifi, Globe, Layers, MapPin, Building, Building2, AlertTriangle, LogOut, Code, Navigation } from 'lucide-react';
 import { translations } from '../services/i18n';
 import LanguageSelector from './LanguageSelector';
 
@@ -74,6 +74,27 @@ export default function Header({
           >
             <Navigation size={15} /> {t.routeOptimization || 'Smart Delivery Routes'}
           </button>
+
+          {/* AI Private Hospitals Resource Optimizer Feature Tab */}
+          <button 
+            className={`nav-tab-btn ${currentTab === 'hospital' ? 'active' : ''}`}
+            onClick={() => { 
+              setEmergencyMode(false); 
+              setCurrentTab('hospital'); 
+              window.location.hash = '#/portal/hospital';
+            }}
+            style={{
+              background: currentTab === 'hospital' ? '#0f172a' : '#f8fafc',
+              color: currentTab === 'hospital' ? '#ffffff' : '#0f172a',
+              borderColor: currentTab === 'hospital' ? '#0f172a' : '#cbd5e1',
+              fontWeight: 700
+            }}
+            title="Private Hospitals AI Resource Optimizer (Beds, ICU, OT, Staff)"
+          >
+            <Building2 size={15} color={currentTab === 'hospital' ? '#f97316' : '#ea580c'} /> {t.privateHospitals || 'Private Hospitals'}
+          </button>
+
+
 
           {/* Developer / Master Admin can see everything + Developer Console */}
           {role === 'developer' && (

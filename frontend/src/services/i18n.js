@@ -28,6 +28,8 @@ export const translations = {
     edgeEntry: "Enter Daily Data",
     routeOptimization: "Smart Delivery Routes",
     routeOptimizationTitle: "Fast Medicine Delivery Route Planner",
+    privateHospitals: "Private Hospitals",
+    privateHospitalsTitle: "Private Hospitals AI Resource Optimizer (Beds, ICU, OT, Staff)",
     emergencyMode: "EMERGENCY MODE",
     integrationNote: "Works with India's health systems: eVIN • ABDM • HMIS",
     
@@ -101,10 +103,17 @@ export const translations = {
     roleNationalBadge: "National Layer",
     roleNationalDesc: "See nation-wide health analytics, activate emergency delivery mode, and coordinate national medical supplies.",
 
+    roleHospitalTitle: "Hospital Administrator",
+    roleHospitalSubtitle: "In-Hospital Resource Optimizer",
+    roleHospitalBadge: "Facility AI",
+    roleHospitalDesc: "Forecast admissions, schedule operating rooms, optimize ward beds, and plan staff shifts under labor constraints.",
+
     roleDevTitle: "Admin & Test Console",
     roleDevSubtitle: "System Testing & Simulation",
     roleDevBadge: "Full Control",
     roleDevDesc: "Add clinics, adjust medicine quantities, test disease outbreaks, and reset demo data.",
+
+    hospitalOptimizer: "Hospital Optimizer",
 
     // Footer
     footerSub: "National Healthcare & Medicine Supply Network",
@@ -153,6 +162,8 @@ export const translations = {
     edgeEntry: "दैनिक डेटा प्रविष्टि",
     routeOptimization: "स्मार्ट डिलीवरी मार्ग",
     routeOptimizationTitle: "त्वरित दवा डिलीवरी मार्ग योजना",
+    privateHospitals: "Private Hospitals",
+    privateHospitalsTitle: "प्राइवेट अस्पताल AI संसाधन अनुकूलन (Beds, ICU, OT, Staff)",
     emergencyMode: "आपातकालीन मोड",
     integrationNote: "भारतीय स्वास्थ्य प्रणालियों के साथ एकीकृत: eVIN • ABDM • HMIS",
     
@@ -226,10 +237,17 @@ export const translations = {
     roleNationalBadge: "राष्ट्रीय स्तर",
     roleNationalDesc: "पूरे भारत का स्वास्थ्य डेटा देखें, आपातकालीन डिलीवरी मोड चालू करें और राष्ट्रीय दवा आपूर्ति का समन्वय करें।",
 
+    roleHospitalTitle: "अस्पताल प्रशासक",
+    roleHospitalSubtitle: "अस्पताल संसाधन अनुकूलक",
+    roleHospitalBadge: "सुविधा AI",
+    roleHospitalDesc: "मरीजों की भर्ती का पूर्वानुमान, ऑपरेशन थियेटर शेड्यूलिंग, वार्ड व आईसीयू बेड आवंटन एवं स्टाफ रोस्टर अनुकूलन।",
+
     roleDevTitle: "एडमिन एवं टेस्ट कंसोल",
     roleDevSubtitle: "सिस्टम परीक्षण एवं सिमुलेशन",
     roleDevBadge: "पूर्ण नियंत्रण",
     roleDevDesc: "नए क्लिनिक जोड़ें, दवा स्टॉक बदलें, महामारी का परीक्षण करें और डेमो डेटा रीसेट करें।",
+
+    hospitalOptimizer: "अस्पताल संसाधन अनुकूलक",
 
     // Footer
     footerSub: "राष्ट्रीय स्वास्थ्य एवं दवा आपूर्ति नेटवर्क",

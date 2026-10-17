@@ -71,6 +71,21 @@ export default function LandingPortalsPage({ onBackToHome, onLaunchPortal, onSel
       ]
     },
     {
+      roleId: 'hospital',
+      title: t.rolePrivateHospitalTitle || 'Private Hospitals',
+      subtitle: t.rolePrivateHospitalSubtitle || 'Private Multi-Specialty Resource Optimizer',
+      icon: Building,
+      color: '#0284c7',
+      badge: 'Private Hospital AI',
+      desc: t.rolePrivateHospitalDesc || 'Tailored for private tertiary and corporate hospitals to forecast admissions, schedule robotic & laparoscopic OTs, optimize deluxe/ICU beds, and manage specialist rosters.',
+      features: [
+        'MILP bed & private suite capacity optimization with emergency buffer',
+        'CP-SAT operating theater scheduler cutting turnover idle time',
+        'Staff shift roster under mandatory rest & specialist skill matching',
+        'Monte Carlo & RL what-if surge simulation with human-in-the-loop approvals'
+      ]
+    },
+    {
       roleId: 'developer',
       title: t.roleDevTitle || 'Admin & Test Console',
       subtitle: t.roleDevSubtitle || 'System Testing & Simulation',

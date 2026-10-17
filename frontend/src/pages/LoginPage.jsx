@@ -6,11 +6,12 @@ import LanguageSelector from '../components/LanguageSelector';
 export default function LoginPage({ onLogin, lang, setLang, initialRole = 'phc' }) {
   const t = translations[lang] || translations.en;
   
-  const [selectedRole, setSelectedRole] = useState(initialRole || 'phc'); // phc, district, state, national, developer
+  const [selectedRole, setSelectedRole] = useState(initialRole || 'phc'); // phc, district, state, national, hospital, developer
   const [username, setUsername] = useState(
     initialRole === 'district' ? 'dho.nashik@health.mh.gov.in' :
     initialRole === 'state' ? 'director.health@maharashtra.gov.in' :
     initialRole === 'national' ? 'officer.nhm@gov.in' :
+    initialRole === 'hospital' ? 'admin.civilhospital@health.mh.gov.in' :
     initialRole === 'developer' ? 'dev.admin@swasthyasetu.ai' :
     'staff.nashik01@swasthya.gov.in'
   );
@@ -27,6 +28,7 @@ export default function LoginPage({ onLogin, lang, setLang, initialRole = 'phc' 
       if (initialRole === 'district') setUsername('dho.nashik@health.mh.gov.in');
       else if (initialRole === 'state') setUsername('director.health@maharashtra.gov.in');
       else if (initialRole === 'national') setUsername('officer.nhm@gov.in');
+      else if (initialRole === 'hospital') setUsername('admin.civilhospital@health.mh.gov.in');
       else if (initialRole === 'developer') setUsername('dev.admin@swasthyasetu.ai');
       else setUsername('staff.nashik01@swasthya.gov.in');
     }
@@ -78,6 +80,17 @@ export default function LoginPage({ onLogin, lang, setLang, initialRole = 'phc' 
       description: t.roleNationalDesc
     },
     {
+      id: 'hospital',
+      title: t.rolePrivateHospitalTitle || 'Private Hospitals',
+      subtitle: t.rolePrivateHospitalSubtitle || 'Medical Director & Administrator',
+      icon: Building,
+      badge: 'Private Hospital AI',
+      color: '#0284c7',
+      defaultUsername: 'admin@apollohospitals.com',
+      scope: 'Apollo Super Speciality Hospital (350 Beds • 45 ICU • 4 OTs)',
+      description: 'Demand forecast, bed & ICU allocation, robotic OT scheduler, staff roster, emergency planner, what-if simulator.'
+    },
+    {
       id: 'developer',
       title: t.roleDevTitle,
       subtitle: t.roleDevSubtitle,
@@ -114,11 +127,13 @@ export default function LoginPage({ onLogin, lang, setLang, initialRole = 'phc' 
       displayName: selectedRole === 'phc' ? 'Dr. Ramesh Patil (Clinic Doctor)' : 
                    selectedRole === 'district' ? 'Dr. Suresh Kulkarni (District Health Officer)' :
                    selectedRole === 'state' ? 'State Health Admin (Maharashtra)' :
+                   selectedRole === 'hospital' ? 'Dr. Anita Joshi (Medical Director - Apollo)' :
                    selectedRole === 'developer' ? 'Lead Platform Admin' :
                    'Executive Health Director (National Health Ministry)',
       phcId: phcId,
       district: district,
       stateId: stateId,
+      hospitalId: selectedRole === 'hospital' ? 'HOSP-MH-NAS-DIST' : undefined,
       loginTime: new Date().toLocaleTimeString()
     };
     onLogin(userProfile);

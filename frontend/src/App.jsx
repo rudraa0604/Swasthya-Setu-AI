@@ -11,6 +11,7 @@ import PHCEdgeApp from './pages/PHCEdgeApp';
 import EmergencyModeView from './pages/EmergencyModeView';
 import DeveloperAdminPanel from './pages/DeveloperAdminPanel';
 import AIRouteOptimizerView from './pages/AIRouteOptimizerView';
+import HospitalPortal from './pages/HospitalPortal';
 import { translations } from './services/i18n';
 
 // Default demo profiles for direct portal URL access
@@ -68,6 +69,22 @@ const DEMO_PROFILES = {
     role: 'national',
     username: 'officer.nhm@gov.in',
     displayName: 'National Emergency Response Director'
+  },
+  hospital: {
+    role: 'hospital',
+    username: 'admin@apollohospitals.com',
+    displayName: 'Dr. Anita Joshi (Medical Director - Apollo)',
+    hospitalId: 'HOSP-PVT-APOLLO',
+    district: 'Nashik',
+    stateId: 'ST-MH'
+  },
+  'private-hospitals': {
+    role: 'hospital',
+    username: 'admin@apollohospitals.com',
+    displayName: 'Dr. Anita Joshi (Medical Director - Apollo)',
+    hospitalId: 'HOSP-PVT-APOLLO',
+    district: 'Nashik',
+    stateId: 'ST-MH'
   }
 };
 
@@ -155,8 +172,10 @@ export default function App() {
         setEmergencyMode(true);
       } else {
         setEmergencyMode(false);
-        if (['national', 'state', 'district', 'phc', 'edge', 'dev', 'developer', 'routes', 'route'].includes(parsed.sub)) {
-          const tab = parsed.sub === 'developer' ? 'dev' : (parsed.sub === 'routes' ? 'route' : parsed.sub);
+        if (['national', 'state', 'district', 'phc', 'edge', 'dev', 'developer', 'routes', 'route', 'hospital', 'private-hospitals', 'private-hospital'].includes(parsed.sub)) {
+          const tab = parsed.sub === 'developer' ? 'dev' 
+            : (parsed.sub === 'routes' ? 'route' 
+            : (['private-hospitals', 'private-hospital'].includes(parsed.sub) ? 'hospital' : parsed.sub));
           setCurrentTab(tab);
         }
       }
@@ -173,7 +192,9 @@ export default function App() {
       // Auto-provision demo session if user is opening a direct portal link without prior login
       setCurrentUser(prevUser => {
         if (!prevUser) {
-          const demoKey = parsed.sub === 'dev' ? 'developer' : (parsed.sub === 'routes' ? 'national' : parsed.sub);
+          const demoKey = parsed.sub === 'dev' ? 'developer' 
+            : (parsed.sub === 'routes' ? 'national' 
+            : (['private-hospitals', 'private-hospital'].includes(parsed.sub) ? 'hospital' : parsed.sub));
           const demoProfile = DEMO_PROFILES[demoKey] || DEMO_PROFILES.national;
           try {
             sessionStorage.setItem('swasthya_user', JSON.stringify(demoProfile));
@@ -254,6 +275,9 @@ export default function App() {
     } else if (userProfile.role === 'developer') {
       setCurrentTab('dev');
       window.location.hash = '#/portal/developer';
+    } else if (userProfile.role === 'hospital') {
+      setCurrentTab('hospital');
+      window.location.hash = '#/portal/hospital';
     } else {
       setCurrentTab('national');
       window.location.hash = '#/portal/national';
@@ -454,6 +478,12 @@ export default function App() {
                     initialOrigin={routeOriginPHC || "PHC-MH-PUN-01"}
                     initialDest={routeDestPHC || "PHC-MH-NAS-01"}
                     onSelectPHC={handleSelectPHC}
+                  />
+                )}
+
+                {currentTab === 'hospital' && (
+                  <HospitalPortal
+                    lang={lang}
                   />
                 )}
               </>
