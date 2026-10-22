@@ -21,11 +21,25 @@ export default function PHCHeaderSection({ phc, onBack, loadData, loading }) {
       </div>
 
       <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+        <a
+          href={`#/portal/edge/${encodeURIComponent(phc.id)}`}
+          className="btn-action btn-primary"
+          style={{ textDecoration: 'none', fontSize: '0.82rem', fontWeight: 700 }}
+        >
+          📝 Enter Patient & OPD Data
+        </a>
+        <a
+          href="#/portal/prediction"
+          className="btn-action"
+          style={{ textDecoration: 'none', fontSize: '0.82rem', fontWeight: 700, background: '#f5f3ff', color: '#6d28d9', borderColor: '#ddd6fe' }}
+        >
+          🔮 AI Outbreak Predictions
+        </a>
         <span className={`badge ${phc.risk_level === 'Critical' ? 'badge-red' : (phc.risk_level === 'Warning' ? 'badge-yellow' : 'badge-green')}`}>
           Status: {phc.risk_level.toUpperCase()}
         </span>
         <button className="btn-action" onClick={loadData} disabled={loading}>
-          <RefreshCw size={14} className={loading ? 'spin' : ''} /> Refresh PHC Node
+          <RefreshCw size={14} className={loading ? 'spin' : ''} /> Refresh
         </button>
       </div>
     </div>

@@ -48,11 +48,20 @@ export default function DistrictDashboard({ districtName = 'Nashik', onSelectPHC
           </div>
         </div>
 
-        {districtName === 'Nashik' && (
-          <span className="badge badge-red" style={{ fontSize: '0.82rem', padding: '0.4rem 0.8rem', whiteSpace: 'normal', textAlign: 'left' }}>
-            <ShieldAlert size={14} style={{ flexShrink: 0 }} /> OUTBREAK ACTIVE: High Paracetamol & IV Saline Demand Surge
-          </span>
-        )}
+        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+          <a
+            href="#/portal/prediction"
+            className="btn-action"
+            style={{ textDecoration: 'none', fontSize: '0.82rem', fontWeight: 700, background: '#f5f3ff', color: '#6d28d9', borderColor: '#ddd6fe' }}
+          >
+            🔮 District AI Predictions
+          </a>
+          {districtName === 'Nashik' && (
+            <span className="badge badge-red" style={{ fontSize: '0.82rem', padding: '0.4rem 0.8rem', whiteSpace: 'normal', textAlign: 'left' }}>
+              <ShieldAlert size={14} style={{ flexShrink: 0 }} /> OUTBREAK ACTIVE: High Paracetamol & IV Saline Demand Surge
+            </span>
+          )}
+        </div>
       </div>
 
       {/* AI Proximity Early Warning Radar for District Clinics */}
@@ -98,13 +107,23 @@ export default function DistrictDashboard({ districtName = 'Nashik', onSelectPHC
                       </span>
                     </td>
                     <td>
-                      <button
-                        className="btn-action btn-primary"
-                        onClick={() => onSelectPHC(phc.id)}
-                        style={{ fontSize: '0.75rem' }}
-                      >
-                        Check Stock & Forecast →
-                      </button>
+                      <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
+                        <button
+                          className="btn-action btn-primary"
+                          onClick={() => onSelectPHC(phc.id)}
+                          style={{ fontSize: '0.75rem' }}
+                        >
+                          Check Stock & Forecast →
+                        </button>
+                        <a
+                          href={`#/portal/edge/${encodeURIComponent(phc.id)}`}
+                          className="btn-action"
+                          style={{ fontSize: '0.75rem', textDecoration: 'none', background: '#fff7ed', color: '#c2410c', borderColor: '#fed7aa', fontWeight: 700 }}
+                          title="Enter Patient & OPD Records for this clinic"
+                        >
+                          📝 Data Entry
+                        </a>
+                      </div>
                     </td>
                   </tr>
                 );

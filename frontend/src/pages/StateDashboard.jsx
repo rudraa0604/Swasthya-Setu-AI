@@ -65,7 +65,14 @@ export default function StateDashboard({ stateId = 'ST-MH', onSelectDistrict, on
           </div>
         </div>
 
-        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
+          <a
+            href="#/portal/prediction"
+            className="btn-action"
+            style={{ textDecoration: 'none', fontSize: '0.82rem', fontWeight: 700, background: '#f5f3ff', color: '#6d28d9', borderColor: '#ddd6fe' }}
+          >
+            🔮 State AI Predictions
+          </a>
           {['ST-MH', 'ST-KA', 'ST-UP'].map(sId => (
             <button
               key={sId}

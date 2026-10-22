@@ -30,6 +30,10 @@ export const translations = {
     routeOptimizationTitle: "Fast Medicine Delivery Route Planner",
     privateHospitals: "Private Hospitals",
     privateHospitalsTitle: "Private Hospitals AI Resource Optimizer (Beds, ICU, OT, Staff)",
+    aiPrediction: "AI Predictions",
+    aiPredictionTitle: "AI Epidemic Outbreak & Healthcare Demand Forecasts",
+    phcDataEntry: "PHC Data Entry Terminal",
+    hospitalDataEntry: "Hospital Patient Data Entry",
     emergencyMode: "EMERGENCY MODE",
     integrationNote: "Works with India's health systems: eVIN • ABDM • HMIS",
     
@@ -164,6 +168,10 @@ export const translations = {
     routeOptimizationTitle: "त्वरित दवा डिलीवरी मार्ग योजना",
     privateHospitals: "Private Hospitals",
     privateHospitalsTitle: "प्राइवेट अस्पताल AI संसाधन अनुकूलन (Beds, ICU, OT, Staff)",
+    aiPrediction: "AI भविष्यवाणियां",
+    aiPredictionTitle: "AI महामारी प्रकोप एवं स्वास्थ्य संसाधन मांग पूर्वानुमान",
+    phcDataEntry: "पीएचसी डेटा प्रविष्टि टर्मिनल",
+    hospitalDataEntry: "अस्पताल मरीज डेटा प्रविष्टि",
     emergencyMode: "आपातकालीन मोड",
     integrationNote: "भारतीय स्वास्थ्य प्रणालियों के साथ एकीकृत: eVIN • ABDM • HMIS",
     

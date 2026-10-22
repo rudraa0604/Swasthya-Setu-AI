@@ -12,6 +12,7 @@ import EmergencyModeView from './pages/EmergencyModeView';
 import DeveloperAdminPanel from './pages/DeveloperAdminPanel';
 import AIRouteOptimizerView from './pages/AIRouteOptimizerView';
 import HospitalPortal from './pages/HospitalPortal';
+import AIPredictionView from './pages/AIPredictionView';
 import { translations } from './services/i18n';
 
 // Default demo profiles for direct portal URL access
@@ -172,10 +173,11 @@ export default function App() {
         setEmergencyMode(true);
       } else {
         setEmergencyMode(false);
-        if (['national', 'state', 'district', 'phc', 'edge', 'dev', 'developer', 'routes', 'route', 'hospital', 'private-hospitals', 'private-hospital'].includes(parsed.sub)) {
+        if (['national', 'state', 'district', 'phc', 'edge', 'dev', 'developer', 'routes', 'route', 'hospital', 'private-hospitals', 'private-hospital', 'prediction', 'predictions', 'forecast'].includes(parsed.sub)) {
           const tab = parsed.sub === 'developer' ? 'dev' 
             : (parsed.sub === 'routes' ? 'route' 
-            : (['private-hospitals', 'private-hospital'].includes(parsed.sub) ? 'hospital' : parsed.sub));
+            : (['private-hospitals', 'private-hospital'].includes(parsed.sub) ? 'hospital' 
+            : (['predictions', 'forecast'].includes(parsed.sub) ? 'prediction' : parsed.sub)));
           setCurrentTab(tab);
         }
       }
@@ -484,6 +486,29 @@ export default function App() {
                 {currentTab === 'hospital' && (
                   <HospitalPortal
                     lang={lang}
+                  />
+                )}
+
+                {currentTab === 'prediction' && (
+                  <AIPredictionView
+                    lang={lang}
+                    userRole={currentUser?.role}
+                    userProfile={currentUser}
+                    onSelectPHC={handleSelectPHC}
+                    onSelectHospital={() => {
+                      setCurrentTab('hospital');
+                      window.location.hash = '#/portal/hospital';
+                    }}
+                    onNavigateToDataEntry={(scope) => {
+                      if (scope === 'hospital') {
+                        setCurrentTab('hospital');
+                        window.location.hash = '#/portal/hospital';
+                        window.dispatchEvent(new CustomEvent('switch-hospital-tab', { detail: 'data_entry' }));
+                      } else {
+                        setCurrentTab('edge');
+                        window.location.hash = '#/portal/edge';
+                      }
+                    }}
                   />
                 )}
               </>

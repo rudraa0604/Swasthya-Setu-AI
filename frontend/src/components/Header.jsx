@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldAlert, Wifi, Globe, Layers, MapPin, Building, Building2, AlertTriangle, LogOut, Code, Navigation } from 'lucide-react';
+import { ShieldAlert, Wifi, Globe, Layers, MapPin, Building, Building2, AlertTriangle, LogOut, Code, Navigation, Sparkles, FileSpreadsheet } from 'lucide-react';
 import { translations } from '../services/i18n';
 import LanguageSelector from './LanguageSelector';
 
@@ -94,7 +94,44 @@ export default function Header({
             <Building2 size={15} color={currentTab === 'hospital' ? '#f97316' : '#ea580c'} /> {t.privateHospitals || 'Private Hospitals'}
           </button>
 
+          {/* Universal AI Outbreak & Demand Predictions Tab (For All Logins) */}
+          <button 
+            className={`nav-tab-btn ${currentTab === 'prediction' ? 'active' : ''}`}
+            onClick={() => { 
+              setEmergencyMode(false); 
+              setCurrentTab('prediction'); 
+              window.location.hash = '#/portal/prediction';
+            }}
+            style={{
+              background: currentTab === 'prediction' ? 'linear-gradient(135deg, #7c3aed, #4f46e5)' : '#f5f3ff',
+              color: currentTab === 'prediction' ? '#ffffff' : '#6d28d9',
+              borderColor: currentTab === 'prediction' ? '#7c3aed' : '#ddd6fe',
+              fontWeight: 800,
+              boxShadow: currentTab === 'prediction' ? '0 2px 10px rgba(124, 58, 237, 0.35)' : 'none'
+            }}
+            title="Dedicated AI Outbreak & Healthcare Demand Predictions (PHC, District, State, National, Hospital)"
+          >
+            <Sparkles size={15} color={currentTab === 'prediction' ? '#ffffff' : '#7c3aed'} /> {t.aiPrediction || 'AI Predictions'}
+          </button>
 
+          {/* Private Hospital Staff Specific Tab */}
+          {role === 'hospital' && (
+            <>
+              <button 
+                className="nav-tab-btn"
+                onClick={() => { 
+                  setEmergencyMode(false); 
+                  setCurrentTab('hospital'); 
+                  window.location.hash = '#/portal/hospital';
+                  window.dispatchEvent(new CustomEvent('switch-hospital-tab', { detail: 'data_entry' }));
+                }}
+                style={{ background: '#f0fdf4', color: '#166534', borderColor: '#bbf7d0', fontWeight: 800 }}
+                title="Enter New Inpatient Admission, Triage or Medical Supplies"
+              >
+                <FileSpreadsheet size={15} color="#16a34a" /> 📝 Hospital Data Entry
+              </button>
+            </>
+          )}
 
           {/* Developer / Master Admin can see everything + Developer Console */}
           {role === 'developer' && (
@@ -162,8 +199,9 @@ export default function Header({
                   setCurrentTab('edge'); 
                   window.location.hash = '#/portal/edge';
                 }}
+                style={{ background: '#fff7ed', color: '#c2410c', borderColor: '#fed7aa', fontWeight: 700 }}
               >
-                <Wifi size={15} /> {t.edgeEntry}
+                <FileSpreadsheet size={15} /> 📝 {t.edgeEntry || 'Clinic Data Entry'}
               </button>
             </>
           )}
@@ -216,6 +254,18 @@ export default function Header({
               </button>
 
               <button 
+                className={`nav-tab-btn ${currentTab === 'edge' ? 'active' : ''}`}
+                onClick={() => { 
+                  setEmergencyMode(false); 
+                  setCurrentTab('edge'); 
+                  window.location.hash = '#/portal/edge';
+                }}
+                style={{ background: '#fff7ed', color: '#c2410c', borderColor: '#fed7aa', fontWeight: 700 }}
+              >
+                <FileSpreadsheet size={15} /> 📝 {t.edgeEntry || 'Clinic Data Entry'}
+              </button>
+
+              <button 
                 className={`nav-tab-btn ${currentTab === 'dev' ? 'active' : ''}`}
                 onClick={() => { 
                   setEmergencyMode(false); 
@@ -263,6 +313,18 @@ export default function Header({
               >
                 <Building size={15} /> Clinic Inspector
               </button>
+
+              <button 
+                className={`nav-tab-btn ${currentTab === 'edge' ? 'active' : ''}`}
+                onClick={() => { 
+                  setEmergencyMode(false); 
+                  setCurrentTab('edge'); 
+                  window.location.hash = '#/portal/edge';
+                }}
+                style={{ background: '#fff7ed', color: '#c2410c', borderColor: '#fed7aa', fontWeight: 700 }}
+              >
+                <FileSpreadsheet size={15} /> 📝 Clinic Data Entry
+              </button>
             </>
           )}
 
@@ -290,6 +352,18 @@ export default function Header({
               >
                 <Building size={15} /> Clinic Details
               </button>
+
+              <button 
+                className={`nav-tab-btn ${currentTab === 'edge' ? 'active' : ''}`}
+                onClick={() => { 
+                  setEmergencyMode(false); 
+                  setCurrentTab('edge'); 
+                  window.location.hash = '#/portal/edge';
+                }}
+                style={{ background: '#fff7ed', color: '#c2410c', borderColor: '#fed7aa', fontWeight: 700 }}
+              >
+                <FileSpreadsheet size={15} /> 📝 Enter Clinic Data
+              </button>
             </>
           )}
 
@@ -303,8 +377,9 @@ export default function Header({
                   setCurrentTab('edge'); 
                   window.location.hash = '#/portal/edge';
                 }}
+                style={{ background: currentTab === 'edge' ? '#ea580c' : '#fff7ed', color: currentTab === 'edge' ? '#ffffff' : '#c2410c', fontWeight: 800 }}
               >
-                <Wifi size={15} /> {t.phcEdgeApp}
+                <Wifi size={15} /> 📝 {t.phcDataEntry || 'PHC Data Entry Terminal'}
               </button>
 
               <button 

@@ -3,7 +3,8 @@ import {
   Building, Activity, Users, Clock, ShieldAlert, CheckCircle, 
   AlertTriangle, RefreshCw, ArrowRight, Check, X, BarChart3, 
   FileText, Sliders, HeartPulse, Sparkles, Bed, ShieldCheck, ChevronRight,
-  Award, TrendingUp, DollarSign, Stethoscope, Layers, Zap
+  Award, TrendingUp, DollarSign, Stethoscope, Layers, Zap,
+  FileSpreadsheet, UserCheck, PlusCircle, CheckCircle2, Pill
 } from 'lucide-react';
 import { hospitalApi } from '../services/api';
 import { translations } from '../services/i18n';
@@ -49,6 +50,219 @@ export default function HospitalPortal({ lang = 'en' }) {
   const [simScenarioType, setSimScenarioType] = useState('outbreak_surge');
   const [simSurgeIntensity, setSimSurgeIntensity] = useState(40);
   const [simCasualties, setSimCasualties] = useState(25);
+
+  // Hospital Live Patient Admissions & Clinical Data Entry State
+  const [admissionsList, setAdmissionsList] = useState(() => {
+    try {
+      const saved = localStorage.getItem(`swasthya_hospital_admissions_${selectedHospitalId}`);
+      if (saved) return JSON.parse(saved);
+    } catch {}
+    return [
+      {
+        id: 'ADM-APOLLO-801',
+        time: '08:30 AM',
+        patient_name: 'Anand Shirodkar',
+        age: 52,
+        gender: 'Male',
+        ward_id: 'W-ICU',
+        ward_name: 'Critical Care ICU',
+        diagnosis: 'Dengue Hemorrhagic Shock',
+        symptoms: 'Platelets 16k, Petechiae, Severe Hypotension',
+        acuity: 'Critical (Red)',
+        oxygen_needed: true,
+        ventilator_needed: false,
+        attending_doctor: 'Dr. Anita Joshi (Critical Care)',
+        status: 'Admitted'
+      },
+      {
+        id: 'ADM-APOLLO-802',
+        time: '09:15 AM',
+        patient_name: 'Pooja Kulkarni',
+        age: 31,
+        gender: 'Female',
+        ward_id: 'W-HDU',
+        ward_name: 'High Dependency Unit (HDU)',
+        diagnosis: 'Acute Viral Pneumonia',
+        symptoms: 'SpO2 88%, High Fever, Bilateral Infiltrates',
+        acuity: 'Urgent (Yellow)',
+        oxygen_needed: true,
+        ventilator_needed: false,
+        attending_doctor: 'Dr. Sameer Roy (Pulmonology)',
+        status: 'Admitted'
+      },
+      {
+        id: 'ADM-APOLLO-803',
+        time: '09:50 AM',
+        patient_name: 'Vikram Mehta',
+        age: 44,
+        gender: 'Male',
+        ward_id: 'W-SURG',
+        ward_name: 'Post-Operative Surgical Ward',
+        diagnosis: 'Polytrauma Femur Fracture',
+        symptoms: 'Asian Highway NH-60 accident, Hemorrhage controlled',
+        acuity: 'Urgent (Yellow)',
+        oxygen_needed: false,
+        ventilator_needed: false,
+        attending_doctor: 'Dr. Priya Nair (Orthopedics)',
+        status: 'Admitted'
+      }
+    ];
+  });
+
+  // Admission Form Fields
+  const [admName, setAdmName] = useState('');
+  const [admAge, setAdmAge] = useState('');
+  const [admGender, setAdmGender] = useState('Male');
+  const [admWardId, setAdmWardId] = useState('W-ICU');
+  const [admDiagnosis, setAdmDiagnosis] = useState('Dengue Hemorrhagic Fever');
+  const [admSymptoms, setAdmSymptoms] = useState('High Fever, Low Platelets');
+  const [admAcuity, setAdmAcuity] = useState('Critical (Red)');
+  const [admOxygen, setAdmOxygen] = useState(true);
+  const [admVentilator, setAdmVentilator] = useState(false);
+  const [admDoctor, setAdmDoctor] = useState('Dr. Anita Joshi (Medical Director)');
+
+  // Supply Consumption Form Fields
+  const [logSupplyItem, setLogSupplyItem] = useState('Type-D Oxygen Cylinders');
+  const [logSupplyQty, setLogSupplyQty] = useState(4);
+  const [logSupplyDept, setLogSupplyDept] = useState('Critical Care ICU');
+
+  // Listen for tab switch events
+  useEffect(() => {
+    const handleSwitch = (e) => {
+      if (e.detail) setActiveTab(e.detail);
+    };
+    window.addEventListener('switch-hospital-tab', handleSwitch);
+    return () => window.removeEventListener('switch-hospital-tab', handleSwitch);
+  }, []);
+
+  const handleRegisterPatientAdmission = (e) => {
+    e.preventDefault();
+    if (!admName.trim()) {
+      alert('Please enter patient name.');
+      return;
+    }
+
+    const assignedWard = (resources?.wards || []).find(w => w.id === admWardId);
+    const wardName = assignedWard?.name || admWardId;
+
+    const newAdm = {
+      id: `ADM-HOSP-${Date.now().toString().slice(-4)}`,
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      patient_name: admName,
+      age: Number(admAge) || 35,
+      gender: admGender,
+      ward_id: admWardId,
+      ward_name: wardName,
+      diagnosis: admDiagnosis,
+      symptoms: admSymptoms,
+      acuity: admAcuity,
+      oxygen_needed: admOxygen,
+      ventilator_needed: admVentilator,
+      attending_doctor: admDoctor,
+      status: 'Admitted'
+    };
+
+    const updated = [newAdm, ...admissionsList];
+    setAdmissionsList(updated);
+    try {
+      localStorage.setItem(`swasthya_hospital_admissions_${selectedHospitalId}`, JSON.stringify(updated));
+      localStorage.setItem('swasthya_hospital_admissions', JSON.stringify(updated));
+    } catch (err) {
+      console.warn(err);
+    }
+
+    // Live update resources state
+    if (resources?.wards) {
+      const nextWards = resources.wards.map(w => {
+        if (w.id === admWardId) {
+          const occ = w.occupied + 1;
+          const fr = Math.max(0, w.total - occ);
+          return {
+            ...w,
+            occupied: occ,
+            free: fr,
+            occupancy_pct: Math.min(100, Math.round((occ / w.total) * 100))
+          };
+        }
+        return w;
+      });
+
+      const nextEquip = { ...resources.emergency_equipment };
+      if (admVentilator) {
+        nextEquip.ventilators_in_use = (nextEquip.ventilators_in_use || 24) + 1;
+      }
+      if (admOxygen) {
+        nextEquip.type_d_cylinders_filled = Math.max(0, (nextEquip.type_d_cylinders_filled || 85) - 1);
+      }
+
+      setResources({
+        ...resources,
+        wards: nextWards,
+        emergency_equipment: nextEquip
+      });
+    }
+
+    setActionSuccessMsg(`✅ Patient ${admName} successfully admitted to ${wardName}! Ward occupancy & AI forecast recalculated in real-time.`);
+    setTimeout(() => setActionSuccessMsg(null), 5000);
+
+    // Reset form
+    setAdmName('');
+    setAdmAge('');
+  };
+
+  const handleDischargePatient = (admId) => {
+    const target = admissionsList.find(a => a.id === admId);
+    if (!target) return;
+
+    const updated = admissionsList.map(a => a.id === admId ? { ...a, status: 'Discharged / Step-Down' } : a);
+    setAdmissionsList(updated);
+    try {
+      localStorage.setItem(`swasthya_hospital_admissions_${selectedHospitalId}`, JSON.stringify(updated));
+      localStorage.setItem('swasthya_hospital_admissions', JSON.stringify(updated));
+    } catch (err) {}
+
+    // Free bed in resources
+    if (resources?.wards) {
+      const nextWards = resources.wards.map(w => {
+        if (w.id === target.ward_id) {
+          const occ = Math.max(0, w.occupied - 1);
+          const fr = w.total - occ;
+          return {
+            ...w,
+            occupied: occ,
+            free: fr,
+            occupancy_pct: Math.round((occ / w.total) * 100)
+          };
+        }
+        return w;
+      });
+
+      setResources({
+        ...resources,
+        wards: nextWards
+      });
+    }
+
+    setActionSuccessMsg(`Patient ${target.patient_name} discharged. Bed in ${target.ward_name} freed & returned to available reserve.`);
+    setTimeout(() => setActionSuccessMsg(null), 4000);
+  };
+
+  const handleLogSupplyConsumption = (e) => {
+    e.preventDefault();
+    if (resources?.emergency_equipment) {
+      const eq = { ...resources.emergency_equipment };
+      if (logSupplyItem.includes('Cylinder')) {
+        eq.type_d_cylinders_filled = Math.max(0, (eq.type_d_cylinders_filled || 85) - Number(logSupplyQty));
+      } else if (logSupplyItem.includes('Oxygen (KL)')) {
+        eq.lmo_oxygen_kl = Math.max(0, Number(((eq.lmo_oxygen_kl || 6.8) - 0.2).toFixed(1)));
+      } else if (logSupplyItem.includes('Blood')) {
+        eq.blood_o_neg_units = Math.max(0, (eq.blood_o_neg_units || 12) - Number(logSupplyQty));
+      }
+      setResources({ ...resources, emergency_equipment: eq });
+    }
+    setActionSuccessMsg(`Logged consumption: ${logSupplyQty} units of ${logSupplyItem} for ${logSupplyDept}. Equipment buffer updated.`);
+    setTimeout(() => setActionSuccessMsg(null), 4000);
+  };
 
   // Filtered list of hospitals
   const displayedHospitals = HOSPITALS_LIST.filter(h => {
@@ -515,6 +729,7 @@ export default function HospitalPortal({ lang = 'en' }) {
       }}>
         {[
           { id: 'overview', label: '📊 Live Rooms & Telemetry', count: null },
+          { id: 'data_entry', label: '📝 Patient Data Entry', count: `${admissionsList.filter(a => a.status === 'Admitted').length} Admitted` },
           { id: 'forecast', label: '📈 Demand Forecasting', count: `${forecastHorizon}d` },
           { id: 'beds', label: '🛏️ Bed & ICU Optimizer', count: 'MILP' },
           { id: 'ot', label: '🏥 OT Scheduler', count: 'CP-SAT' },
@@ -666,6 +881,455 @@ export default function HospitalPortal({ lang = 'en' }) {
               >
                 Full Emergency Planner & Safety Stock →
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* TAB CONTENT: LIVE PATIENT & CLINICAL DATA ENTRY (FOR PRIVATE & CIVIL HOSPITALS) */}
+      {activeTab === 'data_entry' && (
+        <div>
+          {/* Top Banner: Quick Counts & AI Link */}
+          <div style={{
+            background: 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)',
+            color: '#ffffff',
+            borderRadius: '12px',
+            padding: '1.25rem 1.5rem',
+            marginBottom: '1.25rem',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: '1rem',
+            boxShadow: '0 4px 14px rgba(2, 132, 199, 0.25)'
+          }}>
+            <div>
+              <div style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', color: '#bae6fd', marginBottom: '0.2rem' }}>
+                HOSPITAL CLINICAL DATA ENTRY & RECEPTION DESK
+              </div>
+              <h2 style={{ fontSize: '1.35rem', fontWeight: 900, margin: '0 0 0.25rem 0' }}>
+                Live Patient Admissions, Triage & Supply Consumption Log
+              </h2>
+              <div style={{ fontSize: '0.82rem', color: '#e0f2fe' }}>
+                Facility: <strong>{selectedHospital?.name || 'Hospital'}</strong> • Records entered here directly drive MILP bed allocation and 14-day demand forecasting.
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: '0.6rem', alignItems: 'center', flexWrap: 'wrap' }}>
+              <button
+                onClick={() => {
+                  window.location.hash = '#/portal/prediction';
+                }}
+                style={{
+                  background: '#ffffff',
+                  color: '#0369a1',
+                  border: 'none',
+                  borderRadius: '8px',
+                  padding: '0.65rem 1.15rem',
+                  fontSize: '0.85rem',
+                  fontWeight: 800,
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.45rem',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+                }}
+              >
+                <Sparkles size={16} color="#7c3aed" /> View AI Outbreak Predictions →
+              </button>
+            </div>
+          </div>
+
+          {/* KPI Strip */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+            gap: '1rem',
+            marginBottom: '1.5rem'
+          }}>
+            <div className="card" style={{ padding: '1rem', borderLeft: '4px solid #0284c7' }}>
+              <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#64748b' }}>ACTIVE INPATIENTS</div>
+              <div style={{ fontSize: '1.6rem', fontWeight: 900, color: '#0284c7', margin: '0.2rem 0' }}>
+                {admissionsList.filter(a => a.status === 'Admitted').length} Patients
+              </div>
+              <div style={{ fontSize: '0.75rem', color: '#64748b' }}>Under active care in suites & wards</div>
+            </div>
+
+            <div className="card" style={{ padding: '1rem', borderLeft: '4px solid #dc2626' }}>
+              <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#64748b' }}>CRITICAL CARE ICU OCCUPANCY</div>
+              <div style={{ fontSize: '1.6rem', fontWeight: 900, color: '#dc2626', margin: '0.2rem 0' }}>
+                {resources?.wards?.find(w => w.id === 'W-ICU')?.occupied || 25} / {resources?.wards?.find(w => w.id === 'W-ICU')?.total || 30} Beds
+              </div>
+              <div style={{ fontSize: '0.75rem', color: '#dc2626' }}>
+                {resources?.wards?.find(w => w.id === 'W-ICU')?.free || 5} free emergency buffer beds
+              </div>
+            </div>
+
+            <div className="card" style={{ padding: '1rem', borderLeft: '4px solid #16a34a' }}>
+              <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#64748b' }}>TYPE-D O2 CYLINDERS</div>
+              <div style={{ fontSize: '1.6rem', fontWeight: 900, color: '#16a34a', margin: '0.2rem 0' }}>
+                {resources?.emergency_equipment?.type_d_cylinders_filled || 85} Filled
+              </div>
+              <div style={{ fontSize: '0.75rem', color: '#166534' }}>LMO: {resources?.emergency_equipment?.lmo_oxygen_kl || 6.8} KL</div>
+            </div>
+
+            <div className="card" style={{ padding: '1rem', borderLeft: '4px solid #7c3aed' }}>
+              <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#64748b' }}>VENTILATORS IN USE</div>
+              <div style={{ fontSize: '1.6rem', fontWeight: 900, color: '#7c3aed', margin: '0.2rem 0' }}>
+                {resources?.emergency_equipment?.ventilators_in_use || 24} / {resources?.emergency_equipment?.ventilators_total || 32}
+              </div>
+              <div style={{ fontSize: '0.75rem', color: '#6d28d9' }}>8 Standby ready</div>
+            </div>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: '1.25rem', marginBottom: '1.5rem' }}>
+            {/* Form 1: Patient Admission & Outbreak Case Registration */}
+            <div className="card" style={{ padding: '1.5rem', border: '1px solid #bfdbfe' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem', paddingBottom: '0.75rem', borderBottom: '1px solid #e2e8f0' }}>
+                <UserCheck size={20} color="#0284c7" />
+                <h3 style={{ fontSize: '1.1rem', fontWeight: 800, margin: 0, color: '#0f172a' }}>
+                  Register New Patient Admission & Bed Assignment
+                </h3>
+              </div>
+
+              <form onSubmit={handleRegisterPatientAdmission}>
+                <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '0.85rem', marginBottom: '1rem' }}>
+                  <div>
+                    <label style={{ fontSize: '0.85rem', fontWeight: 700, display: 'block', marginBottom: '0.35rem' }}>
+                      Patient Full Name *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={admName}
+                      onChange={e => setAdmName(e.target.value)}
+                      placeholder="e.g. Suresh Deshmukh"
+                      style={{ width: '100%', padding: '0.65rem', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '0.9rem' }}
+                    />
+                  </div>
+
+                  <div>
+                    <label style={{ fontSize: '0.85rem', fontWeight: 700, display: 'block', marginBottom: '0.35rem' }}>
+                      Age & Gender
+                    </label>
+                    <div style={{ display: 'flex', gap: '0.4rem' }}>
+                      <input
+                        type="number"
+                        min="1"
+                        max="110"
+                        value={admAge}
+                        onChange={e => setAdmAge(e.target.value)}
+                        placeholder="Age"
+                        style={{ width: '55%', padding: '0.65rem', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '0.9rem' }}
+                      />
+                      <select
+                        value={admGender}
+                        onChange={e => setAdmGender(e.target.value)}
+                        style={{ width: '45%', padding: '0.65rem', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '0.85rem' }}
+                      >
+                        <option value="Male">M</option>
+                        <option value="Female">F</option>
+                        <option value="Other">O</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.85rem', marginBottom: '1rem' }}>
+                  <div>
+                    <label style={{ fontSize: '0.85rem', fontWeight: 700, display: 'block', marginBottom: '0.35rem' }}>
+                      Target Ward / Bed Category *
+                    </label>
+                    <select
+                      value={admWardId}
+                      onChange={e => setAdmWardId(e.target.value)}
+                      style={{ width: '100%', padding: '0.65rem', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '0.85rem', fontWeight: 600 }}
+                    >
+                      {(resources?.wards || []).map(w => (
+                        <option key={w.id} value={w.id}>
+                          {w.name} ({w.free} free beds)
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label style={{ fontSize: '0.85rem', fontWeight: 700, display: 'block', marginBottom: '0.35rem' }}>
+                      Acuity / Priority Level
+                    </label>
+                    <select
+                      value={admAcuity}
+                      onChange={e => setAdmAcuity(e.target.value)}
+                      style={{ width: '100%', padding: '0.65rem', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '0.85rem' }}
+                    >
+                      <option value="Critical (Red)">🚨 Critical (Red) - Immediate ICU/Resuscitation</option>
+                      <option value="Urgent (Yellow)">⚠️ Urgent (Yellow) - High-acuity Inpatient</option>
+                      <option value="Stable (Green)">🟢 Stable (Green) - General Observation</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div style={{ marginBottom: '1rem' }}>
+                  <label style={{ fontSize: '0.85rem', fontWeight: 700, display: 'block', marginBottom: '0.35rem' }}>
+                    Provisional Diagnosis / Pathology *
+                  </label>
+                  <select
+                    value={admDiagnosis}
+                    onChange={e => setAdmDiagnosis(e.target.value)}
+                    style={{ width: '100%', padding: '0.65rem', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '0.85rem', fontWeight: 600 }}
+                  >
+                    <option value="Dengue Hemorrhagic Fever">🦟 Severe Dengue Hemorrhagic Fever (Thrombocytopenia)</option>
+                    <option value="Acute Viral Pneumonia">🫁 Acute Viral Pneumonia / Severe Respiratory Distress</option>
+                    <option value="Polytrauma (Highway Crash)">🚗 Polytrauma / Major Highway Accident</option>
+                    <option value="Acute Myocardial Infarction">❤️ Acute Myocardial Infarction / Cardiac Shock</option>
+                    <option value="Falciparum Malaria with Jaundice">🔬 Falciparum Malaria (Cerebral/Hepatic)</option>
+                    <option value="Acute Gastroenteritis / Sepsis">💧 Severe Gastroenteritis / Dehydration Sepsis</option>
+                    <option value="Elective Laparoscopic / Ortho">🏥 Scheduled Surgical Inpatient</option>
+                  </select>
+                </div>
+
+                <div style={{ marginBottom: '1rem' }}>
+                  <label style={{ fontSize: '0.85rem', fontWeight: 700, display: 'block', marginBottom: '0.35rem' }}>
+                    Chief Symptoms & Clinical Notes
+                  </label>
+                  <input
+                    type="text"
+                    value={admSymptoms}
+                    onChange={e => setAdmSymptoms(e.target.value)}
+                    placeholder="e.g. Platelets 20k, High Fever, Epistaxis, Severe Dyspnea"
+                    style={{ width: '100%', padding: '0.65rem', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '0.85rem' }}
+                  />
+                </div>
+
+                {/* Life Support Checkboxes */}
+                <div style={{ display: 'flex', gap: '1.25rem', marginBottom: '1.25rem', background: '#f8fafc', padding: '0.75rem', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}>
+                    <input
+                      type="checkbox"
+                      checked={admOxygen}
+                      onChange={e => setAdmOxygen(e.target.checked)}
+                      style={{ cursor: 'pointer' }}
+                    />
+                    Requires Oxygen Therapy
+                  </label>
+
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}>
+                    <input
+                      type="checkbox"
+                      checked={admVentilator}
+                      onChange={e => setAdmVentilator(e.target.checked)}
+                      style={{ cursor: 'pointer' }}
+                    />
+                    Requires Invasive Ventilator
+                  </label>
+                </div>
+
+                <button
+                  type="submit"
+                  className="btn-action btn-primary"
+                  style={{ width: '100%', padding: '0.8rem', justifyContent: 'center', fontWeight: 800, background: '#0284c7', borderColor: '#0284c7' }}
+                >
+                  <CheckCircle2 size={18} /> Confirm Admission & Update Bed Telemetry
+                </button>
+              </form>
+            </div>
+
+            {/* Form 2: Emergency Supplies & Quick Bed Adjuster */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              {/* Daily Supply Consumption Form */}
+              <div className="card" style={{ padding: '1.5rem', border: '1px solid #e2e8f0' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem', paddingBottom: '0.5rem', borderBottom: '1px solid #e2e8f0' }}>
+                  <Pill size={18} color="#ea580c" />
+                  <h3 style={{ fontSize: '1.05rem', fontWeight: 800, margin: 0, color: '#0f172a' }}>
+                    Medical Gas & Critical Medicine Usage Log
+                  </h3>
+                </div>
+
+                <form onSubmit={handleLogSupplyConsumption}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '0.75rem', marginBottom: '1rem' }}>
+                    <div>
+                      <label style={{ fontSize: '0.82rem', fontWeight: 700, display: 'block', marginBottom: '0.3rem' }}>
+                        Resource / Supply
+                      </label>
+                      <select
+                        value={logSupplyItem}
+                        onChange={e => setLogSupplyItem(e.target.value)}
+                        style={{ width: '100%', padding: '0.6rem', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '0.85rem' }}
+                      >
+                        <option value="Type-D Oxygen Cylinders">Type-D Oxygen Cylinders</option>
+                        <option value="Liquid Medical Oxygen (KL)">Liquid Medical Oxygen (KL)</option>
+                        <option value="O-Negative Blood Units">O-Negative Blood Units</option>
+                        <option value="IV Normal Saline 500ml">IV Normal Saline 500ml</option>
+                        <option value="Paracetamol IV Infusion">Paracetamol IV Infusion</option>
+                        <option value="Remdesivir / Antiviral Vials">Remdesivir / Antiviral Vials</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label style={{ fontSize: '0.82rem', fontWeight: 700, display: 'block', marginBottom: '0.3rem' }}>
+                        Quantity Used
+                      </label>
+                      <input
+                        type="number"
+                        min="1"
+                        max="50"
+                        value={logSupplyQty}
+                        onChange={e => setLogSupplyQty(e.target.value)}
+                        style={{ width: '100%', padding: '0.6rem', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '0.85rem' }}
+                      />
+                    </div>
+                  </div>
+
+                  <div style={{ marginBottom: '1rem' }}>
+                    <label style={{ fontSize: '0.82rem', fontWeight: 700, display: 'block', marginBottom: '0.3rem' }}>
+                      Consuming Department
+                    </label>
+                    <select
+                      value={logSupplyDept}
+                      onChange={e => setLogSupplyDept(e.target.value)}
+                      style={{ width: '100%', padding: '0.6rem', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '0.85rem' }}
+                    >
+                      <option value="Critical Care ICU">Critical Care ICU</option>
+                      <option value="Emergency Observation Triage">Emergency Observation Triage</option>
+                      <option value="Operating Theater (OR-1 Trauma)">Operating Theater (OR-1 Trauma)</option>
+                      <option value="High Dependency Unit">High Dependency Unit</option>
+                    </select>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="btn-action btn-primary"
+                    style={{ width: '100%', padding: '0.65rem', justifyContent: 'center', fontWeight: 800 }}
+                  >
+                    <CheckCircle2 size={16} /> Deduct & Save Supply Log
+                  </button>
+                </form>
+              </div>
+
+              {/* Quick Bed Status Adjuster */}
+              <div className="card" style={{ padding: '1.25rem', border: '1px solid #e2e8f0' }}>
+                <h4 style={{ fontSize: '0.95rem', fontWeight: 800, margin: '0 0 0.75rem 0', color: '#0f172a' }}>
+                  ⚡ Quick Ward Bed Count Adjuster (+/- 1)
+                </h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  {(resources?.wards || []).slice(0, 4).map(w => (
+                    <div key={w.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.82rem', background: '#f8fafc', padding: '0.5rem 0.75rem', borderRadius: '6px' }}>
+                      <span style={{ fontWeight: 700 }}>{w.name} ({w.occupied}/{w.total})</span>
+                      <div style={{ display: 'flex', gap: '0.4rem' }}>
+                        <button
+                          onClick={() => {
+                            if (w.occupied < w.total) {
+                              const nextWards = resources.wards.map(x => x.id === w.id ? { ...x, occupied: x.occupied + 1, free: x.free - 1 } : x);
+                              setResources({ ...resources, wards: nextWards });
+                            }
+                          }}
+                          style={{ padding: '0.2rem 0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1', background: '#ffffff', cursor: 'pointer', fontWeight: 800 }}
+                        >
+                          +1 In
+                        </button>
+                        <button
+                          onClick={() => {
+                            if (w.occupied > 0) {
+                              const nextWards = resources.wards.map(x => x.id === w.id ? { ...x, occupied: x.occupied - 1, free: x.free + 1 } : x);
+                              setResources({ ...resources, wards: nextWards });
+                            }
+                          }}
+                          style={{ padding: '0.2rem 0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1', background: '#ffffff', cursor: 'pointer', fontWeight: 800 }}
+                        >
+                          -1 Out
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Section 4: Live Hospital Admissions Ledger */}
+          <div className="panel">
+            <div className="panel-header">
+              <div className="panel-title">
+                <FileSpreadsheet size={20} color="#0284c7" />
+                <span>Live Hospital Admissions & Active Inpatients Ledger</span>
+              </div>
+              <span className="badge badge-primary">{admissionsList.length} Total Registered</span>
+            </div>
+
+            <div className="table-container">
+              <table className="custom-table">
+                <thead>
+                  <tr>
+                    <th>Admission ID</th>
+                    <th>Time</th>
+                    <th>Patient Name</th>
+                    <th>Age/Gender</th>
+                    <th>Ward / Bed Assigned</th>
+                    <th>Diagnosis</th>
+                    <th>Acuity</th>
+                    <th>O2 / Vent</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {admissionsList.map(a => (
+                    <tr key={a.id}>
+                      <td style={{ fontFamily: 'monospace', fontWeight: 700, color: '#0284c7' }}>{a.id}</td>
+                      <td style={{ fontSize: '0.8rem', color: '#64748b' }}>{a.time}</td>
+                      <td style={{ fontWeight: 700 }}>{a.patient_name}</td>
+                      <td>{a.age}y / {a.gender}</td>
+                      <td style={{ fontWeight: 600 }}>{a.ward_name}</td>
+                      <td>
+                        <span className={`badge ${a.diagnosis.includes('Dengue') ? 'badge-red' : (a.diagnosis.includes('Trauma') ? 'badge-yellow' : 'badge-primary')}`}>
+                          {a.diagnosis}
+                        </span>
+                      </td>
+                      <td>
+                        <span style={{
+                          fontSize: '0.75rem',
+                          fontWeight: 800,
+                          padding: '0.2rem 0.5rem',
+                          borderRadius: '4px',
+                          background: a.acuity.includes('Critical') ? '#fee2e2' : (a.acuity.includes('Urgent') ? '#fef3c7' : '#dcfce7'),
+                          color: a.acuity.includes('Critical') ? '#dc2626' : (a.acuity.includes('Urgent') ? '#d97706' : '#16a34a')
+                        }}>
+                          {a.acuity}
+                        </span>
+                      </td>
+                      <td style={{ fontSize: '0.78rem' }}>
+                        {a.oxygen_needed ? '💨 O2' : ''} {a.ventilator_needed ? '🫁 Vent' : ''} {!a.oxygen_needed && !a.ventilator_needed ? 'Room Air' : ''}
+                      </td>
+                      <td>
+                        <span className={`badge ${a.status === 'Admitted' ? 'badge-green' : 'badge-yellow'}`}>
+                          {a.status}
+                        </span>
+                      </td>
+                      <td>
+                        {a.status === 'Admitted' ? (
+                          <button
+                            onClick={() => handleDischargePatient(a.id)}
+                            style={{
+                              padding: '0.3rem 0.6rem',
+                              borderRadius: '4px',
+                              border: '1px solid #cbd5e1',
+                              background: '#ffffff',
+                              fontSize: '0.75rem',
+                              fontWeight: 700,
+                              color: '#b91c1c',
+                              cursor: 'pointer'
+                            }}
+                          >
+                            Discharge / Free Bed
+                          </button>
+                        ) : (
+                          <span style={{ fontSize: '0.75rem', color: '#64748b' }}>Discharged</span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
