@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { translations } from '../services/i18n';
 import ProximityEarlyWarningRadar from '../components/ProximityEarlyWarningRadar';
+import PanelGuideBanner from '../components/PanelGuideBanner';
 
 export default function AIPredictionView({ 
   lang = 'en', 
@@ -65,6 +66,9 @@ export default function AIPredictionView({
 
   return (
     <div style={{ maxWidth: '1400px', margin: '0 auto', paddingBottom: '3rem' }}>
+      {/* Friendly Explainer & Action Guide Banner */}
+      <PanelGuideBanner role="prediction" lang={lang} />
+
       {/* Top AI Command Header Banner */}
       <div style={{
         background: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%)',

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Header from './components/Header';
+import PortalSidebar from './components/PortalSidebar';
 import SplashScreen from './components/SplashScreen';
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
@@ -100,7 +101,7 @@ function parseHash(hashStr) {
   
   const root = parts[0].toLowerCase();
   
-  if (['features', 'portals', 'architecture', 'credits'].includes(root)) {
+  if (['features', 'portals', 'architecture', 'credits', 'faq'].includes(root)) {
     return { type: 'landing', sub: root, param: null };
   }
   
@@ -162,6 +163,17 @@ export default function App() {
   const [selectedPHC, setSelectedPHC] = useState('PHC-MH-NAS-01');
   const [routeOriginPHC, setRouteOriginPHC] = useState('PHC-MH-PUN-01');
   const [routeDestPHC, setRouteDestPHC] = useState('PHC-MH-NAS-01');
+
+  // Sidebar & System Walkthrough states
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
+    try {
+      return localStorage.getItem('swasthya_sidebar_collapsed') === 'true';
+    } catch {
+      return false;
+    }
+  });
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const [showTourModal, setShowTourModal] = useState(false);
 
   // Synchronize route changes from URL hash
   const syncRouteFromHash = useCallback(() => {
@@ -386,134 +398,161 @@ export default function App() {
 
       {/* Multi-page Router View 3: Operational Portal Hub */}
       {route.type === 'portal' && (
-        <div className="app-container">
-          <Header
+        <div className="portal-layout">
+          {/* Collapsible Left Navigation Sidebar */}
+          <PortalSidebar
             user={currentUser || DEMO_PROFILES.national}
-            onLogout={handleLogout}
             currentTab={currentTab}
             setCurrentTab={setCurrentTab}
             emergencyMode={emergencyMode}
             setEmergencyMode={setEmergencyMode}
             lang={lang}
-            setLang={handleSetLang}
+            onLogout={handleLogout}
             selectedState={selectedState}
             selectedDistrict={selectedDistrict}
             selectedPHC={selectedPHC}
+            sidebarCollapsed={sidebarCollapsed}
+            setSidebarCollapsed={setSidebarCollapsed}
+            mobileSidebarOpen={mobileSidebarOpen}
+            setMobileSidebarOpen={setMobileSidebarOpen}
+            onOpenGuide={() => setShowTourModal(true)}
           />
 
-          <main className="main-content">
-            {emergencyMode ? (
-              <EmergencyModeView 
-                onClose={() => {
-                  setEmergencyMode(false);
-                  window.location.hash = `#/portal/${currentTab}`;
-                }} 
-                lang={lang} 
-              />
-            ) : (
-              <>
-                {currentTab === 'national' && (
-                  <NationalDashboard
-                    onSelectState={handleSelectState}
-                    onSelectPHC={handleSelectPHC}
-                    lang={lang}
-                  />
-                )}
+          <div className="portal-main-area">
+            <Header
+              user={currentUser || DEMO_PROFILES.national}
+              onLogout={handleLogout}
+              currentTab={currentTab}
+              setCurrentTab={setCurrentTab}
+              emergencyMode={emergencyMode}
+              setEmergencyMode={setEmergencyMode}
+              lang={lang}
+              setLang={handleSetLang}
+              selectedState={selectedState}
+              selectedDistrict={selectedDistrict}
+              selectedPHC={selectedPHC}
+              sidebarCollapsed={sidebarCollapsed}
+              setSidebarCollapsed={setSidebarCollapsed}
+              mobileSidebarOpen={mobileSidebarOpen}
+              setMobileSidebarOpen={setMobileSidebarOpen}
+              showTourModal={showTourModal}
+              setShowTourModal={setShowTourModal}
+            />
 
-                {currentTab === 'state' && (
-                  <StateDashboard
-                    stateId={selectedState}
-                    onSelectDistrict={handleSelectDistrict}
-                    onSelectPHC={handleSelectPHC}
-                    onBackToNational={() => {
-                      setCurrentTab('national');
-                      window.location.hash = '#/portal/national';
-                    }}
-                    lang={lang}
-                  />
-                )}
+            <main className="main-content">
+              {emergencyMode ? (
+                <EmergencyModeView 
+                  onClose={() => {
+                    setEmergencyMode(false);
+                    window.location.hash = `#/portal/${currentTab}`;
+                  }} 
+                  lang={lang} 
+                />
+              ) : (
+                <>
+                  {currentTab === 'national' && (
+                    <NationalDashboard
+                      onSelectState={handleSelectState}
+                      onSelectPHC={handleSelectPHC}
+                      lang={lang}
+                    />
+                  )}
 
-                {currentTab === 'district' && (
-                  <DistrictDashboard
-                    districtName={selectedDistrict}
-                    onSelectPHC={handleSelectPHC}
-                    onBackToState={() => {
-                      setCurrentTab('state');
-                      window.location.hash = `#/portal/state/${encodeURIComponent(selectedState)}`;
-                    }}
-                    lang={lang}
-                  />
-                )}
+                  {currentTab === 'state' && (
+                    <StateDashboard
+                      stateId={selectedState}
+                      onSelectDistrict={handleSelectDistrict}
+                      onSelectPHC={handleSelectPHC}
+                      onBackToNational={() => {
+                        setCurrentTab('national');
+                        window.location.hash = '#/portal/national';
+                      }}
+                      lang={lang}
+                    />
+                  )}
 
-                {currentTab === 'phc' && (
-                  <PHCDetailView
-                    phcId={selectedPHC}
-                    onBack={() => {
-                      if (currentUser?.role === 'phc') {
-                        setCurrentTab('edge');
-                        window.location.hash = `#/portal/edge/${encodeURIComponent(selectedPHC)}`;
-                      } else {
-                        setCurrentTab('district');
-                        window.location.hash = `#/portal/district/${encodeURIComponent(selectedDistrict)}`;
-                      }
-                    }}
-                    lang={lang}
-                  />
-                )}
+                  {currentTab === 'district' && (
+                    <DistrictDashboard
+                      districtName={selectedDistrict}
+                      onSelectPHC={handleSelectPHC}
+                      onBackToState={() => {
+                        setCurrentTab('state');
+                        window.location.hash = `#/portal/state/${encodeURIComponent(selectedState)}`;
+                      }}
+                      lang={lang}
+                    />
+                  )}
 
-                {currentTab === 'edge' && (
-                  <PHCEdgeApp
-                    phcId={selectedPHC}
-                    lang={lang}
-                  />
-                )}
+                  {currentTab === 'phc' && (
+                    <PHCDetailView
+                      phcId={selectedPHC}
+                      onBack={() => {
+                        if (currentUser?.role === 'phc') {
+                          setCurrentTab('edge');
+                          window.location.hash = `#/portal/edge/${encodeURIComponent(selectedPHC)}`;
+                        } else {
+                          setCurrentTab('district');
+                          window.location.hash = `#/portal/district/${encodeURIComponent(selectedDistrict)}`;
+                        }
+                      }}
+                      lang={lang}
+                    />
+                  )}
 
-                {currentTab === 'dev' && (
-                  <DeveloperAdminPanel
-                    lang={lang}
-                  />
-                )}
+                  {currentTab === 'edge' && (
+                    <PHCEdgeApp
+                      phcId={selectedPHC}
+                      lang={lang}
+                    />
+                  )}
 
-                {currentTab === 'route' && (
-                  <AIRouteOptimizerView
-                    lang={lang}
-                    initialOrigin={routeOriginPHC || "PHC-MH-PUN-01"}
-                    initialDest={routeDestPHC || "PHC-MH-NAS-01"}
-                    onSelectPHC={handleSelectPHC}
-                  />
-                )}
+                  {currentTab === 'dev' && (
+                    <DeveloperAdminPanel
+                      lang={lang}
+                    />
+                  )}
 
-                {currentTab === 'hospital' && (
-                  <HospitalPortal
-                    lang={lang}
-                  />
-                )}
+                  {currentTab === 'route' && (
+                    <AIRouteOptimizerView
+                      lang={lang}
+                      initialOrigin={routeOriginPHC || "PHC-MH-PUN-01"}
+                      initialDest={routeDestPHC || "PHC-MH-NAS-01"}
+                      onSelectPHC={handleSelectPHC}
+                    />
+                  )}
 
-                {currentTab === 'prediction' && (
-                  <AIPredictionView
-                    lang={lang}
-                    userRole={currentUser?.role}
-                    userProfile={currentUser}
-                    onSelectPHC={handleSelectPHC}
-                    onSelectHospital={() => {
-                      setCurrentTab('hospital');
-                      window.location.hash = '#/portal/hospital';
-                    }}
-                    onNavigateToDataEntry={(scope) => {
-                      if (scope === 'hospital') {
+                  {currentTab === 'hospital' && (
+                    <HospitalPortal
+                      lang={lang}
+                    />
+                  )}
+
+                  {currentTab === 'prediction' && (
+                    <AIPredictionView
+                      lang={lang}
+                      userRole={currentUser?.role}
+                      userProfile={currentUser}
+                      onSelectPHC={handleSelectPHC}
+                      onSelectHospital={() => {
                         setCurrentTab('hospital');
                         window.location.hash = '#/portal/hospital';
-                        window.dispatchEvent(new CustomEvent('switch-hospital-tab', { detail: 'data_entry' }));
-                      } else {
-                        setCurrentTab('edge');
-                        window.location.hash = '#/portal/edge';
-                      }
-                    }}
-                  />
-                )}
-              </>
-            )}
-          </main>
+                      }}
+                      onNavigateToDataEntry={(scope) => {
+                        if (scope === 'hospital') {
+                          setCurrentTab('hospital');
+                          window.location.hash = '#/portal/hospital';
+                          window.dispatchEvent(new CustomEvent('switch-hospital-tab', { detail: 'data_entry' }));
+                        } else {
+                          setCurrentTab('edge');
+                          window.location.hash = '#/portal/edge';
+                        }
+                      }}
+                    />
+                  )}
+                </>
+              )}
+            </main>
+          </div>
         </div>
       )}
     </div>

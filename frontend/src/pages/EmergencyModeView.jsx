@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ShieldAlert, AlertOctagon, Check, X, Truck, BedDouble, Users, ArrowLeft } from 'lucide-react';
 import { apiClient } from '../services/api';
 import { translations } from '../services/i18n';
+import PanelGuideBanner from '../components/PanelGuideBanner';
 
 export default function EmergencyModeView({ onClose, lang }) {
   const t = translations[lang] || translations.en;
@@ -35,6 +36,9 @@ export default function EmergencyModeView({ onClose, lang }) {
 
   return (
     <div className="emergency-takeover">
+      {/* Friendly Explainer & Action Guide Banner */}
+      <PanelGuideBanner role="emergency" lang={lang} />
+
       {/* Top Banner */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#dc2626', padding: '1rem', borderRadius: '10px', marginBottom: '1.5rem', boxShadow: '0 4px 15px rgba(220, 38, 38, 0.4)', flexWrap: 'wrap', gap: '0.75rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>

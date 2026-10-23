@@ -9,6 +9,7 @@ import PhcManagerSection from '../components/sections/dev_panel/PhcManagerSectio
 import StockManagerSection from '../components/sections/dev_panel/StockManagerSection';
 import OutbreakSimulatorSection from '../components/sections/dev_panel/OutbreakSimulatorSection';
 import SystemMaintenanceSection from '../components/sections/dev_panel/SystemMaintenanceSection';
+import PanelGuideBanner from '../components/PanelGuideBanner';
 
 export default function DeveloperAdminPanel({ lang }) {
   const t = translations[lang] || translations.en;
@@ -211,6 +212,9 @@ export default function DeveloperAdminPanel({ lang }) {
   return (
     <div style={{ background: '#020617', minHeight: '85vh', padding: '1.25rem', borderRadius: '12px', color: '#f8fafc' }}>
       
+      {/* Friendly Explainer & Action Guide Banner */}
+      <PanelGuideBanner role="dev" lang={lang} />
+
       {/* Top Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '0.75rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>

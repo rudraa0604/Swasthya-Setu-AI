@@ -40,6 +40,9 @@ export const translations = {
     // Landing Navbar & Login
     navFeatures: "Key Features",
     navPortals: "User Roles",
+    navFaq: "FAQ",
+    faqTitle: "Frequently Asked Questions",
+    faqSubtitle: "Everything you need to know about SwasthyaSetu AI",
     launchPortal: "Open Dashboard",
     backToLanding: "Back to Home",
     backToDashboard: "Back to Dashboard",

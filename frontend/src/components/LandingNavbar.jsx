@@ -156,6 +156,24 @@ export default function LandingNavbar({
           >
             Team Credits
           </a>
+
+          <a
+            href="#/faq"
+            onClick={(e) => { e.preventDefault(); handleNavClick('faq'); }}
+            style={{
+              textDecoration: 'none',
+              background: activePage === 'faq' ? 'rgba(234, 88, 12, 0.25)' : 'none',
+              border: activePage === 'faq' ? '1px solid #f97316' : '1px solid transparent',
+              borderRadius: '6px',
+              padding: '0.2rem 0.55rem',
+              color: activePage === 'faq' ? '#f97316' : '#ffffff',
+              fontSize: '0.88rem',
+              fontWeight: activePage === 'faq' ? 800 : 600,
+              cursor: 'pointer'
+            }}
+          >
+            {t.navFaq || 'FAQ'}
+          </a>
         </div>
 
         {/* Right Action Buttons with Language Selector */}
@@ -252,6 +270,12 @@ export default function LandingNavbar({
             style={{ background: 'none', border: 'none', color: '#ffffff', fontSize: '1rem', fontWeight: 600, textAlign: 'left', padding: '0.4rem 0', cursor: 'pointer' }}
           >
             Team Credits
+          </button>
+          <button
+            onClick={() => handleNavClick('faq')}
+            style={{ background: 'none', border: 'none', color: '#f97316', fontSize: '1rem', fontWeight: 700, textAlign: 'left', padding: '0.4rem 0', cursor: 'pointer' }}
+          >
+            {t.navFaq || 'FAQ & Knowledge Base'}
           </button>
         </div>
       )}

@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { hospitalApi } from '../services/api';
 import { translations } from '../services/i18n';
+import PanelGuideBanner from '../components/PanelGuideBanner';
 
 // Comprehensive catalog of Private Multi-Specialty and Government Civil Hospitals
 const HOSPITALS_LIST = [
@@ -408,6 +409,9 @@ export default function HospitalPortal({ lang = 'en' }) {
           {actionSuccessMsg}
         </div>
       )}
+
+      {/* Friendly Explainer & Action Guide Banner */}
+      <PanelGuideBanner role="hospital" lang={lang} />
 
       {/* Institutional Architecture Positioning Banner */}
       <div style={{

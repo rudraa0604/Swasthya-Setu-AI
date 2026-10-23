@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Building, MapPin, AlertTriangle, CheckCircle, ShieldAlert, ArrowLeft } from 'lucide-react';
 import RedistributionPanel from '../components/RedistributionPanel';
 import ProximityEarlyWarningRadar from '../components/ProximityEarlyWarningRadar';
+import PanelGuideBanner from '../components/PanelGuideBanner';
 import { apiClient } from '../services/api';
 import { translations } from '../services/i18n';
 
@@ -33,6 +34,9 @@ export default function DistrictDashboard({ districtName = 'Nashik', onSelectPHC
 
   return (
     <div>
+      {/* Friendly Explainer & Action Guide Banner */}
+      <PanelGuideBanner role="district" lang={lang} />
+
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.75rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
           <button className="btn-action btn-reject" onClick={onBackToState}>

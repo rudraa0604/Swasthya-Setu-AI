@@ -28,6 +28,15 @@ export default function FooterSection({ lang }) {
           </div>
         </div>
 
+        <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'center', flexWrap: 'wrap' }}>
+          <a href="#/" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '0.82rem' }}>Home</a>
+          <a href="#/features" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '0.82rem' }}>{t.navFeatures}</a>
+          <a href="#/portals" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '0.82rem' }}>{t.navPortals}</a>
+          <a href="#/architecture" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '0.82rem' }}>Architecture</a>
+          <a href="#/credits" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '0.82rem' }}>Credits</a>
+          <a href="#/faq" style={{ color: '#f97316', textDecoration: 'none', fontSize: '0.82rem', fontWeight: 700 }}>FAQ & Docs</a>
+        </div>
+
         <div style={{ textAlign: 'left' }}>
           <div>{t.footerBuiltFor}</div>
           <div style={{ marginTop: '0.4rem', color: '#94a3b8', fontSize: '0.82rem' }}>

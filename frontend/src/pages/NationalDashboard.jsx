@@ -6,6 +6,7 @@ import FederatedStatusPanel from '../components/FederatedStatusPanel';
 import RedistributionPanel from '../components/RedistributionPanel';
 import TelemetryIntegrationBanner from '../components/sections/national/TelemetryIntegrationBanner';
 import EarlyWarningAlertsSection from '../components/sections/national/EarlyWarningAlertsSection';
+import PanelGuideBanner from '../components/PanelGuideBanner';
 import { apiClient } from '../services/api';
 import { translations } from '../services/i18n';
 
@@ -52,6 +53,9 @@ export default function NationalDashboard({ onSelectState, onSelectPHC, lang }) 
 
   return (
     <div>
+      {/* Friendly Explainer & Action Guide Banner */}
+      <PanelGuideBanner role="national" lang={lang} />
+
       {/* Top Telemetry Integration Note */}
       <TelemetryIntegrationBanner onScanAlerts={handleScanAlerts} lang={lang} />
 

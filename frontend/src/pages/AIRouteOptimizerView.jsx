@@ -12,6 +12,7 @@ import RouteMapCanvas from '../components/sections/route_optimizer/RouteMapCanva
 import TurnByTurnGuidance from '../components/sections/route_optimizer/TurnByTurnGuidance';
 import FleetVrpSection from '../components/sections/route_optimizer/FleetVrpSection';
 import IncidentRerouteSimulator from '../components/sections/route_optimizer/IncidentRerouteSimulator';
+import PanelGuideBanner from '../components/PanelGuideBanner';
 
 export default function AIRouteOptimizerView({ 
   lang = 'en', 
@@ -185,6 +186,9 @@ export default function AIRouteOptimizerView({
   return (
     <div style={{ background: '#020617', minHeight: '85vh', padding: '1.25rem', borderRadius: '12px', color: '#f8fafc' }}>
       
+      {/* Friendly Explainer & Action Guide Banner */}
+      <PanelGuideBanner role="route" lang={lang} />
+
       {/* Top Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '0.75rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>

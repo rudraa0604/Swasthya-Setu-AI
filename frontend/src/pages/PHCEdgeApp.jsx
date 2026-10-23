@@ -7,6 +7,7 @@ import {
 import { apiClient } from '../services/api';
 import { translations } from '../services/i18n';
 import ProximityEarlyWarningRadar from '../components/ProximityEarlyWarningRadar';
+import PanelGuideBanner from '../components/PanelGuideBanner';
 
 export default function PHCEdgeApp({ phcId = 'PHC-MH-NAS-01', lang = 'en' }) {
   const t = translations[lang] || translations.en;
@@ -214,6 +215,9 @@ export default function PHCEdgeApp({ phcId = 'PHC-MH-NAS-01', lang = 'en' }) {
 
   return (
     <div style={{ maxWidth: '960px', margin: '0 auto', paddingBottom: '3rem' }}>
+      {/* Friendly Explainer & Action Guide Banner */}
+      <PanelGuideBanner role="edge" lang={lang} />
+
       {/* Top Banner with Direct Link to AI Outbreak Predictions */}
       <div style={{
         background: 'linear-gradient(135deg, #0f172a, #1e293b)',

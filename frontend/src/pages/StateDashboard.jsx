@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { MapPin, Building, ShieldAlert, CheckCircle, AlertTriangle, ArrowLeft } from 'lucide-react';
 import MetricCard from '../components/MetricCard';
 import RedistributionPanel from '../components/RedistributionPanel';
+import PanelGuideBanner from '../components/PanelGuideBanner';
 import { apiClient } from '../services/api';
 import { translations } from '../services/i18n';
 
@@ -48,6 +49,9 @@ export default function StateDashboard({ stateId = 'ST-MH', onSelectDistrict, on
 
   return (
     <div>
+      {/* Friendly Explainer & Action Guide Banner */}
+      <PanelGuideBanner role="state" lang={lang} />
+
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.75rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
           {onBackToNational && (

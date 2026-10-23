@@ -7,11 +7,13 @@ import HeroScrollCanvas from '../components/HeroScrollCanvas';
 import LandingNavbar from '../components/LandingNavbar';
 import FeaturesGridSection from '../components/sections/landing/FeaturesGridSection';
 import RolePortalsSection from '../components/sections/landing/RolePortalsSection';
+import FaqSection from '../components/sections/landing/FaqSection';
 import FooterSection from '../components/sections/landing/FooterSection';
 import LandingFeaturesPage from './LandingFeaturesPage';
 import LandingPortalsPage from './LandingPortalsPage';
 import LandingArchitecturePage from './LandingArchitecturePage';
 import LandingCreditsPage from './LandingCreditsPage';
+import LandingFaqPage from './LandingFaqPage';
 import { translations } from '../services/i18n';
 
 export default function LandingPage({ 
@@ -22,7 +24,7 @@ export default function LandingPage({
   initialLandingPage = 'home'
 }) {
   const t = translations[lang] || translations.en;
-  const [activeLandingPage, setActiveLandingPage] = useState(initialLandingPage || 'home'); // 'home', 'features', 'portals', 'architecture', 'credits'
+  const [activeLandingPage, setActiveLandingPage] = useState(initialLandingPage || 'home'); // 'home', 'features', 'portals', 'architecture', 'credits', 'faq'
 
   React.useEffect(() => {
     if (initialLandingPage) {
@@ -106,6 +108,15 @@ export default function LandingPage({
       desc: t.roleNationalDesc
     },
     {
+      roleId: 'hospital',
+      title: t.rolePrivateHospitalTitle || 'Private Hospitals',
+      subtitle: t.rolePrivateHospitalSubtitle || 'Medical Director & Administrator',
+      icon: Building,
+      color: '#0284c7',
+      badge: 'Private Hospital AI',
+      desc: t.rolePrivateHospitalDesc || 'Demand forecast, bed & ICU allocation, robotic OT scheduler, staff roster, emergency planner, what-if simulator.'
+    },
+    {
       roleId: 'developer',
       title: t.roleDevTitle,
       subtitle: t.roleDevSubtitle,
@@ -163,6 +174,18 @@ export default function LandingPage({
     );
   }
 
+  if (activeLandingPage === 'faq') {
+    return (
+      <LandingFaqPage 
+        onBackToHome={() => setActiveLandingPage('home')}
+        onLaunchPortal={onLaunchPortal}
+        onSelectRole={onSelectRole}
+        lang={lang}
+        setLang={setLang}
+      />
+    );
+  }
+
   // Default Home Overview
   return (
     <div style={{ background: 'transparent', color: '#f8fafc', minHeight: '100vh', fontFamily: 'var(--font-sans)', position: 'relative' }}>
@@ -189,7 +212,14 @@ export default function LandingPage({
         lang={lang} 
       />
 
-      {/* Section 3: Footer */}
+      {/* Section 3: Interactive FAQ Section in Hero Landing Page */}
+      <FaqSection 
+        lang={lang} 
+        onLaunchPortal={onLaunchPortal} 
+        onSelectRole={onSelectRole} 
+      />
+
+      {/* Section 4: Footer */}
       <FooterSection lang={lang} />
     </div>
   );
