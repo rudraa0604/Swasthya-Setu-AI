@@ -15,6 +15,7 @@ import LandingArchitecturePage from './LandingArchitecturePage';
 import LandingCreditsPage from './LandingCreditsPage';
 import LandingFaqPage from './LandingFaqPage';
 import { translations } from '../services/i18n';
+import { initScrollReveal } from '../services/scrollReveal';
 
 export default function LandingPage({ 
   onLaunchPortal, 
@@ -31,6 +32,30 @@ export default function LandingPage({
       setActiveLandingPage(initialLandingPage);
     }
   }, [initialLandingPage]);
+
+  // Scroll Progress Bar & Scroll Reveal Trigger
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const progressBar = document.getElementById('scroll-progress-bar');
+      if (progressBar) {
+        const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0;
+        progressBar.style.width = `${progress}%`;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    const timer = setTimeout(() => {
+      initScrollReveal();
+    }, 80);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearTimeout(timer);
+    };
+  }, [activeLandingPage]);
 
   const features = [
     {
@@ -189,6 +214,9 @@ export default function LandingPage({
   // Default Home Overview
   return (
     <div style={{ background: 'transparent', color: '#f8fafc', minHeight: '100vh', fontFamily: 'var(--font-sans)', position: 'relative' }}>
+      {/* Top Scroll Progress Indicator */}
+      <div id="scroll-progress-bar" role="progressbar" aria-valuemin={0} aria-valuemax={100} />
+
       {/* Top Navbar with Multi-Page Navigation */}
       <LandingNavbar 
         onLaunchPortal={onLaunchPortal} 

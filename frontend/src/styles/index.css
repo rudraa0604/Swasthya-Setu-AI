@@ -47,6 +47,120 @@
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 14px;
+
+  /* Standardized Typographic Scale (Target: <= 10 sizes total across the page) */
+  --text-xs: 0.75rem;    /* 12px - Badges, pill tags, breadcrumbs */
+  --text-sm: 0.875rem;   /* 14px - Body secondary, nav items, button labels */
+  --text-base: 1rem;     /* 16px - Body default, descriptions */
+  --text-lg: 1.125rem;   /* 18px - Card titles, subheaders */
+  --text-xl: 1.5rem;     /* 24px - Section headers */
+  --text-2xl: 2.25rem;   /* 36px - Main titles */
+
+  /* Consolidated Semantic Text Colors (Target: <= 12 colors total across the page) */
+  --color-text-white: #ffffff;     /* High contrast headings and primary buttons */
+  --color-text-light: #f1f5f9;     /* Body text on dark backgrounds */
+  --color-text-muted: #94a3b8;     /* Secondary / meta descriptions */
+  --color-text-brand: #f97316;     /* Interactive links and primary highlights */
+  --color-text-warm: #fed7aa;      /* Warm accents and badge text */
+  --color-text-green: #22c55e;     /* Positive indicators / highlights */
+}
+
+/* ==========================================================================
+   Standardized Button System (Max 4 Cohesive Button Archetypes)
+   ========================================================================== */
+
+/* 1. Primary Action Button: Saffron Gradient with glow */
+.btn-primary-action {
+  background: linear-gradient(135deg, #ea580c 0%, #16a34a 100%);
+  color: #ffffff !important;
+  border: none;
+  border-radius: var(--radius-md, 10px);
+  padding: 0.65rem 1.4rem;
+  font-size: var(--text-sm, 0.875rem);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+  box-shadow: 0 4px 14px rgba(234, 88, 12, 0.35);
+  text-decoration: none;
+  min-height: 40px;
+  box-sizing: border-box;
+}
+.btn-primary-action:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(234, 88, 12, 0.45);
+}
+.btn-primary-action:active {
+  transform: translateY(0);
+}
+
+/* 2. Secondary Outline / Glass Button */
+.btn-secondary-action {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-md, 10px);
+  padding: 0.65rem 1.25rem;
+  font-size: var(--text-sm, 0.875rem);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-decoration: none;
+  min-height: 40px;
+  box-sizing: border-box;
+}
+.btn-secondary-action:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+/* 3. Category / Filter Pill Button */
+.btn-pill-action {
+  background: rgba(30, 41, 59, 0.7);
+  color: #f1f5f9;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+  padding: 0.45rem 1rem;
+  font-size: var(--text-xs, 0.75rem);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  min-height: 34px;
+}
+.btn-pill-action.active,
+.btn-pill-action:hover {
+  background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
+  color: #ffffff;
+  border-color: #f97316;
+  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.35);
+}
+
+/* 4. Ghost / Icon Button */
+.btn-ghost-action {
+  background: transparent;
+  color: #f1f5f9;
+  border: none;
+  padding: 0.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: var(--radius-sm, 6px);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.btn-ghost-action:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
 }
 
 *, *::before, *::after {
@@ -851,4 +965,332 @@ textarea {
     width: 100% !important;
   }
 }
+
+/* ==========================================================================
+   Task 1, 2, 3, 4, 5: Home Page Scroll Reveal & Interactive Animations
+   ========================================================================== */
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Top Scroll Progress Bar */
+#scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, #ea580c 0%, #f97316 50%, #16a34a 100%);
+  z-index: 10000;
+  transition: width 0.08s ease-out;
+  pointer-events: none;
+}
+
+/* Reusable Scroll Reveal Classes */
+.reveal,
+.reveal-up {
+  opacity: 0;
+  transform: translateY(35px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-80px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(80px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+/* In-View Trigger State */
+.reveal.in-view,
+.reveal-up.in-view,
+.reveal-left.in-view,
+.reveal-right.in-view,
+.reveal-scale.in-view,
+.reveal-row.in-view .reveal-left,
+.reveal-row.in-view .reveal-right {
+  opacity: 1 !important;
+  transform: translate(0, 0) scale(1) !important;
+}
+
+/* Stagger Delays */
+.delay-100 { transition-delay: 100ms !important; }
+.delay-200 { transition-delay: 200ms !important; }
+.delay-300 { transition-delay: 300ms !important; }
+.delay-400 { transition-delay: 400ms !important; }
+.delay-500 { transition-delay: 500ms !important; }
+
+/* Subtext Delayed Reveal */
+.reveal-subtext {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.22s, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.22s;
+  will-change: opacity, transform;
+}
+.reveal-subtext.in-view {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* Button Soft Pulse Glow */
+@keyframes buttonSoftPulseGlow {
+  0%, 100% {
+    box-shadow: 0 4px 14px rgba(234, 88, 12, 0.35), 0 0 0 0 rgba(234, 88, 12, 0.4);
+  }
+  50% {
+    box-shadow: 0 6px 20px rgba(234, 88, 12, 0.55), 0 0 16px 2px rgba(22, 163, 74, 0.4);
+  }
+}
+.btn-pulse-glow {
+  animation: buttonSoftPulseGlow 3.2s ease-in-out infinite;
+}
+
+/* Icon Floating & Gentle Pulse Animation */
+@keyframes iconFloatingPulse {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-4px) scale(1.05);
+  }
+}
+.capability-icon-box {
+  animation: iconFloatingPulse 3.5s ease-in-out infinite;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Task 2: 5 Core Capabilities Grid Architecture */
+.capabilities-grid-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.25rem;
+  width: 100%;
+}
+
+.capabilities-card {
+  background: rgba(20, 25, 35, 0.55);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 14px;
+  padding: 1.5rem 1.15rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  min-width: 0;
+  position: relative;
+}
+
+.capabilities-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(249, 115, 22, 0.45);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45), 0 0 25px var(--glow-color, rgba(234, 88, 12, 0.3));
+}
+
+.capabilities-card:hover .capability-icon-box {
+  transform: scale(1.15) rotate(6deg) !important;
+}
+
+.capabilities-pillar-label {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.5s ease 0.45s, transform 0.5s ease 0.45s;
+}
+
+.capabilities-card.in-view .capabilities-pillar-label {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Tablet: 3 + 2 Centered */
+@media (max-width: 1024px) and (min-width: 641px) {
+  .capabilities-grid-container {
+    grid-template-columns: repeat(6, 1fr) !important;
+    gap: 1.15rem !important;
+  }
+  .capabilities-card:nth-child(1),
+  .capabilities-card:nth-child(2),
+  .capabilities-card:nth-child(3) {
+    grid-column: span 2 !important;
+  }
+  .capabilities-card:nth-child(4) {
+    grid-column: 2 / span 2 !important;
+  }
+  .capabilities-card:nth-child(5) {
+    grid-column: 4 / span 2 !important;
+  }
+}
+
+/* Mobile: 1 Column */
+@media (max-width: 640px) {
+  .capabilities-grid-container {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+  .capabilities-card {
+    grid-column: auto !important;
+  }
+}
+
+/* Task 3: 3 Rows with 2 Cards Each (Role-Based Portals) */
+.role-portal-rows-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.role-portal-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.role-portal-card {
+  background: rgba(20, 25, 35, 0.55);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 14px;
+  padding: 1.5rem 1.65rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 190px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.role-portal-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--role-color) !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45), 0 0 24px var(--role-glow) !important;
+}
+
+.role-portal-card .role-arrow-icon {
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.role-portal-card:hover .role-arrow-icon {
+  transform: translateX(6px);
+}
+
+@media (max-width: 640px) {
+  .role-portal-row {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+  .role-portal-row .reveal-left {
+    transform: translateX(-40px) !important;
+  }
+  .role-portal-row .reveal-right {
+    transform: translateX(40px) !important;
+  }
+  .role-portal-row.in-view .reveal-left,
+  .role-portal-row.in-view .reveal-right {
+    transform: translateX(0) !important;
+  }
+}
+
+/* Task 4: Smooth FAQ Accordion */
+.faq-accordion-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.faq-accordion-body.open {
+  grid-template-rows: 1fr;
+}
+
+.faq-accordion-inner {
+  overflow: hidden;
+}
+
+/* Task 5: Mobile Horizontal Scrolling for FAQ Chips */
+@media (max-width: 640px) {
+  .faq-category-chips {
+    display: flex !important;
+    overflow-x: auto !important;
+    flex-wrap: nowrap !important;
+    justify-content: flex-start !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 0.25rem 0.5rem 0.75rem 0.5rem !important;
+    width: 100% !important;
+  }
+  .faq-category-chips::-webkit-scrollbar {
+    display: none;
+  }
+  .faq-category-chips .btn-pill-action {
+    flex-shrink: 0 !important;
+    min-height: 44px !important;
+    white-space: nowrap !important;
+  }
+}
+
+/* Touch Targets Minimum 44px */
+button,
+a.btn-primary-action,
+a.btn-secondary-action,
+.btn-pill-action {
+  min-height: 44px;
+  box-sizing: border-box;
+}
+
+/* Large Monitors Centered Container */
+@media (min-width: 1440px) {
+  .landing-max-width-container {
+    max-width: 1440px !important;
+    margin: 0 auto !important;
+  }
+}
+
+/* Reduced Motion Setting */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal,
+  .reveal-up,
+  .reveal-left,
+  .reveal-right,
+  .reveal-scale,
+  .reveal-subtext,
+  .role-portal-row .reveal-left,
+  .role-portal-row .reveal-right {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .btn-pulse-glow,
+  .capability-icon-box {
+    animation: none !important;
+  }
+}
+
 

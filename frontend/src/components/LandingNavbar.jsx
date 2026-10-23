@@ -182,43 +182,31 @@ export default function LandingNavbar({
 
           <button
             onClick={handleLaunchClick}
+            className="btn-primary-action btn-pulse-glow"
             style={{
-              background: 'linear-gradient(135deg, #ea580c 0%, #16a34a 100%)',
-              color: '#ffffff',
-              border: 'none',
-              padding: '0.45rem 0.85rem',
-              borderRadius: '8px',
-              fontSize: 'clamp(0.75rem, 2vw, 0.85rem)',
-              fontWeight: 700,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.35rem',
-              boxShadow: '0 4px 12px rgba(234, 88, 12, 0.35)',
-              whiteSpace: 'nowrap',
-              minHeight: '36px'
+              padding: '0.5rem 1rem',
+              fontSize: 'var(--text-sm, 0.875rem)',
+              minHeight: '44px'
             }}
           >
-            <LogIn size={14} /> {t.launchPortal}
+            <LogIn size={15} /> <span>{t.launchPortal}</span>
           </button>
 
           {/* Mobile Menu Toggle Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle Navigation Menu"
+            className="btn-ghost-action mobile-nav-toggle"
             style={{
-              background: 'transparent',
-              border: 'none',
-              color: '#ffffff',
-              cursor: 'pointer',
-              padding: '0.35rem',
               display: 'none',
+              minHeight: '44px',
+              minWidth: '44px',
+              padding: '0.45rem',
               alignItems: 'center',
               justifyContent: 'center'
             }}
-            className="mobile-nav-toggle"
           >
-            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </nav>
@@ -238,42 +226,42 @@ export default function LandingNavbar({
             zIndex: 99,
             display: 'flex',
             flexDirection: 'column',
-            gap: '0.75rem'
+            gap: '0.5rem'
           }}
         >
           <button
             onClick={() => handleNavClick('home')}
-            style={{ background: 'none', border: 'none', color: '#ffffff', fontSize: '1rem', fontWeight: 600, textAlign: 'left', padding: '0.4rem 0', cursor: 'pointer' }}
+            style={{ background: 'none', border: 'none', color: '#ffffff', fontSize: '1rem', fontWeight: 600, textAlign: 'left', padding: '0.6rem 0.5rem', minHeight: '44px', display: 'flex', alignItems: 'center', cursor: 'pointer' }}
           >
             Home
           </button>
           <button
             onClick={() => handleNavClick('features')}
-            style={{ background: 'none', border: 'none', color: '#ffffff', fontSize: '1rem', fontWeight: 600, textAlign: 'left', padding: '0.4rem 0', cursor: 'pointer' }}
+            style={{ background: 'none', border: 'none', color: '#ffffff', fontSize: '1rem', fontWeight: 600, textAlign: 'left', padding: '0.6rem 0.5rem', minHeight: '44px', display: 'flex', alignItems: 'center', cursor: 'pointer' }}
           >
             {t.navFeatures}
           </button>
           <button
             onClick={() => handleNavClick('portals')}
-            style={{ background: 'none', border: 'none', color: '#ffffff', fontSize: '1rem', fontWeight: 600, textAlign: 'left', padding: '0.4rem 0', cursor: 'pointer' }}
+            style={{ background: 'none', border: 'none', color: '#ffffff', fontSize: '1rem', fontWeight: 600, textAlign: 'left', padding: '0.6rem 0.5rem', minHeight: '44px', display: 'flex', alignItems: 'center', cursor: 'pointer' }}
           >
             {t.navPortals}
           </button>
           <button
             onClick={() => handleNavClick('architecture')}
-            style={{ background: 'none', border: 'none', color: '#ffffff', fontSize: '1rem', fontWeight: 600, textAlign: 'left', padding: '0.4rem 0', cursor: 'pointer' }}
+            style={{ background: 'none', border: 'none', color: '#ffffff', fontSize: '1rem', fontWeight: 600, textAlign: 'left', padding: '0.6rem 0.5rem', minHeight: '44px', display: 'flex', alignItems: 'center', cursor: 'pointer' }}
           >
             Architecture
           </button>
           <button
             onClick={() => handleNavClick('credits')}
-            style={{ background: 'none', border: 'none', color: '#ffffff', fontSize: '1rem', fontWeight: 600, textAlign: 'left', padding: '0.4rem 0', cursor: 'pointer' }}
+            style={{ background: 'none', border: 'none', color: '#ffffff', fontSize: '1rem', fontWeight: 600, textAlign: 'left', padding: '0.6rem 0.5rem', minHeight: '44px', display: 'flex', alignItems: 'center', cursor: 'pointer' }}
           >
             Team Credits
           </button>
           <button
             onClick={() => handleNavClick('faq')}
-            style={{ background: 'none', border: 'none', color: '#f97316', fontSize: '1rem', fontWeight: 700, textAlign: 'left', padding: '0.4rem 0', cursor: 'pointer' }}
+            style={{ background: 'none', border: 'none', color: '#f97316', fontSize: '1rem', fontWeight: 700, textAlign: 'left', padding: '0.6rem 0.5rem', minHeight: '44px', display: 'flex', alignItems: 'center', cursor: 'pointer' }}
           >
             {t.navFaq || 'FAQ & Knowledge Base'}
           </button>

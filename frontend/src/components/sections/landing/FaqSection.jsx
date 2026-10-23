@@ -137,27 +137,29 @@ export default function FaqSection({ lang, onLaunchPortal, onSelectRole }) {
         {/* Section Header */}
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
           <div
+            className="reveal-scale"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.45rem',
               background: 'rgba(234, 88, 12, 0.18)',
               border: '1px solid rgba(249, 115, 22, 0.45)',
-              color: '#fed7aa',
+              color: 'var(--color-text-warm, #fed7aa)',
               padding: '0.35rem 0.95rem',
               borderRadius: '999px',
-              fontSize: '0.82rem',
+              fontSize: 'var(--text-xs, 0.75rem)',
               fontWeight: 700,
               marginBottom: '0.85rem'
             }}
           >
-            <HelpCircle size={15} color="#f97316" /> FREQUENTLY ASKED QUESTIONS
+            <HelpCircle size={15} color="#f97316" /> Frequently Asked Questions
           </div>
           <h2
+            className="reveal-up"
             style={{
               fontSize: 'clamp(1.75rem, 3.5vw, 2.75rem)',
               fontWeight: 900,
-              color: '#ffffff',
+              color: 'var(--color-text-white, #ffffff)',
               letterSpacing: '-0.02em',
               margin: '0 0 0.75rem 0',
               textShadow: '0 2px 10px rgba(0,0,0,0.5)'
@@ -166,11 +168,12 @@ export default function FaqSection({ lang, onLaunchPortal, onSelectRole }) {
             Everything You Need to Know About SwasthyaSetu AI
           </h2>
           <p
+            className="reveal-subtext"
             style={{
-              color: '#cbd5e1',
+              color: 'var(--color-text-muted, #94a3b8)',
               maxWidth: '680px',
               margin: '0 auto',
-              fontSize: 'clamp(0.9rem, 2vw, 1.05rem)',
+              fontSize: 'var(--text-base, 1rem)',
               lineHeight: 1.6
             }}
           >
@@ -180,6 +183,7 @@ export default function FaqSection({ lang, onLaunchPortal, onSelectRole }) {
 
         {/* Live Search Bar */}
         <div
+          className="reveal-up"
           style={{
             maxWidth: '640px',
             margin: '0 auto 1.75rem auto',
@@ -218,18 +222,16 @@ export default function FaqSection({ lang, onLaunchPortal, onSelectRole }) {
           {searchQuery && (
             <button
               onClick={() => setSearchQuery('')}
+              className="btn-ghost-action"
               style={{
                 position: 'absolute',
-                right: '12px',
+                right: '10px',
                 top: '50%',
                 transform: 'translateY(-50%)',
                 background: 'rgba(255,255,255,0.15)',
-                border: 'none',
-                color: '#ffffff',
                 borderRadius: '999px',
-                padding: '0.15rem 0.5rem',
-                fontSize: '0.72rem',
-                cursor: 'pointer'
+                padding: '0.2rem 0.55rem',
+                fontSize: 'var(--text-xs, 0.75rem)'
               }}
             >
               Clear
@@ -237,8 +239,9 @@ export default function FaqSection({ lang, onLaunchPortal, onSelectRole }) {
           )}
         </div>
 
-        {/* Category Pills Filter */}
+        {/* Category Pills Filter (Horizontally scrollable on mobile) */}
         <div
+          className="faq-category-chips"
           style={{
             display: 'flex',
             justifyContent: 'center',
@@ -251,29 +254,14 @@ export default function FaqSection({ lang, onLaunchPortal, onSelectRole }) {
             <button
               key={cat.id}
               onClick={() => setSelectedCategory(cat.id)}
-              style={{
-                background: selectedCategory === cat.id 
-                  ? 'linear-gradient(135deg, #ea580c 0%, #c2410c 100%)' 
-                  : 'rgba(30, 41, 59, 0.7)',
-                color: selectedCategory === cat.id ? '#ffffff' : '#cbd5e1',
-                border: selectedCategory === cat.id 
-                  ? '1px solid #f97316' 
-                  : '1px solid rgba(255, 255, 255, 0.1)',
-                padding: '0.45rem 0.9rem',
-                borderRadius: '999px',
-                fontSize: '0.82rem',
-                fontWeight: selectedCategory === cat.id ? 800 : 600,
-                cursor: 'pointer',
-                transition: 'all 0.15s ease',
-                boxShadow: selectedCategory === cat.id ? '0 4px 12px rgba(234, 88, 12, 0.35)' : 'none'
-              }}
+              className={`btn-pill-action ${selectedCategory === cat.id ? 'active' : ''}`}
             >
               {cat.label}
             </button>
           ))}
         </div>
 
-        {/* Accordion Questions List */}
+        {/* Accordion Questions List with Staggered Fade Up */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
           {filteredFaqs.length === 0 ? (
             <div
@@ -294,11 +282,13 @@ export default function FaqSection({ lang, onLaunchPortal, onSelectRole }) {
               </p>
             </div>
           ) : (
-            filteredFaqs.map((faq) => {
+            filteredFaqs.map((faq, faqIdx) => {
               const isOpen = openFaqId === faq.id;
+              const delayClass = `delay-${Math.min((faqIdx + 1) * 80, 500)}`;
               return (
                 <div
                   key={faq.id}
+                  className={`reveal-up ${delayClass}`}
                   style={{
                     background: isOpen ? 'rgba(23, 37, 58, 0.95)' : 'rgba(15, 23, 42, 0.7)',
                     border: isOpen 
@@ -306,7 +296,7 @@ export default function FaqSection({ lang, onLaunchPortal, onSelectRole }) {
                       : '1px solid rgba(255, 255, 255, 0.12)',
                     borderRadius: '12px',
                     overflow: 'hidden',
-                    transition: 'all 0.2s ease',
+                    transition: 'border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1)',
                     boxShadow: isOpen 
                       ? `0 8px 24px ${faq.color}25` 
                       : '0 4px 12px rgba(0,0,0,0.2)'
@@ -322,13 +312,14 @@ export default function FaqSection({ lang, onLaunchPortal, onSelectRole }) {
                       alignItems: 'center',
                       cursor: 'pointer',
                       gap: '1rem',
-                      userSelect: 'none'
+                      userSelect: 'none',
+                      minHeight: '44px'
                     }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
                       <span
                         style={{
-                          fontSize: '0.72rem',
+                          fontSize: 'var(--text-xs, 0.75rem)',
                           fontWeight: 800,
                           color: faq.color,
                           background: `${faq.color}20`,
@@ -343,9 +334,9 @@ export default function FaqSection({ lang, onLaunchPortal, onSelectRole }) {
                       </span>
                       <h3
                         style={{
-                          fontSize: '1rem',
+                          fontSize: 'var(--text-base, 1rem)',
                           fontWeight: 700,
-                          color: '#ffffff',
+                          color: 'var(--color-text-white, #ffffff)',
                           margin: 0,
                           lineHeight: 1.35
                         }}
@@ -363,61 +354,56 @@ export default function FaqSection({ lang, onLaunchPortal, onSelectRole }) {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        flexShrink: 0
+                        flexShrink: 0,
+                        transition: 'transform 0.25s ease'
                       }}
                     >
                       {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
                     </div>
                   </div>
 
-                  {/* Expandable Answer Content */}
-                  {isOpen && (
-                    <div
-                      style={{
-                        padding: '0 1.35rem 1.25rem 1.35rem',
-                        borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-                        paddingTop: '0.85rem'
-                      }}
-                    >
-                      <p
+                  {/* Smooth Expandable Answer Content via CSS Grid 0fr -> 1fr */}
+                  <div className={`faq-accordion-body ${isOpen ? 'open' : ''}`}>
+                    <div className="faq-accordion-inner">
+                      <div
                         style={{
-                          color: '#e2e8f0',
-                          fontSize: '0.92rem',
-                          lineHeight: 1.65,
-                          margin: '0 0 1rem 0'
+                          padding: '0 1.35rem 1.25rem 1.35rem',
+                          borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+                          paddingTop: '0.85rem'
                         }}
                       >
-                        {faq.answer}
-                      </p>
+                        <p
+                          style={{
+                            color: 'var(--color-text-light, #f1f5f9)',
+                            fontSize: 'var(--text-sm, 0.875rem)',
+                            lineHeight: 1.65,
+                            margin: '0 0 1rem 0'
+                          }}
+                        >
+                          {faq.answer}
+                        </p>
 
-                      {faq.portalShortcut && (
-                        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                          <button
-                            onClick={() => {
-                              window.location.hash = faq.portalShortcut.hash;
-                              if (onLaunchPortal) onLaunchPortal();
-                            }}
-                            style={{
-                              background: `${faq.color}20`,
-                              color: faq.color,
-                              border: `1px solid ${faq.color}60`,
-                              borderRadius: '8px',
-                              padding: '0.35rem 0.85rem',
-                              fontSize: '0.8rem',
-                              fontWeight: 700,
-                              cursor: 'pointer',
-                              display: 'inline-flex',
-                              alignItems: 'center',
-                              gap: '0.4rem',
-                              transition: 'all 0.15s ease'
-                            }}
-                          >
-                            {faq.portalShortcut.label} <ArrowRight size={14} />
-                          </button>
-                        </div>
-                      )}
+                        {faq.portalShortcut && (
+                          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                            <button
+                              onClick={() => {
+                                window.location.hash = faq.portalShortcut.hash;
+                                if (onLaunchPortal) onLaunchPortal();
+                              }}
+                              className="btn-secondary-action"
+                              style={{
+                                padding: '0.4rem 0.9rem',
+                                fontSize: 'var(--text-xs, 0.75rem)',
+                                minHeight: '38px'
+                              }}
+                            >
+                              {faq.portalShortcut.label} <ArrowRight size={14} />
+                            </button>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  )}
+                  </div>
                 </div>
               );
             })
@@ -426,6 +412,7 @@ export default function FaqSection({ lang, onLaunchPortal, onSelectRole }) {
 
         {/* Bottom Callout Banner: Link to Dedicated FAQ Page & Portal */}
         <div
+          className="reveal-up"
           style={{
             marginTop: '3rem',
             background: 'linear-gradient(135deg, rgba(234, 88, 12, 0.15) 0%, rgba(22, 163, 74, 0.15) 100%)',
@@ -440,10 +427,10 @@ export default function FaqSection({ lang, onLaunchPortal, onSelectRole }) {
           }}
         >
           <div>
-            <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#ffffff', margin: '0 0 0.3rem 0' }}>
+            <h3 style={{ fontSize: 'var(--text-lg, 1.125rem)', fontWeight: 800, color: 'var(--color-text-white, #ffffff)', margin: '0 0 0.3rem 0' }}>
               Want to read the full architectural FAQ & deployment manual?
             </h3>
-            <p style={{ margin: 0, fontSize: '0.88rem', color: '#cbd5e1' }}>
+            <p style={{ margin: 0, fontSize: 'var(--text-sm, 0.875rem)', color: 'var(--color-text-muted, #94a3b8)' }}>
               Explore deep dives into mathematical formulations, federated gradient exchange, and clinical integration workflows.
             </p>
           </div>
@@ -455,23 +442,13 @@ export default function FaqSection({ lang, onLaunchPortal, onSelectRole }) {
                 e.preventDefault();
                 window.location.hash = '#/faq';
               }}
+              className="btn-secondary-action"
               style={{
-                background: '#ffffff',
-                color: '#0f172a',
-                border: 'none',
-                borderRadius: '8px',
-                padding: '0.55rem 1.15rem',
-                fontSize: '0.85rem',
-                fontWeight: 800,
-                textDecoration: 'none',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.45rem',
-                cursor: 'pointer',
-                boxShadow: '0 4px 14px rgba(0,0,0,0.2)'
+                fontSize: 'var(--text-sm, 0.875rem)',
+                padding: '0.55rem 1.15rem'
               }}
             >
-              <Info size={15} color="#ea580c" /> Open Complete FAQ Page &rarr;
+              <Info size={15} color="#f97316" /> Open Complete FAQ Page &rarr;
             </a>
 
             <button
@@ -479,19 +456,10 @@ export default function FaqSection({ lang, onLaunchPortal, onSelectRole }) {
                 window.location.hash = '#/login';
                 if (onLaunchPortal) onLaunchPortal();
               }}
+              className="btn-primary-action"
               style={{
-                background: 'linear-gradient(135deg, #ea580c 0%, #16a34a 100%)',
-                color: '#ffffff',
-                border: 'none',
-                borderRadius: '8px',
-                padding: '0.55rem 1.15rem',
-                fontSize: '0.85rem',
-                fontWeight: 800,
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.45rem',
-                boxShadow: '0 4px 14px rgba(234, 88, 12, 0.4)'
+                fontSize: 'var(--text-sm, 0.875rem)',
+                padding: '0.55rem 1.15rem'
               }}
             >
               <Sparkles size={15} /> Launch Live Demo

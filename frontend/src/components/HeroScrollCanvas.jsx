@@ -101,6 +101,10 @@ export default function HeroScrollCanvas({ onEnterPortal, lang }) {
           Math.max(0, Math.round(self.progress * (TOTAL_FRAMES - 1)))
         );
         renderFrame(frameIndex);
+        if (canvas) {
+          const parallaxY = Math.min(window.scrollY * 0.12, 100);
+          canvas.style.transform = `translate3d(0, ${parallaxY}px, 0) scale(1.04)`;
+        }
       }
     });
 
@@ -164,7 +168,9 @@ export default function HeroScrollCanvas({ onEnterPortal, lang }) {
           height: '100%',
           objectFit: 'cover',
           zIndex: 0,
-          pointerEvents: 'none'
+          pointerEvents: 'none',
+          willChange: 'transform',
+          transform: 'translate3d(0, 0, 0) scale(1.04)'
         }}
       />
 
@@ -202,6 +208,7 @@ export default function HeroScrollCanvas({ onEnterPortal, lang }) {
       >
         <div style={{ maxWidth: '850px', width: '100%' }}>
           <div
+            className="reveal-scale in-view"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -221,6 +228,7 @@ export default function HeroScrollCanvas({ onEnterPortal, lang }) {
           </div>
 
           <h1
+            className="reveal-up in-view"
             style={{
               fontSize: 'clamp(2.2rem, 4.5vw, 3.8rem)',
               fontWeight: 900,
@@ -256,9 +264,10 @@ export default function HeroScrollCanvas({ onEnterPortal, lang }) {
           </h1>
 
           <p
+            className="reveal-subtext in-view"
             style={{
-              fontSize: 'clamp(1rem, 1.8vw, 1.25rem)',
-              color: '#f8fafc',
+              fontSize: 'var(--text-base, 1rem)',
+              color: 'var(--color-text-light, #f1f5f9)',
               maxWidth: '700px',
               margin: '0 auto 2rem auto',
               lineHeight: 1.6,
@@ -268,27 +277,17 @@ export default function HeroScrollCanvas({ onEnterPortal, lang }) {
             {t.heroSubtext}
           </p>
 
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <div className="reveal-up delay-200 in-view" style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button
-              className="btn-action"
+              className="btn-primary-action btn-pulse-glow"
               onClick={() => {
                 window.location.hash = '#/login';
                 if (onEnterPortal) onEnterPortal();
               }}
               style={{
-                background: 'linear-gradient(135deg, #ea580c 0%, #16a34a 100%)',
-                color: '#ffffff',
-                padding: '0.85rem 1.85rem',
-                fontSize: '1.05rem',
-                fontWeight: 800,
-                borderRadius: '10px',
-                border: 'none',
-                boxShadow: '0 10px 25px rgba(234, 88, 12, 0.45)',
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.6rem',
-                transition: 'transform 0.15s ease'
+                padding: '0.8rem 2rem',
+                fontSize: 'var(--text-base, 1rem)',
+                minHeight: '44px'
               }}
             >
               {t.heroCTA} <ArrowRight size={18} />
@@ -310,8 +309,7 @@ export default function HeroScrollCanvas({ onEnterPortal, lang }) {
             color: '#cbd5e1',
             fontSize: '0.75rem',
             fontWeight: 600,
-            textTransform: 'uppercase',
-            letterSpacing: '0.08em',
+            letterSpacing: '0.02em',
             pointerEvents: 'none'
           }}
         >
