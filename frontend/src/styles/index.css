@@ -728,7 +728,22 @@ textarea {
   width: 100%;
   background-color: var(--bg-main);
   position: relative;
+}
+
+.portal-sidebar {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  height: 100vh !important;
+  z-index: 999;
+  overflow-y: auto;
   overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: width, transform;
+  box-sizing: border-box;
 }
 
 .portal-main-area {
@@ -736,9 +751,17 @@ textarea {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  overflow-x: hidden;
-  position: relative;
+  min-height: 100vh;
+  margin-left: 270px;
+  width: calc(100% - 270px);
+  transition: margin-left 0.25s cubic-bezier(0.4, 0, 0.2, 1), width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   background-color: var(--bg-main);
+  position: relative;
+}
+
+.portal-layout.sidebar-collapsed .portal-main-area {
+  margin-left: 76px;
+  width: calc(100% - 76px);
 }
 
 .portal-header {
@@ -752,19 +775,6 @@ textarea {
   top: 0;
   z-index: 95;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-}
-
-.portal-sidebar {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  overflow-y: auto;
-  overflow-x: hidden;
-  z-index: 999;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
-  transition: width 0.22s cubic-bezier(0.4, 0, 0.2, 1), transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: width, transform;
 }
 
 .portal-sidebar::-webkit-scrollbar {
@@ -833,6 +843,12 @@ textarea {
     gap: 0.5rem !important;
     flex-direction: row !important;
     width: auto !important;
+  }
+
+  .portal-main-area,
+  .portal-layout.sidebar-collapsed .portal-main-area {
+    margin-left: 0 !important;
+    width: 100% !important;
   }
 }
 

@@ -463,9 +463,7 @@ def create_presentation():
     p.font.color.rgb = COLOR_GREEN
 
     team = [
-        ("Rudra Pratap Chaurasiya", "Full Stack AI Architecture & ML Engines", "CSJMU Kanpur"),
-        ("Sankalp Sachan", "Backend Services & Linear Optimization", "CSJMU Kanpur"),
-        ("Mohammad Sirfan", "Frontend UI/UX & Multilingual Edge Sync", "CSJMU Kanpur")
+        ("Rudra Pratap Chaurasiya", "Lead Full Stack AI Architecture & ML Engines", "CSJMU Kanpur")
     ]
     for name, role, college in team:
         pt = tf_t.add_paragraph()

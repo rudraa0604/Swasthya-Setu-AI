@@ -398,7 +398,7 @@ export default function App() {
 
       {/* Multi-page Router View 3: Operational Portal Hub */}
       {route.type === 'portal' && (
-        <div className="portal-layout">
+        <div className={`portal-layout ${sidebarCollapsed ? 'sidebar-collapsed' : 'sidebar-expanded'}`}>
           {/* Collapsible Left Navigation Sidebar */}
           <PortalSidebar
             user={currentUser || DEMO_PROFILES.national}

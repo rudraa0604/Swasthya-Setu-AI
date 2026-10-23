@@ -14,19 +14,7 @@ export default function LandingCreditsPage({ onBackToHome, onLaunchPortal, lang,
       name: "Rudra Pratap Chaurasiya",
       role: "Lead Full-Stack AI Engineer & System Architect",
       institution: "Chhatrapati Shahu Ji Maharaj University (CSJMU), Kanpur",
-      contributions: "Federated Learning Core, FastAPI Backend, Dijkstra Route Optimization, Database Design"
-    },
-    {
-      name: "Sankalp Sachan",
-      role: "Frontend Architect & UI/UX Specialist",
-      institution: "Chhatrapati Shahu Ji Maharaj University (CSJMU), Kanpur",
-      contributions: "React 18 & Vite Architecture, Multi-Language i18n Localization, Responsive Glassmorphic Layouts"
-    },
-    {
-      name: "Mohammad Sirfan",
-      role: "Machine Learning & Epidemiological Modeling Specialist",
-      institution: "Chhatrapati Shahu Ji Maharaj University (CSJMU), Kanpur",
-      contributions: "Prophet Additive Demand Forecasting, Outbreak Spike Detection, Linear Supply Redistribution"
+      contributions: "Federated Learning Core, FastAPI Backend Services, Dijkstra & VRP Route Optimization, Prophet Demand Forecasting & Real-Time Telemetry Layer"
     }
   ];
 
@@ -78,50 +66,54 @@ export default function LandingCreditsPage({ onBackToHome, onLaunchPortal, lang,
             <GraduationCap size={14} color="#f97316" /> Academic Innovation & Engineering
           </div>
           <h1 style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 900, color: '#ffffff', letterSpacing: '-0.02em', margin: 0 }}>
-            Project Team & University Affiliation
+            Project Engineering & University Affiliation
           </h1>
           <p style={{ color: '#fed7aa', maxWidth: '720px', margin: '0.85rem auto 0 auto', fontSize: 'clamp(0.95rem, 2vw, 1.1rem)', lineHeight: 1.6 }}>
             Developed under the Department of Computer Science & Engineering at Chhatrapati Shahu Ji Maharaj University (CSJMU), Kanpur.
           </p>
         </div>
 
-        {/* Team Members Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))', gap: '1.5rem', marginBottom: '3.5rem' }}>
+        {/* Team Member Card */}
+        <div style={{ maxWidth: '640px', margin: '0 auto 3.5rem auto' }}>
           {teamMembers.map((member, idx) => (
             <div 
               key={idx}
               style={{
-                background: 'rgba(20, 25, 35, 0.55)',
-                backdropFilter: 'blur(12px)',
-                border: '1px solid rgba(255, 255, 255, 0.18)',
-                borderRadius: '16px',
-                padding: '1.75rem',
+                background: 'linear-gradient(135deg, rgba(20, 25, 35, 0.75) 0%, rgba(15, 23, 42, 0.85) 100%)',
+                backdropFilter: 'blur(16px)',
+                border: '1px solid rgba(249, 115, 22, 0.35)',
+                borderRadius: '20px',
+                padding: '2.25rem',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
-                boxShadow: '0 8px 30px rgba(0, 0, 0, 0.3)'
+                boxShadow: '0 12px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(234, 88, 12, 0.15)'
               }}
             >
               <div>
-                <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(234, 88, 12, 0.25)', border: '1px solid rgba(249, 115, 22, 0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem' }}>
-                  <Users size={24} color="#f97316" />
-                </div>
-
-                <h2 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#ffffff', marginBottom: '0.25rem' }}>
-                  {member.name}
-                </h2>
-                <div style={{ fontSize: '0.85rem', color: '#16a34a', fontWeight: 700, marginBottom: '0.5rem' }}>
-                  {member.role}
-                </div>
-                <div style={{ fontSize: '0.8rem', color: '#fed7aa', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-                  <Building2 size={13} /> {member.institution}
-                </div>
-
-                <div style={{ background: 'rgba(10, 15, 25, 0.65)', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: '8px', padding: '0.85rem' }}>
-                  <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#f97316', textTransform: 'uppercase', marginBottom: '0.35rem' }}>
-                    Key Contributions:
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.25rem' }}>
+                  <div style={{ width: '56px', height: '56px', borderRadius: '14px', background: 'rgba(234, 88, 12, 0.25)', border: '1px solid rgba(249, 115, 22, 0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <Users size={28} color="#f97316" />
                   </div>
-                  <div style={{ fontSize: '0.8rem', color: '#f1f5f9', lineHeight: 1.5 }}>
+                  <div>
+                    <h2 style={{ fontSize: '1.5rem', fontWeight: 900, color: '#ffffff', margin: 0, letterSpacing: '-0.01em' }}>
+                      {member.name}
+                    </h2>
+                    <div style={{ fontSize: '0.9rem', color: '#86efac', fontWeight: 700, marginTop: '0.2rem' }}>
+                      {member.role}
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ fontSize: '0.85rem', color: '#fed7aa', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.45rem', background: 'rgba(255, 255, 255, 0.05)', padding: '0.5rem 0.85rem', borderRadius: '8px' }}>
+                  <Building2 size={15} color="#f97316" /> {member.institution}
+                </div>
+
+                <div style={{ background: 'rgba(10, 15, 25, 0.75)', border: '1px solid rgba(255, 255, 255, 0.12)', borderRadius: '12px', padding: '1.15rem' }}>
+                  <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#f97316', textTransform: 'uppercase', marginBottom: '0.45rem', letterSpacing: '0.05em' }}>
+                    Key Engineering Contributions:
+                  </div>
+                  <div style={{ fontSize: '0.85rem', color: '#f1f5f9', lineHeight: 1.6 }}>
                     {member.contributions}
                   </div>
                 </div>

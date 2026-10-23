@@ -444,9 +444,7 @@ You can also reference [PRESENTATION.md](file:///c:/Users/Loq/OneDrive/Desktop/S
 
 ## 👥 Development Team & Credits
 
-- **Rudra Pratap Chaurasiya** — *CSJMU Kanpur* (Full Stack AI Architecture & ML Engines)
-- **Sankalp Sachan** — *CSJMU Kanpur* (Backend Services & Linear Optimization)
-- **Mohammad Sirfan** — *CSJMU Kanpur* (Frontend UI/UX & Multilingual Edge Sync)
+- **Rudra Pratap Chaurasiya** — *CSJMU Kanpur* (Lead Full Stack AI Architecture & ML Engines)
 
 ---
 

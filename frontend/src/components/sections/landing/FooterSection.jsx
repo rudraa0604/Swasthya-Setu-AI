@@ -37,17 +37,15 @@ export default function FooterSection({ lang }) {
           <a href="#/faq" style={{ color: '#f97316', textDecoration: 'none', fontSize: '0.82rem', fontWeight: 700 }}>FAQ & Docs</a>
         </div>
 
-        <div style={{ textAlign: 'left' }}>
-          <div>{t.footerBuiltFor}</div>
-          <div style={{ marginTop: '0.4rem', color: '#94a3b8', fontSize: '0.82rem' }}>
-            <div>{t.developedBy || 'Developed by:'}</div>
-            <div style={{ color: '#86efac', fontWeight: 700, marginTop: '0.2rem', lineHeight: 1.4 }}>
-              Rudra Pratap Chaurasiya (CSJMU KANPUR)<br />
-              Sankalp Sachan (CSJMU KANPUR)<br />
-              Mohammad Sirfan (CSJMU KANPUR)
+          <div style={{ textAlign: 'left' }}>
+            <div>{t.footerBuiltFor}</div>
+            <div style={{ marginTop: '0.4rem', color: '#94a3b8', fontSize: '0.82rem' }}>
+              <div>{t.developedBy || 'Developed by:'}</div>
+              <div style={{ color: '#86efac', fontWeight: 700, marginTop: '0.2rem', lineHeight: 1.4 }}>
+                Rudra Pratap Chaurasiya (CSJMU KANPUR)
+              </div>
             </div>
           </div>
-        </div>
       </div>
     </footer>
   );

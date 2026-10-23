@@ -90,9 +90,7 @@
 
 ### 👥 Slide 8: Development Team & Links
 - **Core Team**:
-  - **Rudra Pratap Chaurasiya** — *CSJMU Kanpur* (Full Stack AI Architecture & ML Engines)
-  - **Sankalp Sachan** — *CSJMU Kanpur* (Backend Services & Linear Optimization)
-  - **Mohammad Sirfan** — *CSJMU Kanpur* (Frontend UI/UX & Multilingual Edge Sync)
+  - **Rudra Pratap Chaurasiya** — *CSJMU Kanpur* (Lead Full Stack AI Architecture & ML Engines)
 - **Source Links**:
   - 💻 **GitHub Repository**: [https://github.com/rudraa0604/Swasthya-Setu-AI](https://github.com/rudraa0604/Swasthya-Setu-AI)
   - 🌐 **Web App Interface**: `http://localhost:3000`
