@@ -1,13 +1,14 @@
 # README Additions: Hospital Resource Optimization
 
-Paste each block in the place shown in its heading.
+> [!NOTE]
+> **Status: Fully Integrated.** All additions and modules documented in this file have been incorporated directly into the master [README.md](file:///c:/Users/Loq/OneDrive/Desktop/SwasthyaSetu%20AI/README.md), [PRESENTATION.md](file:///c:/Users/Loq/OneDrive/Desktop/SwasthyaSetu%20AI/PRESENTATION.md), and [generate_pptx.py](file:///c:/Users/Loq/OneDrive/Desktop/SwasthyaSetu%20AI/generate_pptx.py). This file is preserved for reference.
 
 ---
 
 ## 1. Table of Contents (add under "Core Capabilities")
 
 ```md
-  - [8. AI Hospital Resource Optimizer (Individual Hospital Tab)](#8-ai-hospital-resource-optimizer-individual-hospital-tab)
+- [8. AI Hospital Resource Optimizer (Individual Hospital Tab)](#8-ai-hospital-resource-optimizer-individual-hospital-tab)
 ```
 
 Also add this line in the Table of Contents after "Core Capabilities":
@@ -30,6 +31,7 @@ Also add this line in the Table of Contents after "Core Capabilities":
 
 ```md
 ### 8. AI Hospital Resource Optimizer (Individual Hospital Tab)
+
 - A separate tab inside each hospital's portal. SwasthyaSetu works at network level; this tab works **inside one hospital**.
 - Predicts demand, then recommends the best allocation of beds, ICU, OTs, staff and emergency resources.
 - Full details in the [AI Hospital Resource Optimization](#-ai-hospital-resource-optimization) section.
@@ -43,16 +45,19 @@ Also add this line in the Table of Contents after "Core Capabilities":
 ## 🏨 AI Hospital Resource Optimization
 
 ### The Problem
+
 Hospitals have limited beds, ICU capacity, operating rooms and staff, while patient demand keeps changing. Admins plan by guesswork, which causes overcrowded wards, idle ICU beds, OT delays, tired staff and slow emergency response.
 
 ### The Solution
-A decision-support tab for each hospital. It follows four steps:
 
+A decision-support tab for each hospital. It follows four steps:
 ```
- Hospital Data ──> Demand Forecast ──> Optimizer (under constraints) ──> Recommendations ──> Admin Approves
- (admissions,      (7 / 14 / 30       (MILP + Reinforcement             (beds, ICU, OT,     (human-in-
-  beds, OTs,        day, hourly         Learning)                         staff, emergency)    the-loop)
-  staff, ER)        for ER)
+
+Hospital Data ──> Demand Forecast ──> Optimizer (under constraints) ──> Recommendations ──> Admin Approves
+(admissions, (7 / 14 / 30 (MILP + Reinforcement (beds, ICU, OT, (human-in-
+beds, OTs, day, hourly Learning) staff, emergency) the-loop)
+staff, ER) for ER)
+
 ```
 
 ### Modules
@@ -89,9 +94,11 @@ A decision-support tab for each hospital. It follows four steps:
 - **Subject to:** bed capacity, ICU buffer, OT slots, staff shift rules, equipment availability
 
 ```
+
 Unmet Demand (t) = max(0, Forecast Demand (t) − Available Capacity (t))
-Bed Occupancy %  = Occupied Beds / Total Staffed Beds × 100
+Bed Occupancy % = Occupied Beds / Total Staffed Beds × 100
 OT Utilization % = Used OT Hours / Available OT Hours × 100
+
 ```
 
 ### Reinforcement Learning (Adaptive Layer)
@@ -129,13 +136,13 @@ OT Utilization % = Used OT Hours / Available OT Hours × 100
 
 ```md
 ├── ml/
-│   └── hospital/
-│       ├── demand_forecast/      # Prophet + XGBoost demand models
-│       ├── bed_icu_optimizer/    # MILP bed & ICU allocation
-│       ├── ot_scheduler/         # CP-SAT operating room scheduling
-│       ├── staff_allocation/     # Shift & staff optimizer
-│       ├── emergency_planner/    # Safety-stock & surge planner
-│       └── rl_agent/             # RL policy + hospital simulator
+│ └── hospital/
+│ ├── demand_forecast/ # Prophet + XGBoost demand models
+│ ├── bed_icu_optimizer/ # MILP bed & ICU allocation
+│ ├── ot_scheduler/ # CP-SAT operating room scheduling
+│ ├── staff_allocation/ # Shift & staff optimizer
+│ ├── emergency_planner/ # Safety-stock & surge planner
+│ └── rl_agent/ # RL policy + hospital simulator
 ```
 
 Backend: `backend/app/api/hospital.py`

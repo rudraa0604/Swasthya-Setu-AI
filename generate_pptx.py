@@ -1,5 +1,7 @@
 import os
+# pyrefly: ignore[missing-import]
 from pptx import Presentation
+# pyrefly: ignore[missing-import]
 from pptx.util import Inches, Pt
 from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
 from pptx.dml.color import RGBColor
@@ -17,6 +19,8 @@ def create_presentation():
     COLOR_RED = RGBColor(220, 38, 38)        # #dc2626
     COLOR_GREEN = RGBColor(22, 163, 74)      # #16a34a
     COLOR_ORANGE = RGBColor(234, 88, 12)     # #ea580c
+    COLOR_BLUE = RGBColor(37, 99, 235)       # #2563eb
+    COLOR_PURPLE = RGBColor(147, 51, 234)    # #9333ea
     COLOR_BG_DARK = RGBColor(15, 23, 42)     # #0f172a
     COLOR_CARD_DARK = RGBColor(30, 41, 59)   # #1e293b
     COLOR_MUTED = RGBColor(148, 163, 184)    # #94a3b8
@@ -61,12 +65,12 @@ def create_presentation():
     bg1.line.fill.background()
 
     # Title Banner Accent
-    accent = slide1.shapes.add_shape(MSO_SHAPE.RECTANGLE, Inches(0.8), Inches(1.2), Inches(0.15), Inches(3.2))
+    accent = slide1.shapes.add_shape(MSO_SHAPE.RECTANGLE, Inches(0.8), Inches(1.1), Inches(0.15), Inches(3.4))
     accent.fill.solid()
     accent.fill.fore_color.rgb = COLOR_ORANGE
     accent.line.fill.background()
 
-    t_box = slide1.shapes.add_textbox(Inches(1.2), Inches(1.1), Inches(11.3), Inches(3.5))
+    t_box = slide1.shapes.add_textbox(Inches(1.2), Inches(1.0), Inches(11.3), Inches(3.6))
     tf1 = t_box.text_frame
     tf1.word_wrap = True
 
@@ -77,60 +81,41 @@ def create_presentation():
     p1.font.color.rgb = COLOR_WHITE
 
     p2 = tf1.add_paragraph()
-    p2.text = "Federated AI Platform for National-Scale Health Resource & Supply Chain Resilience"
-    p2.font.size = Pt(20)
+    p2.text = "Federated AI Platform for National-Scale Health Resource & Supply Chain Resilience across India's PHC Network & Hospital Systems"
+    p2.font.size = Pt(18)
     p2.font.bold = True
     p2.font.color.rgb = COLOR_GREEN
-    p2.space_before = Pt(12)
+    p2.space_before = Pt(10)
 
     p3 = tf1.add_paragraph()
-    p3.text = "Predictive Medicine Redistribution • Proximity Disease Outbreak Detection • Mass Casualty Tragedy Early Warning Radar"
-    p3.font.size = Pt(14)
+    p3.text = "Predictive Redistribution • Proximity Disease Outbreak Radar • Hospital Resource Optimization • Mass Casualty Tragedy Early Warning"
+    p3.font.size = Pt(13)
     p3.font.color.rgb = COLOR_MUTED
     p3.space_before = Pt(8)
 
-    # Info Badges
-    b1 = add_card(slide1, Inches(1.2), Inches(5.0), Inches(3.4), Inches(1.6), COLOR_CARD_DARK, COLOR_RED)
-    tb1 = slide1.shapes.add_textbox(Inches(1.4), Inches(5.15), Inches(3.0), Inches(1.3))
-    tf_b1 = tb1.text_frame
-    tf_b1.word_wrap = True
-    p = tf_b1.paragraphs[0]
-    p.text = "🚨 Zero Stock-Outs"
-    p.font.size = Pt(16)
-    p.font.bold = True
-    p.font.color.rgb = COLOR_RED
-    p_sub = tf_b1.add_paragraph()
-    p_sub.text = "14-Day predictive depletion warnings & dynamic buffer safety nets."
-    p_sub.font.size = Pt(11)
-    p_sub.font.color.rgb = COLOR_WHITE
-
-    b2 = add_card(slide1, Inches(4.9), Inches(5.0), Inches(3.4), Inches(1.6), COLOR_CARD_DARK, COLOR_GREEN)
-    tb2 = slide1.shapes.add_textbox(Inches(5.1), Inches(5.15), Inches(3.0), Inches(1.3))
-    tf_b2 = tb2.text_frame
-    tf_b2.word_wrap = True
-    p = tf_b2.paragraphs[0]
-    p.text = "⚡ MILP P2P Redistribution"
-    p.font.size = Pt(16)
-    p.font.bold = True
-    p.font.color.rgb = COLOR_GREEN
-    p_sub = tf_b2.add_paragraph()
-    p_sub.text = "Algorithmic stock transfer within hours instead of 6-week state indents."
-    p_sub.font.size = Pt(11)
-    p_sub.font.color.rgb = COLOR_WHITE
-
-    b3 = add_card(slide1, Inches(8.6), Inches(5.0), Inches(3.8), Inches(1.6), COLOR_CARD_DARK, COLOR_ORANGE)
-    tb3 = slide1.shapes.add_textbox(Inches(8.8), Inches(5.15), Inches(3.4), Inches(1.3))
-    tf_b3 = tb3.text_frame
-    tf_b3.word_wrap = True
-    p = tf_b3.paragraphs[0]
-    p.text = "🔒 Privacy-First FedAvg"
-    p.font.size = Pt(16)
-    p.font.bold = True
-    p.font.color.rgb = COLOR_ORANGE
-    p_sub = tf_b3.add_paragraph()
-    p_sub.text = "DISHA / DPDP compliant federated learning across state nodes."
-    p_sub.font.size = Pt(11)
-    p_sub.font.color.rgb = COLOR_WHITE
+    # Info Badges (4 cards)
+    badges = [
+        ("🚨 Zero Stock-Outs", "14-Day predictive depletion warnings & dynamic buffer safety nets.", COLOR_RED),
+        ("⚡ MILP Redistribution", "Peer-to-peer stock transfer within hours vs. 6-week state indents.", COLOR_GREEN),
+        ("🏨 Hospital Optimizer", "AI allocation for beds, ICU, surgical OTs, and staff rosters.", COLOR_BLUE),
+        ("🔒 Privacy-First FedAvg", "DISHA / DPDP Act 2023 compliant federated learning across state nodes.", COLOR_ORANGE)
+    ]
+    for idx, (b_title, b_desc, col) in enumerate(badges):
+        l = Inches(0.8 + idx * 2.95)
+        add_card(slide1, l, Inches(5.0), Inches(2.8), Inches(1.7), COLOR_CARD_DARK, col)
+        tb = slide1.shapes.add_textbox(l + Inches(0.15), Inches(5.15), Inches(2.5), Inches(1.4))
+        tf_b = tb.text_frame
+        tf_b.word_wrap = True
+        p = tf_b.paragraphs[0]
+        p.text = b_title
+        p.font.size = Pt(14)
+        p.font.bold = True
+        p.font.color.rgb = col
+        p_sub = tf_b.add_paragraph()
+        p_sub.text = b_desc
+        p_sub.font.size = Pt(10)
+        p_sub.font.color.rgb = COLOR_WHITE
+        p_sub.space_before = Pt(4)
 
     # ==================== SLIDE 2: PROBLEM STATEMENT ====================
     slide2 = prs.slides.add_slide(blank_slide_layout)
@@ -138,7 +123,7 @@ def create_presentation():
     bg2.fill.solid()
     bg2.fill.fore_color.rgb = COLOR_BG_DARK
     bg2.line.fill.background()
-    add_header(slide2, "The Crisis in India's Primary Healthcare Supply Chain", "Problem Statement")
+    add_header(slide2, "The Dual Crisis in India's Healthcare Ecosystem", "Problem Statement")
 
     # 3 Problem Cards
     card1 = add_card(slide2, Inches(0.8), Inches(1.8), Inches(3.6), Inches(4.8), COLOR_CARD_DARK, COLOR_RED)
@@ -151,10 +136,10 @@ def create_presentation():
     p.font.bold = True
     p.font.color.rgb = COLOR_RED
     bullets1 = [
-        "Rural PHCs frequently run out of Anti-Rabies, Insulin, ORS & Antibiotics.",
-        "Sudden seasonal footfall spikes catch clinics unprepared.",
-        "Delayed state-level tender cycles take 4 to 8 weeks to fulfill.",
-        "Loss of critical golden hours for rural emergency patients."
+        "Rural PHCs frequently run out of Anti-Rabies, Snake Antivenom, Insulin & IV fluids.",
+        "Sudden seasonal footfall spikes catch rural clinics completely unprepared.",
+        "Delayed state-level tender cycles take 4 to 8 weeks to replenish supplies.",
+        "Loss of critical golden hours for emergency patients in remote villages."
     ]
     for b in bullets1:
         pb = tf.add_paragraph()
@@ -168,15 +153,15 @@ def create_presentation():
     tf = tb.text_frame
     tf.word_wrap = True
     p = tf.paragraphs[0]
-    p.text = "❌ Near-Expiry Waste & Silos"
+    p.text = "❌ Expired Medicine Waste"
     p.font.size = Pt(18)
     p.font.bold = True
     p.font.color.rgb = COLOR_ORANGE
     bullets2 = [
         "PHC A holds 400 surplus vials expiring in 60 days.",
         "PHC B (15km away) faces acute stock-out of the exact same medicine.",
-        "Zero cross-PHC visibility causes preventable expiration of crores worth of drugs.",
-        "No mathematical mechanism for inter-clinic redistribution."
+        "Zero inter-clinic visibility causes preventable expiration of crores in drugs.",
+        "Traditional supply chains lack algorithmic peer-to-peer redistribution."
     ]
     for b in bullets2:
         pb = tf.add_paragraph()
@@ -185,20 +170,20 @@ def create_presentation():
         pb.font.color.rgb = COLOR_WHITE
         pb.space_before = Pt(8)
 
-    card3 = add_card(slide2, Inches(8.8), Inches(1.8), Inches(3.7), Inches(4.8), COLOR_CARD_DARK, COLOR_MUTED)
+    card3 = add_card(slide2, Inches(8.8), Inches(1.8), Inches(3.7), Inches(4.8), COLOR_CARD_DARK, COLOR_BLUE)
     tb = slide2.shapes.add_textbox(Inches(9.0), Inches(2.0), Inches(3.3), Inches(4.4))
     tf = tb.text_frame
     tf.word_wrap = True
     p = tf.paragraphs[0]
-    p.text = "❌ Connectivity & Data Silos"
+    p.text = "❌ Hospital Bottlenecks"
     p.font.size = Pt(18)
     p.font.bold = True
-    p.font.color.rgb = COLOR_MUTED
+    p.font.color.rgb = COLOR_BLUE
     bullets3 = [
-        "Remote rural areas have intermittent 2G/3G or zero connectivity.",
-        "Traditional web portals crash or block data entry without active internet.",
-        "Strict health privacy laws prevent pooling sensitive raw patient data.",
-        "No automated alert system when disasters or epidemics strike nearby."
+        "Ad-hoc bed and ICU planning causes ward congestion alongside idle ICU buffers.",
+        "Uncoordinated operating room scheduling results in 30%+ OT idle gaps.",
+        "Doctors and nurses face severe burnout due to manual, unoptimized rostering.",
+        "Zero advance warning for mass casualty accidents and epidemic spikes."
     ]
     for b in bullets3:
         pb = tf.add_paragraph()
@@ -213,13 +198,13 @@ def create_presentation():
     bg3.fill.solid()
     bg3.fill.fore_color.rgb = COLOR_BG_DARK
     bg3.line.fill.background()
-    add_header(slide3, "SwasthyaSetu AI: An Autonomous Clinical Safety Net", "The Solution")
+    add_header(slide3, "SwasthyaSetu AI: Unified Dual-Layer Resilience Architecture", "The Solution")
 
     sol_items = [
-        ("📈 Multi-Horizon Predictive AI", "Forecasts 7, 14, and 30-day medicine demand using seasonal epidemiological trends, footfall Poisson distributions, and historical depletion rates.", COLOR_GREEN),
-        ("🚚 MILP P2P Redistribution", "Mathematical Linear Programming (PuLP) matches surplus clinics with shortage clinics, optimizing transit routes, distance, and FEFO expiry prioritization.", COLOR_GREEN),
-        ("📡 Proximity Early Warning & Tragedy Radar", "Haversine geospatial AI detects disease outbreaks (<28km) and mass-casualty tragedies (<20km), predicting ambulance arrival ETAs & patient influx.", COLOR_ORANGE),
-        ("🔒 Federated Learning & Offline Edge", "FedAvg preserves patient confidentiality (DISHA compliant) while local IndexedDB edge sync allows zero-downtime offline rural operation.", COLOR_ORANGE),
+        ("📈 Multi-Horizon Predictive AI", "Forecasts 7, 14, and 30-day medicine demand and outpatient footfall using Poisson distributions, moving averages, and Prophet + XGBoost with 95% confidence intervals.", COLOR_GREEN),
+        ("🚚 MILP P2P Redistribution", "Mathematical Linear Programming (PuLP) matches surplus clinics with shortage clinics, optimizing transit routes, distance, and FEFO expiry prioritization while maintaining safety buffers.", COLOR_GREEN),
+        ("🏨 Hospital Resource Optimizer", "Optimizes bed allocations, preserves 15% ICU emergency buffers, schedules surgical OTs via Google OR-Tools CP-SAT, and rosters clinical staff to eliminate fatigue.", COLOR_BLUE),
+        ("📡 Proximity Early Warning Radar", "Haversine geospatial AI detects disease outbreaks (<28km) and mass-casualty tragedies (<20km), predicting ambulance arrival ETAs & patient influx with 1-click triage activation.", COLOR_ORANGE),
     ]
 
     for idx, (title, desc, col) in enumerate(sol_items):
@@ -250,7 +235,7 @@ def create_presentation():
     bg4.fill.solid()
     bg4.fill.fore_color.rgb = COLOR_BG_DARK
     bg4.line.fill.background()
-    add_header(slide4, "AI Proximity Disease Outbreak & Tragedy Radar", "New Feature Highlight")
+    add_header(slide4, "AI Proximity Disease Outbreak & Tragedy Radar", "Geospatial Early Warning")
 
     # Left: Outbreak Diffusion
     add_card(slide4, Inches(0.8), Inches(1.8), Inches(5.6), Inches(4.8), COLOR_CARD_DARK, COLOR_RED)
@@ -300,13 +285,185 @@ def create_presentation():
         pb.font.color.rgb = COLOR_WHITE
         pb.space_before = Pt(6)
 
-    # ==================== SLIDE 5: VISIBILITY & FEASIBILITY ====================
+    # ==================== SLIDE 5: HOSPITAL RESOURCE OPTIMIZATION ====================
     slide5 = prs.slides.add_slide(blank_slide_layout)
     bg5 = slide5.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, Inches(13.333), Inches(7.5))
     bg5.fill.solid()
     bg5.fill.fore_color.rgb = COLOR_BG_DARK
     bg5.line.fill.background()
-    add_header(slide5, "Visibility, Transparency & Feasibility Analysis", "Feasibility & Governance")
+    add_header(slide5, "AI Hospital Resource Optimization Suite", "In-Hospital Intelligence")
+
+    hosp_modules = [
+        ("🛏️ Bed & ICU Optimizer", [
+            "Allocates beds across wards and critical ICU units.",
+            "Enforces mandatory 15% emergency reserve ICU buffer.",
+            "Handles isolation rules and step-down discharge velocity.",
+            "Formulated via MILP (PuLP / OR-Tools)."
+        ], COLOR_BLUE),
+        ("⏱️ Operating Room Scheduler", [
+            "Builds surgical OT schedules cutting idle time.",
+            "Eliminates surgeon overtime and scheduling conflicts.",
+            "Accounts for cleaning gaps and emergency reservations.",
+            "Powered by Google OR-Tools CP-SAT job-shop solver."
+        ], COLOR_GREEN),
+        ("👨‍⚕️ Staff Roster Allocation", [
+            "Rosters doctors, nurses & techs by predicted load.",
+            "Enforces shift limits, rest hours & skill qualifications.",
+            "Reduces clinical burnout during peak rush periods.",
+            "Dynamically rebalances from low-acuity day clinics."
+        ], COLOR_ORANGE),
+        ("🧪 What-If Disaster Simulator", [
+            "Tests shock scenarios (e.g. '+40% Outbreak', 'Mass Crash').",
+            "SimPy discrete-event simulation + RL policy agent.",
+            "Pre-calculates oxygen, ventilator & blood requirements.",
+            "Human-in-the-loop: Admin 1-click approve / reject actions."
+        ], COLOR_PURPLE)
+    ]
+
+    for idx, (title, points, col) in enumerate(hosp_modules):
+        col_pos = idx % 2
+        row_pos = idx // 2
+        l = Inches(0.8 + col_pos * 5.9)
+        t = Inches(1.8 + row_pos * 2.5)
+        add_card(slide5, l, t, Inches(5.6), Inches(2.2), COLOR_CARD_DARK, col)
+        
+        tb = slide5.shapes.add_textbox(l + Inches(0.2), t + Inches(0.15), Inches(5.2), Inches(1.9))
+        tf = tb.text_frame
+        tf.word_wrap = True
+        p = tf.paragraphs[0]
+        p.text = title
+        p.font.size = Pt(15)
+        p.font.bold = True
+        p.font.color.rgb = col
+        
+        for pt in points:
+            pb = tf.add_paragraph()
+            pb.text = "• " + pt
+            pb.font.size = Pt(11)
+            pb.font.color.rgb = COLOR_WHITE
+            pb.space_before = Pt(2)
+
+    # ==================== SLIDE 6: ROUTE & FLEET TRANSIT OPTIMIZER ====================
+    slide6 = prs.slides.add_slide(blank_slide_layout)
+    bg6 = slide6.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, Inches(13.333), Inches(7.5))
+    bg6.fill.solid()
+    bg6.fill.fore_color.rgb = COLOR_BG_DARK
+    bg6.line.fill.background()
+    add_header(slide6, "AI Route & Fleet Transit Logistics Optimizer", "Logistics & Drone Corridors")
+
+    route_cards = [
+        ("🚚 Capacitated Vehicle Routing (CVRP)", [
+            "Calculates multi-stop delivery routes for medicine supply vans.",
+            "Minimizes transit distance, toll costs, and road transit times.",
+            "Coordinates inter-PHC FEFO medicine dispatches.",
+            "Live road metric summary and fuel efficiency indicators."
+        ], COLOR_GREEN),
+        ("🚁 Autonomous Drone Corridors", [
+            "Monitors aerial delivery corridors for high-urgency supplies.",
+            "Transports cold-chain antivenom and vaccines to hilly terrains.",
+            "Bypasses congested highways during acute emergencies.",
+            "Pre-flight battery and waypoint corridor clearance tracking."
+        ], COLOR_BLUE),
+        ("🔄 Dynamic Incident Reroute Simulator", [
+            "Simulates highway roadblocks, flash floods, or landslides.",
+            "Recalculates alternative transit detours in real time.",
+            "Prevents transit delays for critical life-saving dispatches.",
+            "Provides turn-by-turn navigation guidance for drivers."
+        ], COLOR_ORANGE),
+        ("🚨 Emergency Green Corridors", [
+            "Integrates with National Emergency Mode (`#/portal/emergency`).",
+            "Grants highest priority to disaster casualty transit.",
+            "Automated coordination with police and highway authorities.",
+            "Real-time GPS telemetry streaming."
+        ], COLOR_RED)
+    ]
+
+    for idx, (title, points, col) in enumerate(route_cards):
+        col_pos = idx % 2
+        row_pos = idx // 2
+        l = Inches(0.8 + col_pos * 5.9)
+        t = Inches(1.8 + row_pos * 2.5)
+        add_card(slide6, l, t, Inches(5.6), Inches(2.2), COLOR_CARD_DARK, col)
+        
+        tb = slide6.shapes.add_textbox(l + Inches(0.2), t + Inches(0.15), Inches(5.2), Inches(1.9))
+        tf = tb.text_frame
+        tf.word_wrap = True
+        p = tf.paragraphs[0]
+        p.text = title
+        p.font.size = Pt(15)
+        p.font.bold = True
+        p.font.color.rgb = col
+        
+        for pt in points:
+            pb = tf.add_paragraph()
+            pb.text = "• " + pt
+            pb.font.size = Pt(11)
+            pb.font.color.rgb = COLOR_WHITE
+            pb.space_before = Pt(2)
+
+    # ==================== SLIDE 7: FEDERATED LEARNING & OFFLINE EDGE ====================
+    slide7 = prs.slides.add_slide(blank_slide_layout)
+    bg7 = slide7.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, Inches(13.333), Inches(7.5))
+    bg7.fill.solid()
+    bg7.fill.fore_color.rgb = COLOR_BG_DARK
+    bg7.line.fill.background()
+    add_header(slide7, "Architectural Resilience: Edge Offline Mode & Federated Privacy", "Architecture & Privacy")
+
+    # Left: Offline Edge
+    add_card(slide7, Inches(0.8), Inches(1.8), Inches(5.6), Inches(4.8), COLOR_CARD_DARK, COLOR_GREEN)
+    tb_oe = slide7.shapes.add_textbox(Inches(1.0), Inches(2.0), Inches(5.2), Inches(4.4))
+    tf_oe = tb_oe.text_frame
+    tf_oe.word_wrap = True
+    p = tf_oe.paragraphs[0]
+    p.text = "📱 Zero-Bandwidth Offline Rural Edge"
+    p.font.size = Pt(18)
+    p.font.bold = True
+    p.font.color.rgb = COLOR_GREEN
+    oe_points = [
+        "Runs on low-cost Android tablets, smartphones, and legacy desktop PCs.",
+        "Uses browser IndexedDB and LocalStorage caching for 100% offline uptime.",
+        "Rural doctors log patient visits, medicine dispensing, and local stock with zero internet.",
+        "Auto-Sync Engine automatically pushes queued delta payloads upon reconnection.",
+        "Conflict-free transactional batch reconciliation at backend."
+    ]
+    for b in oe_points:
+        pb = tf_oe.add_paragraph()
+        pb.text = "• " + b
+        pb.font.size = Pt(12)
+        pb.font.color.rgb = COLOR_WHITE
+        pb.space_before = Pt(8)
+
+    # Right: Federated Learning
+    add_card(slide7, Inches(6.8), Inches(1.8), Inches(5.7), Inches(4.8), COLOR_CARD_DARK, COLOR_ORANGE)
+    tb_fl = slide7.shapes.add_textbox(Inches(7.0), Inches(2.0), Inches(5.3), Inches(4.4))
+    tf_fl = tb_fl.text_frame
+    tf_fl.word_wrap = True
+    p = tf_fl.paragraphs[0]
+    p.text = "🔒 Privacy-Preserving Federated Learning"
+    p.font.size = Pt(18)
+    p.font.bold = True
+    p.font.color.rgb = COLOR_ORANGE
+    fl_points = [
+        "100% compliant with India's DPDP Act 2023 and DISHA healthcare privacy rules.",
+        "Local state nodes train ML models locally on regional clinical trends.",
+        "Only mathematical model weight vectors (ΔW) transmitted to central server.",
+        "Central coordinator executes Federated Averaging (FedAvg) aggregation.",
+        "Zero raw patient medical records ever leave the local clinic boundary."
+    ]
+    for b in fl_points:
+        pb = tf_fl.add_paragraph()
+        pb.text = "• " + b
+        pb.font.size = Pt(12)
+        pb.font.color.rgb = COLOR_WHITE
+        pb.space_before = Pt(8)
+
+    # ==================== SLIDE 8: VISIBILITY & FEASIBILITY ====================
+    slide8 = prs.slides.add_slide(blank_slide_layout)
+    bg8 = slide8.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, Inches(13.333), Inches(7.5))
+    bg8.fill.solid()
+    bg8.fill.fore_color.rgb = COLOR_BG_DARK
+    bg8.line.fill.background()
+    add_header(slide8, "Visibility, Transparency & Feasibility Analysis", "Feasibility & Governance")
 
     f_cards = [
         ("👁️ Real-Time Visibility", [
@@ -340,9 +497,9 @@ def create_presentation():
         row_pos = idx // 2
         l = Inches(0.8 + col_pos * 5.9)
         t = Inches(1.8 + row_pos * 2.5)
-        add_card(slide5, l, t, Inches(5.6), Inches(2.2), COLOR_CARD_DARK, col)
+        add_card(slide8, l, t, Inches(5.6), Inches(2.2), COLOR_CARD_DARK, col)
         
-        tb = slide5.shapes.add_textbox(l + Inches(0.2), t + Inches(0.15), Inches(5.2), Inches(1.9))
+        tb = slide8.shapes.add_textbox(l + Inches(0.2), t + Inches(0.15), Inches(5.2), Inches(1.9))
         tf = tb.text_frame
         tf.word_wrap = True
         p = tf.paragraphs[0]
@@ -358,38 +515,40 @@ def create_presentation():
             pb.font.color.rgb = COLOR_WHITE
             pb.space_before = Pt(3)
 
-    # ==================== SLIDE 6: PROJECT SCOPE & ROADMAP ====================
-    slide6 = prs.slides.add_slide(blank_slide_layout)
-    bg6 = slide6.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, Inches(13.333), Inches(7.5))
-    bg6.fill.solid()
-    bg6.fill.fore_color.rgb = COLOR_BG_DARK
-    bg6.line.fill.background()
-    add_header(slide6, "Project Scope, Impact Metrics & Scaling Roadmap", "Scope & Impact")
+    # ==================== SLIDE 9: PROJECT SCOPE & ROADMAP ====================
+    slide9 = prs.slides.add_slide(blank_slide_layout)
+    bg9 = slide9.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, Inches(13.333), Inches(7.5))
+    bg9.fill.solid()
+    bg9.fill.fore_color.rgb = COLOR_BG_DARK
+    bg9.line.fill.background()
+    add_header(slide9, "Project Scope, Impact Metrics & Scaling Roadmap", "Scope & Impact")
 
     phases = [
-        ("📍 Phase 1: District Pilot (Completed)", [
+        ("📍 Phase 1: District Pilot (Completed & Verified)", [
             "150 PHCs seeded across 15 districts (Maharashtra, Karnataka, UP).",
-            "Full demand forecasting & MILP redistribution engine.",
-            "Offline edge sync & 11 Indian languages support."
+            "Full demand forecasting, PuLP redistribution, proximity radar & hospital suite.",
+            "Offline edge sync & 11 Indian languages reactive translation engine."
         ], COLOR_GREEN),
         ("🏢 Phase 2: State-Wide Rollout (Next 6 Months)", [
-            "Integration with State Medical Services Corporations (e.g. MP-MSCL, KMSCL).",
+            "Integration with State Medical Services Corporations (e.g. MPMSCL, KMSCL).",
             "Automated GPS drone and courier dispatch integration.",
-            "Real-time eVIN cold-chain temperature sensor streaming."
+            "Real-time eVIN cold-chain temperature sensor streaming.",
+            "Hospital Resource Optimizer pilot in district civil hospitals."
         ], COLOR_ORANGE),
         ("🌐 Phase 3: National Scale (Next 12-24 Months)", [
             "Pan-India scaling across 25,000+ PHCs & 5,000+ CHCs.",
             "Full ABDM Unified Health Interface (UHI) interoperability.",
-            "Cross-state emergency pharmaceutical disaster corridors."
+            "Cross-state emergency pharmaceutical disaster corridors.",
+            "Hospital-level RL agents and cross-hospital federated learning."
         ], COLOR_WHITE),
     ]
 
     for idx, (title, points, col) in enumerate(phases):
         l = Inches(0.8)
         t = Inches(1.8 + idx * 1.65)
-        add_card(slide6, l, t, Inches(11.7), Inches(1.45), COLOR_CARD_DARK, col)
+        add_card(slide9, l, t, Inches(11.7), Inches(1.45), COLOR_CARD_DARK, col)
         
-        tb = slide6.shapes.add_textbox(l + Inches(0.25), t + Inches(0.12), Inches(11.2), Inches(1.2))
+        tb = slide9.shapes.add_textbox(l + Inches(0.25), t + Inches(0.12), Inches(11.2), Inches(1.2))
         tf = tb.text_frame
         tf.word_wrap = True
         p = tf.paragraphs[0]
@@ -405,19 +564,19 @@ def create_presentation():
             pb.font.color.rgb = COLOR_WHITE
             pb.space_before = Pt(2)
 
-    # ==================== SLIDE 7: TECH STACK & ARCHITECTURE ====================
-    slide7 = prs.slides.add_slide(blank_slide_layout)
-    bg7 = slide7.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, Inches(13.333), Inches(7.5))
-    bg7.fill.solid()
-    bg7.fill.fore_color.rgb = COLOR_BG_DARK
-    bg7.line.fill.background()
-    add_header(slide7, "Full-Stack Technology Architecture", "Technology Stack")
+    # ==================== SLIDE 10: TECH STACK & ARCHITECTURE ====================
+    slide10 = prs.slides.add_slide(blank_slide_layout)
+    bg10 = slide10.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, Inches(13.333), Inches(7.5))
+    bg10.fill.solid()
+    bg10.fill.fore_color.rgb = COLOR_BG_DARK
+    bg10.line.fill.background()
+    add_header(slide10, "Full-Stack Technology Architecture & Verification", "Technology Stack")
 
     tech_boxes = [
-        ("🎨 Frontend Tier", ["React 18 + Vite SPA", "Clean Glassmorphism UI", "White/Red/Green/Orange Palette", "Lucide Icons + Leaflet Maps", "11 Regional Languages i18n"], COLOR_GREEN),
-        ("⚙️ Backend Core", ["FastAPI (Python 3.10+)", "SQLAlchemy ORM + SQLite/PG", "Pydantic Request Schemas", "Uvicorn Async Worker", "RESTful Modular Architecture"], COLOR_GREEN),
-        ("🧠 AI & Optimization", ["PuLP MILP Linear Optimizer", "Haversine Geospatial Vectors", "Poisson Footfall Modeling", "FedAvg Federated Learning", "Confidence Interval Predictors"], COLOR_ORANGE),
-        ("📦 Edge & Integrations", ["IndexedDB / LocalStorage Sync", "ABDM Facility Registry M1-M3", "eVIN IoT Cold-Chain Ingestion", "HMIS Disease Data Ingestion", "Zero-Bandwidth Offline Mode"], COLOR_ORANGE)
+        ("🎨 Frontend Tier", ["React 18 + Vite SPA", "Clean Glassmorphism UI", "Lucide Icons + Leaflet Maps", "11 Regional Languages i18n", "PortalSidebar & Guide Banners"], COLOR_GREEN),
+        ("⚙️ Backend Core", ["FastAPI (Python 3.10+)", "SQLAlchemy ORM + SQLite/PG", "Pydantic Request Schemas", "Uvicorn Async Worker", "25+ REST API Endpoints"], COLOR_GREEN),
+        ("🧠 AI & Optimization", ["PuLP MILP Linear Optimizer", "Google OR-Tools CP-SAT", "Prophet + XGBoost Demand Models", "Haversine Geospatial Vectors", "Flower-Compatible FedAvg"], COLOR_ORANGE),
+        ("📦 Edge & Standards", ["IndexedDB / LocalStorage Sync", "ABDM Facility Registry M1-M3", "eVIN IoT Cold-Chain Ingestion", "HMIS Disease Data Ingestion", "5-Phase System Verification Suite"], COLOR_ORANGE)
     ]
 
     for idx, (title, items, col) in enumerate(tech_boxes):
@@ -425,9 +584,9 @@ def create_presentation():
         row_pos = idx // 2
         l = Inches(0.8 + col_pos * 5.9)
         t = Inches(1.8 + row_pos * 2.5)
-        add_card(slide7, l, t, Inches(5.6), Inches(2.2), COLOR_CARD_DARK, col)
+        add_card(slide10, l, t, Inches(5.6), Inches(2.2), COLOR_CARD_DARK, col)
         
-        tb = slide7.shapes.add_textbox(l + Inches(0.2), t + Inches(0.15), Inches(5.2), Inches(1.9))
+        tb = slide10.shapes.add_textbox(l + Inches(0.2), t + Inches(0.15), Inches(5.2), Inches(1.9))
         tf = tb.text_frame
         tf.word_wrap = True
         p = tf.paragraphs[0]
@@ -443,17 +602,17 @@ def create_presentation():
             pb.font.color.rgb = COLOR_WHITE
             pb.space_before = Pt(2)
 
-    # ==================== SLIDE 8: SUMMARY & SOURCE LINKS ====================
-    slide8 = prs.slides.add_slide(blank_slide_layout)
-    bg8 = slide8.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, Inches(13.333), Inches(7.5))
-    bg8.fill.solid()
-    bg8.fill.fore_color.rgb = COLOR_BG_DARK
-    bg8.line.fill.background()
-    add_header(slide8, "Project Links, Source Code & Development Team", "Conclusion & Demo")
+    # ==================== SLIDE 11: SUMMARY & SOURCE LINKS ====================
+    slide11 = prs.slides.add_slide(blank_slide_layout)
+    bg11 = slide11.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, Inches(13.333), Inches(7.5))
+    bg11.fill.solid()
+    bg11.fill.fore_color.rgb = COLOR_BG_DARK
+    bg11.line.fill.background()
+    add_header(slide11, "Project Links, Source Code & Development Team", "Conclusion & Demo")
 
     # Team Box
-    add_card(slide8, Inches(0.8), Inches(1.8), Inches(5.6), Inches(4.8), COLOR_CARD_DARK, COLOR_GREEN)
-    tb_t = slide8.shapes.add_textbox(Inches(1.0), Inches(2.0), Inches(5.2), Inches(4.4))
+    add_card(slide11, Inches(0.8), Inches(1.8), Inches(5.6), Inches(4.8), COLOR_CARD_DARK, COLOR_GREEN)
+    tb_t = slide11.shapes.add_textbox(Inches(1.0), Inches(2.0), Inches(5.2), Inches(4.4))
     tf_t = tb_t.text_frame
     tf_t.word_wrap = True
     p = tf_t.paragraphs[0]
@@ -479,37 +638,38 @@ def create_presentation():
         pr.font.color.rgb = COLOR_MUTED
 
     # Source Links Box
-    add_card(slide8, Inches(6.8), Inches(1.8), Inches(5.7), Inches(4.8), COLOR_CARD_DARK, COLOR_ORANGE)
-    tb_s = slide8.shapes.add_textbox(Inches(7.0), Inches(2.0), Inches(5.3), Inches(4.4))
+    add_card(slide11, Inches(6.8), Inches(1.8), Inches(5.7), Inches(4.8), COLOR_CARD_DARK, COLOR_ORANGE)
+    tb_s = slide11.shapes.add_textbox(Inches(7.0), Inches(2.0), Inches(5.3), Inches(4.4))
     tf_s = tb_s.text_frame
     tf_s.word_wrap = True
     p = tf_s.paragraphs[0]
-    p.text = "🔗 Source Links & Live Portal Access"
+    p.text = "🔗 Live Demonstration Portals & Links"
     p.font.size = Pt(18)
     p.font.bold = True
     p.font.color.rgb = COLOR_ORANGE
 
     links = [
         ("GitHub Repository", "https://github.com/rudraa0604/Swasthya-Setu-AI"),
-        ("Local Web App Port", "http://localhost:3000"),
+        ("Local Web App", "http://localhost:3000"),
         ("Backend FastAPI Docs", "http://localhost:8000/docs"),
         ("National Overwatch Portal", "http://localhost:3000/#/portal/national"),
-        ("State Directorate Portal", "http://localhost:3000/#/portal/state"),
+        ("Hospital Optimizer Suite", "http://localhost:3000/#/portal/hospital"),
+        ("AI Route & Fleet Optimizer", "http://localhost:3000/#/portal/routes"),
         ("District Health Officer Portal", "http://localhost:3000/#/portal/district"),
         ("Rural PHC Edge Terminal", "http://localhost:3000/#/portal/edge"),
-        ("AI Route & Transit Optimizer", "http://localhost:3000/#/portal/routes")
+        ("Developer / Admin Sandbox", "http://localhost:3000/#/portal/dev")
     ]
     for label, url in links:
         pl = tf_s.add_paragraph()
         pl.text = f"• {label}:"
-        pl.font.size = Pt(11)
+        pl.font.size = Pt(10)
         pl.font.bold = True
         pl.font.color.rgb = COLOR_WHITE
-        pl.space_before = Pt(4)
+        pl.space_before = Pt(3)
 
         pu = tf_s.add_paragraph()
         pu.text = f"  {url}"
-        pu.font.size = Pt(10)
+        pu.font.size = Pt(9)
         pu.font.color.rgb = COLOR_GREEN
 
     output_path = os.path.join(os.getcwd(), "SwasthyaSetu_AI_Presentation.pptx")
